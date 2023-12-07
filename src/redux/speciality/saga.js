@@ -13,10 +13,9 @@ import { SHOW_MODAL_DEL_RESSOURCE } from '../common/types';
  */
 
 function* getAllSpecialities() {
-  const idc = localStorage.getItem('idc');
   try {
     const result = yield getUnauthRequest(
-      `${process.env.REACT_APP_BASE_URL}/specialites/?idCentre=${idc}`,
+      `${process.env.REACT_APP_BASE_URL}/specialites/`,
     );
     if (result.success) {
       yield put({
@@ -30,7 +29,6 @@ function* getAllSpecialities() {
 }
 
 function* postSpecialities({ spec }) {
-  const idc = localStorage.getItem('idc');
   const payload = {
     secretaryAlert: spec?.secretaryAlert,
     title: spec?.title,
@@ -41,7 +39,7 @@ function* postSpecialities({ spec }) {
   };
   try {
     const result = yield postUnauthRequest(
-      `${process.env.REACT_APP_BASE_URL}/specialites/?idCentre=${idc}`,
+      `${process.env.REACT_APP_BASE_URL}/specialites/`,
       payload,
     );
     if (result.success) {
@@ -58,7 +56,6 @@ function* postSpecialities({ spec }) {
 }
 
 function* updateSpec({ spec }) {
-  const idc = localStorage.getItem('idc');
   const payload = {
     idProfession: spec.idProfession,
     label: spec.label,
@@ -69,7 +66,7 @@ function* updateSpec({ spec }) {
   };
   try {
     const result = yield patchUnauthRequest(
-      `${process.env.REACT_APP_BASE_URL}/specialites/${spec?._id}/?idCentre=${idc}`,
+      `${process.env.REACT_APP_BASE_URL}/specialites/${spec?._id}/`,
       payload,
     );
     if (result.success) {
@@ -93,10 +90,9 @@ function* updateSpec({ spec }) {
 }
 
 function* deleteSpec({ id }) {
-  const idc = localStorage.getItem('idc');
   try {
     const result = yield deleteUnauthRequest(
-      `${process.env.REACT_APP_BASE_URL}/specialites/${id}?idCentre=${idc}`,
+      `${process.env.REACT_APP_BASE_URL}/specialites/${id}`,
     );
     if (result.success) {
       yield put({

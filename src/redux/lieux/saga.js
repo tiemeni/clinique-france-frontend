@@ -17,10 +17,9 @@ import { SHOW_MODAL_DEL_RESSOURCE } from '../common/types';
  */
 
 function* getAllLieux() {
-  const idc = localStorage.getItem('idc');
   try {
     const result = yield getUnauthRequest(
-      `${process.env.REACT_APP_BASE_URL}/lieu/?idCentre=${idc}`,
+      `${process.env.REACT_APP_BASE_URL}/lieu/`,
     );
     if (result.success) {
       yield put({ type: types.GET_ALL_LIEUX_SUCCESS, payload: result.data });
@@ -44,10 +43,9 @@ function* postLieu({ lieu }) {
     region: convertNumberToRegion(lieu?.region),
     ville: convertNumberToVille(lieu?.ville),
   };
-  const idc = localStorage.getItem('idc');
   try {
     const result = yield postUnauthRequest(
-      `${process.env.REACT_APP_BASE_URL}/lieu/register/?idCentre=${idc}`,
+      `${process.env.REACT_APP_BASE_URL}/lieu/register/`,
       payload,
     );
     if (result.success) {
@@ -62,7 +60,6 @@ function* postLieu({ lieu }) {
 }
 
 function* updateLieu({ lieu }) {
-  const idc = localStorage.getItem('idc');
   const payload = {
     label: lieu.label,
     region: convertNumberToRegion(lieu.region),
@@ -78,7 +75,7 @@ function* updateLieu({ lieu }) {
   };
   try {
     const result = yield putUnauthRequest(
-      `${process.env.REACT_APP_BASE_URL}/lieu/${lieu?._id}/?idCentre=${idc}`,
+      `${process.env.REACT_APP_BASE_URL}/lieu/${lieu?._id}/`,
       payload,
     );
     if (result.success) {
@@ -102,10 +99,9 @@ function* updateLieu({ lieu }) {
 }
 
 function* deleteLieu({ id }) {
-  const idc = localStorage.getItem('idc');
   try {
     const result = yield deleteUnauthRequest(
-      `${process.env.REACT_APP_BASE_URL}/lieu/${id}?idCentre=${idc}`,
+      `${process.env.REACT_APP_BASE_URL}/lieu/${id}`,
     );
     if (result.success) {
       yield put({

@@ -11,10 +11,9 @@ function* resetApp() {
 }
 
 function* getStructure() {
-  const idc = localStorage.getItem('idc');
   try {
     const result = yield getUnauthRequest(
-      `${process.env.REACT_APP_BASE_URL}/structure/${idc}`,
+      `${process.env.REACT_APP_BASE_URL}/structure/`,
     );
     if (result.success) {
       yield put({

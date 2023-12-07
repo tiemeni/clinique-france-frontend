@@ -7,10 +7,9 @@ import { getUnauthRequest } from '../../utils/api';
  */
 
 function* getAllGroupes() {
-  const idc = localStorage.getItem('idc');
   try {
     const result = yield getUnauthRequest(
-      `${process.env.REACT_APP_BASE_URL}/groupes/?idCentre=${idc}`,
+      `${process.env.REACT_APP_BASE_URL}/groupes/`,
     );
     if (result.success) {
       yield put({ type: types.GET_ALL_GROUPS_SUCCESS, payload: result.data });

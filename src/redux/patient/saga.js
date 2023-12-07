@@ -13,10 +13,9 @@ import { SHOW_MODAL_DEL_RESSOURCE } from '../common/types';
  */
 
 function* getAllPatients() {
-  const idc = localStorage.getItem('idc');
   try {
     const result = yield getUnauthRequest(
-      `${process.env.REACT_APP_BASE_URL}/patients/?idCentre=${idc}`,
+      `${process.env.REACT_APP_BASE_URL}/patients/`,
     );
     if (result.success) {
       yield put({ type: types.GET_ALL_PATIENT_SUCCESS, payload: result.data });
@@ -32,7 +31,6 @@ function* getAllPatients() {
   }
 }
 function* postPatient({ patient }) {
-  const idc = localStorage.getItem('idc');
   const payload = {
     civility: patient?.civility,
     name: patient.name,
@@ -42,11 +40,10 @@ function* postPatient({ patient }) {
     email: patient.email,
     initiales: patient.initiales,
     active: patient.active ? 1 : 2,
-    idCentre: idc,
   };
   try {
     const result = yield postUnauthRequest(
-      `${process.env.REACT_APP_BASE_URL}/patients/register/?idCentre=${idc}`,
+      `${process.env.REACT_APP_BASE_URL}/patients/register/`,
       payload,
     );
     if (result.success) {
@@ -70,7 +67,6 @@ function* postPatient({ patient }) {
 }
 
 function* updatePatient({ patient }) {
-  const idc = localStorage.getItem('idc');
   const payload = {
     civility: patient?.civility,
     name: patient.name,
@@ -83,7 +79,7 @@ function* updatePatient({ patient }) {
   };
   try {
     const result = yield putUnauthRequest(
-      `${process.env.REACT_APP_BASE_URL}/patients/${patient?._id}/?idCentre=${idc}`,
+      `${process.env.REACT_APP_BASE_URL}/patients/${patient?._id}/`,
       payload,
     );
     if (result.success) {
@@ -107,10 +103,9 @@ function* updatePatient({ patient }) {
 }
 
 function* deletePatient({ id }) {
-  const idc = localStorage.getItem('idc');
   try {
     const result = yield deleteUnauthRequest(
-      `${process.env.REACT_APP_BASE_URL}/patients/${id}?idCentre=${idc}`,
+      `${process.env.REACT_APP_BASE_URL}/patients/${id}`,
     );
     if (result.success) {
       yield put({

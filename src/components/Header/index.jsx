@@ -137,7 +137,7 @@ function NavigationBar() {
     >
       <VStack justifyItems="center">
         <Text fontSize={windowWidth < 958 ? 16 : 20} style={styles.textLogo}>
-          GATESWAYDOC
+          CLINIQUE FRANCE
         </Text>
         <Text style={styles.dateText}>{getDateAndTime()}</Text>
       </VStack>
@@ -226,7 +226,7 @@ function NavigationBar() {
           <Menu isLazy>
             <MenuButton>
               <HStack>
-                <Text>GatewayDoc Admin</Text>
+                <Text>Clinique France Admin</Text>
                 <IoMdArrowDropdown color="white" />
               </HStack>
             </MenuButton>

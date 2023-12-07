@@ -151,7 +151,7 @@ function CalendarAppointment() {
                             fontSize="sm"
                             placeholder="Selectionnez un motif"
                           >
-                            <option value="">Clinique optha meridien</option>
+                            <option value="Clinique optha meridien">Clinique optha meridien</option>
                           </Field>
                         </FormControl>
                       </HStack>

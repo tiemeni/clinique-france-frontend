@@ -30,7 +30,6 @@ function* getAllMotifs() {
 }
 
 function* postMotif({ motif }) {
-  const idc = localStorage.getItem('idc');
   const payload = {
     active: motif?.active === 1,
     couleur: motif?.couleur,
@@ -41,11 +40,10 @@ function* postMotif({ motif }) {
     nom: motif?.nom,
     idSpeciality: motif?.idSpeciality,
     reference: motif?.reference,
-    idCentre: idc,
   };
   try {
     const result = yield postUnauthRequest(
-      `${process.env.REACT_APP_BASE_URL}/motif/register?idCentre=${idc}`,
+      `${process.env.REACT_APP_BASE_URL}/motif/register`,
       payload,
     );
     if (result.success) {
@@ -70,7 +68,6 @@ function* postMotif({ motif }) {
 }
 
 function* updateMotif({ motif }) {
-  const idc = localStorage.getItem('idc');
   const payload = {
     reference: motif.reference,
     default_time: convertIndexIntoNumber(motif.default_time),
@@ -85,7 +82,7 @@ function* updateMotif({ motif }) {
   };
   try {
     const result = yield putUnauthRequest(
-      `${process.env.REACT_APP_BASE_URL}/motif/${motif?._id}/?idCentre=${idc}`,
+      `${process.env.REACT_APP_BASE_URL}/motif/${motif?._id}/`,
       payload,
     );
     if (result.success) {
@@ -109,10 +106,9 @@ function* updateMotif({ motif }) {
 }
 
 function* deleteMotif({ id }) {
-  const idc = localStorage.getItem('idc');
   try {
     const result = yield deleteUnauthRequest(
-      `${process.env.REACT_APP_BASE_URL}/motif/${id}?idCentre=${idc}`,
+      `${process.env.REACT_APP_BASE_URL}/motif/${id}`,
     );
     if (result.success) {
       yield put({

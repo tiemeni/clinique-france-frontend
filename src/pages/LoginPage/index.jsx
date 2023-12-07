@@ -13,13 +13,13 @@ import {
   VStack,
 } from '@chakra-ui/react';
 import { useDispatch, useSelector } from 'react-redux';
-import logi from '../../assets/images/gatewaydoc.png';
+import logi from '../../assets/images/cliniqueDeFrance.png';
 import { useDimensions } from '../../hooks/useDimensions';
 import styles from './style';
 import user from '../../assets/images/user.png';
 import visible from '../../assets/images/visible.png';
 import hide from '../../assets/images/hide.png';
-import { retreiveIdc } from '../../utils/helpers';
+// import { retreiveIdc } from '../../utils/helpers';
 import { RESET_ALL_FIELD } from '../../redux/user/types';
 import { processLogin } from '../../redux/user/actions';
 
@@ -44,7 +44,6 @@ function LoginPage() {
       processLogin({
         email: formData.username,
         password: formData.password,
-        idCentre: retreiveIdc(),
       }),
     );
   };

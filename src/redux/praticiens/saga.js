@@ -20,7 +20,7 @@ const idc = localStorage.getItem('idc');
 function* getPraticiens() {
   try {
     const res = yield getUnauthRequest(
-      `${REACT_APP_BASE_URL}/users/profession/?isPraticien=true&idCentre=${idc}`,
+      `${REACT_APP_BASE_URL}/users/profession/?isPraticien=true`,
     );
     if (!res.success) {
       yield put({
@@ -34,6 +34,7 @@ function* getPraticiens() {
     const storedList = localStorage.getItem(`practitionerCheckedList${idc}`);
     let selectedPractitioner = '';
     let selectedValues = {};
+    
     // if checked practitioner was saved
     if (storedList) {
       const namesList = localStorage
@@ -82,7 +83,7 @@ function* getPraticiens() {
 function* getAllPraticiens() {
   try {
     const res = yield getUnauthRequest(
-      `${REACT_APP_BASE_URL}/users/?isPraticien=true&idCentre=${idc}`,
+      `${REACT_APP_BASE_URL}/users/?isPraticien=true`,
     );
     if (!res.success)
       yield put({
@@ -113,13 +114,12 @@ function* postPraticien({ praticien }) {
     job: praticien?.job,
     timeSlot: convertIndexIntoNumber(praticien?.timeSlot),
     active: praticien.active ? 1 : 2,
-    groups: [praticien?.groups],
     affectation: [praticien?.affectation],
     isPraticien: true,
   };
   try {
     const result = yield postUnauthRequest(
-      `${process.env.REACT_APP_BASE_URL}/users/register/?idCentre=${idc}&isPraticien=true`,
+      `${process.env.REACT_APP_BASE_URL}/users/register/`,
       payload,
     );
     if (result.success) {
@@ -161,7 +161,7 @@ function* updatePraticien({ praticien }) {
   };
   try {
     const result = yield patchUnauthRequest(
-      `${process.env.REACT_APP_BASE_URL}/users/${praticien?._id}/?idCentre=${idc}&isPraticien=true`,
+      `${process.env.REACT_APP_BASE_URL}/users/${praticien?._id}/?isPraticien=true`,
       payload,
     );
     if (result.success) {
@@ -187,7 +187,7 @@ function* updatePraticien({ praticien }) {
 function* deletePraticien({ id }) {
   try {
     const result = yield deleteUnauthRequest(
-      `${process.env.REACT_APP_BASE_URL}/users/${id}?idCentre=${idc}&isPraticien=true`,
+      `${process.env.REACT_APP_BASE_URL}/users/${id}?isPraticien=true`,
     );
     if (result.success) {
       yield put({

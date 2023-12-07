@@ -21,14 +21,16 @@ function* login({ payload }) {
   };
   try {
     const result = yield postUnauthRequest(
-      `${REACT_APP_BASE_URL}/users/signin?idCentre=${payload?.idCentre}`,
+      `${REACT_APP_BASE_URL}/users/signin`,
       data,
     );
     if (result.success) {
+      
       yield put({
         type: types.LOGIN_REQUEST_SUCCESS,
         payload: result.data?.user,
       });
+      console.log('===== > debug access_token', result.access_token);
       localStorage.setItem('idc', payload?.idCentre);
       window.location = '/content';
     } else {
@@ -40,10 +42,9 @@ function* login({ payload }) {
 }
 
 function* getAllUsers() {
-  const idc = localStorage.getItem('idc');
   try {
     const result = yield getUnauthRequest(
-      `${REACT_APP_BASE_URL}/users/?idCentre=${idc}`,
+      `${REACT_APP_BASE_URL}/users/`,
     );
     if (result.success) {
       yield put({ type: types.GET_ALL_USERS_SUCCESS, payload: result.data });
@@ -56,7 +57,6 @@ function* getAllUsers() {
 }
 
 function* postUser({ user }) {
-  const idc = localStorage.getItem('idc');
   const payload = {
     civility: user?.civility,
     name: user.name,
@@ -68,11 +68,10 @@ function* postUser({ user }) {
     initiales: user.initiales,
     active: user.active ? 1 : 2,
     groups: user?.groups,
-    idCentre: idc,
   };
   try {
     const result = yield postUnauthRequest(
-      `${process.env.REACT_APP_BASE_URL}/users/register/?idCentre=${idc}`,
+      `${process.env.REACT_APP_BASE_URL}/users/register`,
       payload,
     );
     if (result.success) {
@@ -96,7 +95,6 @@ function* postUser({ user }) {
 }
 
 function* updateUser({ user }) {
-  const idc = localStorage.getItem('idc');
   const payload = {
     civility: user?.civility,
     name: user.name,
@@ -111,7 +109,7 @@ function* updateUser({ user }) {
   };
   try {
     const result = yield patchUnauthRequest(
-      `${process.env.REACT_APP_BASE_URL}/users/${user?._id}/?idCentre=${idc}`,
+      `${process.env.REACT_APP_BASE_URL}/users/${user?._id}/`,
       payload,
     );
     if (result.success) {
@@ -135,10 +133,9 @@ function* updateUser({ user }) {
 }
 
 function* deleteUser({ id }) {
-  const idc = localStorage.getItem('idc');
   try {
     const result = yield deleteUnauthRequest(
-      `${process.env.REACT_APP_BASE_URL}/users/${id}?idCentre=${idc}`,
+      `${process.env.REACT_APP_BASE_URL}/users/${id}`,
     );
     if (result.success) {
       yield put({

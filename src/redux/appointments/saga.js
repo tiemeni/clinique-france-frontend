@@ -21,7 +21,7 @@ function extractQuery(payload) {
       startTime: payload.heureDebut,
       endTime: incrementTime(payload.heureDebut, payload.duration),
       date: payload.date,
-      centre: payload.idCentre ?? idc,
+      // centre: payload.idCentre ?? idc,
       date_long: payload.date_long,
       duration: payload.duration,
       status: payload?.status,
@@ -39,7 +39,7 @@ function extractQuery(payload) {
 function* updateAppointment({ payload }) {
   try {
     const query = extractQuery(payload);
-    const url = `${BASE_URL}/appointments/update/${payload._id}/?idCentre=${idc}`;
+    const url = `${BASE_URL}/appointments/update/${payload._id}/`;
     const result = yield putUnauthRequest(url, query);
 
     if (!result.success) {
@@ -59,7 +59,7 @@ function* updateAppointment({ payload }) {
 function* deleteAppointment({ payload }) {
   try {
     const result = yield deleteUnauthRequest(
-      `${BASE_URL}/appointments/${payload}/?idCentre=${idc}`,
+      `${BASE_URL}/appointments/${payload}/`,
     );
 
     if (!result.success) {
@@ -74,7 +74,7 @@ function* deleteAppointment({ payload }) {
 
 function* pasteAppointment({ payload }) {
   try {
-    const url = `${BASE_URL}/appointments/duplicate/?idCentre=${idc}`;
+    const url = `${BASE_URL}/appointments/duplicate/`;
     const result = yield postUnauthRequest(url, payload);
 
     if (!result.success) {
