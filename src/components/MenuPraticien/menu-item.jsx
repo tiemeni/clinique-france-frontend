@@ -26,7 +26,6 @@ function MenuItem(props) {
     const isChecked = e.target.checked;
     const tabIds = [];
     const tabNames = [];
-
     data.forEach(({ _id, name, surname }) => {
       tabIds.push(_id);
       tabNames.push(formatUserName(name, surname));
@@ -34,6 +33,7 @@ function MenuItem(props) {
     if (isChecked) handleSelection(tabIds, tabNames);
     else handleSelection(tabIds, tabNames, 'remove');
   };
+  console.log('========= > ', data);
 
   return (
     <AccordionItem>
