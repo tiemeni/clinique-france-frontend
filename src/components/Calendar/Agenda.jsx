@@ -25,7 +25,6 @@ import Loader from './Loader';
 import { useSocket } from '../../providers/socket';
 
 function Agenda() {
-  const idc = localStorage.getItem('idc');
   const dispatch = useDispatch();
   const calendarRef = useRef(null);
   const pickerRef = useRef(null);
@@ -98,6 +97,7 @@ function Agenda() {
     });
   }, [socket]);
 
+  console.log('======================fullCalendar')
   return (
     <Box position="relative" w="full">
       <FullCalendar
@@ -129,9 +129,8 @@ function Agenda() {
         eventClassNames="calendar-event"
         eventSources={[
           {
-            url: `${process.env.REACT_APP_LOCAL_URL}/appointments/`,
+            url: `${process.env.REACT_APP_BASE_URL}/appointments/`,
             extraParams: {
-              idCentre: idc,
               idp: practitionersCheckedList.idsList,
             },
           },
