@@ -15,6 +15,7 @@ const initialState = {
   eventId: '',
   mode: 'delete',
   structure: {},
+  showPratDrawer: true,
 };
 
 const CommonReducer = (state = initialState, action = undefined) => {
@@ -67,6 +68,11 @@ const CommonReducer = (state = initialState, action = undefined) => {
       return {
         ...state,
       };
+      case types.TOGGLE_PRATICIEN_PANEL:
+        return {
+          ...state,
+          showPratDrawer: action.truth
+        }
     default:
       return state;
   }

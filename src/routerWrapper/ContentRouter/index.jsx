@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useLayoutEffect } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import MainPage from '../../pages/MainPage';
@@ -13,11 +13,14 @@ import LieuxRouter from './LieuxRouter';
 import StructureRouter from './StructureRouter';
 import { getAllLieux } from '../../redux/lieux/actions';
 import { getAllMotifs } from '../../redux/motifs/actions';
-import { getStructureInfo } from '../../redux/common/actions';
+import { closePraticienPanel, getStructureInfo } from '../../redux/common/actions';
+import { useDimensions } from '../../hooks/useDimensions';
 
 function ContentRouter() {
   const dispatch = useDispatch();
   const socket = useSocket();
+  const { innerWidth } = useDimensions();
+
 
   useEffect(() => {
     dispatch(getAllLieux());
@@ -25,6 +28,12 @@ function ContentRouter() {
     dispatch(getStructureInfo());
     socket.connect();
   }, []);
+
+  useLayoutEffect(() =>{
+    if(innerWidth < 1200){
+      dispatch(closePraticienPanel(false))
+    }
+  })
 
   useEffect(() => {
     socket.on('connected', () => {

@@ -32,3 +32,8 @@ export const showModalDeleteRessource = (truth) => ({
 export const getStructureInfo = () => ({
   type: types.GET_STRUCTURE_INFO,
 });
+
+export const closePraticienPanel = (truth) => ({
+  type: types.TOGGLE_PRATICIEN_PANEL,
+  truth
+})

@@ -12,6 +12,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import MenuItem from './menu-item';
 import { formatUserName } from '../../utils/helpers';
 import { saveCheckedPractitioners } from '../../redux/praticiens/actions';
+import { closePraticienPanel } from '../../redux/common/actions';
 
 const _spacing = 3;
 function MenuPraticien() {
@@ -118,6 +119,7 @@ function MenuPraticien() {
       <HStack w="full" justifyContent="end" pb={_spacing}>
         <IconButton
           size="sm"
+          onClick={() => dispatch(closePraticienPanel(false))}
           variant="unstyled"
           icon={<UilAngleDoubleLeft size="50" color="#04B7C9" />}
         />
