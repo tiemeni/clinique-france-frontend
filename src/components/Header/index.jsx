@@ -15,36 +15,25 @@ import {
   VStack,
 } from '@chakra-ui/react';
 import { Link } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 import React, { useEffect, useState } from 'react';
 import { AiFillSetting } from 'react-icons/ai';
-import { BiSolidMessageRounded } from 'react-icons/bi';
 import { FaUser } from 'react-icons/fa';
 import { HiUserGroup } from 'react-icons/hi';
 import { IoMdArrowDropdown } from 'react-icons/io';
-import { MdMail, MdOutlinePersonalVideo } from 'react-icons/md';
-import { RiAlertFill } from 'react-icons/ri';
+import { MdMail } from 'react-icons/md';
 import styles from './styles';
+import { disconnectUser } from '../../redux/common/actions';
 
 function NavigationBar() {
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
-
-  const[username,setUserName] = useState(localStorage.getItem("username"));
-
-    const handleUs = () => {
-      setUserName(localStorage.getItem("username"))
-  }
-
-  console.log('username===< > ', username);
-
-  useEffect(() => {
-    handleUs()
-  }, [])
+  const dispatch = useDispatch()
+  const[username] = useState(localStorage.getItem("username"));
 
   useEffect(() => {
     const handleResize = () => {
       setWindowWidth(window.innerWidth);
     };
-
     window.addEventListener('resize', handleResize);
 
     return () => {
@@ -148,8 +137,8 @@ function NavigationBar() {
       alignItems="center"
     >
       <VStack justifyItems="center">
-      <Link to="/content">
-          <Text fontSize={windowWidth < 958 ? 16 : 20} style={styles.textLogo}>
+      <Link to="/content" style={{borderColor:"red"}}>
+          <Text fontSize={windowWidth < 958 ? 16 : 20} style={{...styles.textLogo, borderColor:"red"}}>
             CLINIQUE FRANCE
           </Text>
       </Link>
@@ -173,14 +162,15 @@ function NavigationBar() {
           </InputRightElement>
         </InputGroup>
       ) : null}
-      <HStack color="whiteAlpha.800" spacing={6} ml={{ base: 0, md: 14 }}>
-        <FaUser
-          display={{ base: 'none', md: 'block' }}
-          className="let"
-          size={20}
-        />
-        <MdMail size={24} />
-        <Menu>
+      <Spacer />
+      <HStack spacing={6} color="whiteAlpha.800" mr={4}>
+        {windowWidth > 958 ? (
+          <>
+            <Box style={styles.boxLeftIcon}>
+              <MdMail size={20} />
+            </Box>
+            <Box style={styles.boxLeftIcon}>
+            <Menu>
           <MenuButton>
             <AiFillSetting size={24} />
           </MenuButton>
@@ -211,20 +201,6 @@ function NavigationBar() {
             </Link>
           </MenuList>
         </Menu>
-        <MdOutlinePersonalVideo size={24} />
-      </HStack>
-      <Spacer />
-      <HStack spacing={6} color="whiteAlpha.800" mr={4}>
-        {windowWidth > 958 ? (
-          <>
-            <Box style={styles.boxLeftIcon}>
-              <BiSolidMessageRounded size={20} />
-            </Box>
-            <Box style={styles.boxLeftIcon}>
-              <MdMail size={20} />
-            </Box>
-            <Box style={styles.boxLeftIcon}>
-              <RiAlertFill size={20} />
             </Box>
             <Box
               backgroundColor="black"
@@ -245,9 +221,7 @@ function NavigationBar() {
               </HStack>
             </MenuButton>
             <MenuList color="blue.400">
-             <Link to='/'> 
-                <MenuItem>Deconnexion</MenuItem>
-             </Link>
+                <MenuItem onClick={() => dispatch(disconnectUser())} color="red">Deconnexion</MenuItem>
             </MenuList>
           </Menu>
         ) : null}

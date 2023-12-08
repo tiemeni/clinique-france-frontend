@@ -16,6 +16,7 @@ const initialState = {
   mode: 'delete',
   structure: {},
   showPratDrawer: true,
+  tokenValid: false
 };
 
 const CommonReducer = (state = initialState, action = undefined) => {
@@ -73,6 +74,11 @@ const CommonReducer = (state = initialState, action = undefined) => {
           ...state,
           showPratDrawer: action.truth
         }
+        case types.ISTOKENVALID: 
+        return {
+          tokenValid: action.truth
+        }
+
     default:
       return state;
   }

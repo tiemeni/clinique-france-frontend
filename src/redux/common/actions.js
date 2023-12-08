@@ -37,3 +37,12 @@ export const closePraticienPanel = (truth) => ({
   type: types.TOGGLE_PRATICIEN_PANEL,
   truth
 })
+
+export const verifyToken = (onLogin) => ({
+  type:types.VERIFY_TOKEN, 
+  onLogin
+})
+
+export const disconnectUser = () => ({
+  type:types.DISCONNECT_USER, 
+})

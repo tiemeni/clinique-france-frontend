@@ -1,6 +1,6 @@
 import { put, takeLatest } from 'redux-saga/effects';
 import * as types from './types';
-import { getUnauthRequest } from '../../utils/api';
+import { getUnauthRequest, postUnauthRequest } from '../../utils/api';
 
 /**
  * @description ici le saga reducer de l'evenement RESET_APP
@@ -34,7 +34,52 @@ function* getStructure() {
   }
 }
 
+function* verifyTokenSagga({onLogin}){
+  try {
+    const result = yield postUnauthRequest(
+      `${process.env.REACT_APP_BASE_URL}/verifyToken/`,
+    );
+    if(!result.success){
+      if(!onLogin){
+        window.location = "/";
+      }
+      yield put({
+        type: types.ISTOKENVALID,
+        truth: false,
+      });
+    }else{
+      yield put({
+        type: types.ISTOKENVALID,
+        truth: true,
+      });
+    }
+  } catch (error) {
+    yield put({
+      type: types.ISTOKENVALID,
+      truth: false,
+    });
+    if(!onLogin){
+      window.location = "/";
+    }
+  }
+}
+
+function* disconnect(){
+  try {
+    const result = yield postUnauthRequest(
+      `${process.env.REACT_APP_BASE_URL}/disconnect/`,
+    );
+    if(result.success){
+      window.location = "/"
+    }
+  } catch (error) {
+    console.log(error.message)
+  }
+}
+
 export default function* CommonSagas() {
   yield takeLatest(types.RESET_APP, resetApp);
   yield takeLatest(types.GET_STRUCTURE_INFO, getStructure);
+  yield takeLatest(types.VERIFY_TOKEN, verifyTokenSagga);
+  yield takeLatest(types.DISCONNECT_USER, disconnect);
 }

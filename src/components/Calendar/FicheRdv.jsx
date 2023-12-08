@@ -124,7 +124,7 @@ function FicheRdv() {
   const { isLoading, success, isFailed } = useSelector(
     (state) => state.Appointments,
   );
-  const { patient } = infoRdv;
+  const patient  = infoRdv?.patient ?? null;
   const dispatch = useDispatch();
   const toast = useToast();
   const initialValues = {
@@ -239,7 +239,7 @@ function FicheRdv() {
                     <Text fontSize="lg" fontWeight="bold">
                       Avec Dr {infoRdv?.praticien} ({infoRdv?.profession})
                     </Text>
-                    <Text color="secondary.500">{infoRdv.lieu}</Text>
+                    <Text color="secondary.500">{infoRdv?.lieu}</Text>
                     <Divider />
                     <Text fontSize="xs">
                       Enregistré le{' '}

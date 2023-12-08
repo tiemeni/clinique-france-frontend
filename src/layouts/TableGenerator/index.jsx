@@ -24,7 +24,7 @@ import {
   userFormater,
 } from '../../utils/dataFormater';
 import DeleteRessourceDialogue from '../../components/Ressource/DeleteRessource';
-import { showModalDeleteRessource } from '../../redux/common/actions';
+import { showModalDeleteRessource, verifyToken } from '../../redux/common/actions';
 
 function TableGenerator({
   data,
@@ -109,7 +109,9 @@ function TableGenerator({
     return result?.length > 0;
   };
 
+
   useEffect(() => {
+    dispatch(verifyToken())
     setData1((v) => {
       let ancien = {};
       let formatedData = [];

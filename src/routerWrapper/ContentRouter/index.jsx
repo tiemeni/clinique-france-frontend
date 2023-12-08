@@ -1,4 +1,4 @@
-import React, { useEffect, useLayoutEffect } from 'react';
+import React, { useEffect } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import MainPage from '../../pages/MainPage';
@@ -13,7 +13,7 @@ import LieuxRouter from './LieuxRouter';
 import StructureRouter from './StructureRouter';
 import { getAllLieux } from '../../redux/lieux/actions';
 import { getAllMotifs } from '../../redux/motifs/actions';
-import { closePraticienPanel, getStructureInfo } from '../../redux/common/actions';
+import { closePraticienPanel, getStructureInfo, verifyToken } from '../../redux/common/actions';
 import { useDimensions } from '../../hooks/useDimensions';
 
 function ContentRouter() {
@@ -26,10 +26,11 @@ function ContentRouter() {
     dispatch(getAllLieux());
     dispatch(getAllMotifs());
     dispatch(getStructureInfo());
+    dispatch(verifyToken())
     socket.connect();
   }, []);
 
-  useLayoutEffect(() =>{
+  useEffect(() =>{
     if(innerWidth < 1200){
       dispatch(closePraticienPanel(false))
     }

@@ -2,6 +2,7 @@ const styles = {
   dateText: {
     color: 'white',
     fontSize: 13,
+    marginTop: -10
   },
 
   textLogo: {
