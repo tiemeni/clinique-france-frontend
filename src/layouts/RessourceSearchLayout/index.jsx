@@ -18,8 +18,8 @@ function RessourceSearchLayout({ data, handlePost, handleClearSearchForm }) {
       <AccordionItem>
         <h2>
           <AccordionButton
-            _hover={{ backgroundColor: 'dark.500' }}
-            backgroundColor="dark.500"
+            _hover={{ backgroundColor: '#2c3e50' }}
+            backgroundColor="#2c3e50"
           >
             <Box as="span" flex="1" textAlign="left" __css={{ color: 'white' }}>
               Recherche d'un utilisateur

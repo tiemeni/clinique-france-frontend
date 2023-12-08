@@ -134,9 +134,9 @@ function MenuPraticien() {
           fontSize="sm"
         />
       </Box> */}
-      <div style={{ width: "18em", height: 30, backgroundColor: '#393c43', marginBottom: 28}}>
+      <div style={{ width: "18em", height: 30, backgroundColor: '#2c3e50', marginBottom: 28}}>
         {/* <div style={{width: 82, height: '2em', padding: '3em', marginRight: '2em', marginTop: -22, float: 'right', borderRadius: 20, backgroundColor: 'white'}}> */}
-          <div style={{width: 50, display: "flex", flexDirection: "row", justifyContent: "center", alignItems: 'center', float: 'right', border: 'solid 2px white', marginTop: -10, marginRight: 19, borderRadius: 31, height: 50, backgroundColor: '#393c43'}}>
+          <div style={{width: 50, display: "flex", flexDirection: "row", justifyContent: "center", alignItems: 'center', float: 'right', border: 'solid 2px white', marginTop: -10, marginRight: 19, borderRadius: 31, height: 50, backgroundColor: '#2c3e50'}}>
           <IconButton
            style={{margin: 10}}
           size="xs"

@@ -170,7 +170,7 @@ function TableGenerator({
   return (
     <TableContainer w="100%">
       <Table size="sm" variant="striped" colorScheme="gray">
-        <Thead bgColor="dark.500" height="30px">
+        <Thead bgColor="#2c3e50" height="30px">
           <Tr>
             {data1.cols.map((c) => (
               <Th key={c.label} color="white">

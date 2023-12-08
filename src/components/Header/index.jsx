@@ -129,7 +129,7 @@ function NavigationBar() {
 
   return (
     <Flex
-      bg="#3A3C44"
+      bg="#2c3e50"
       paddingY={5}
       paddingX={5}
       height="16"

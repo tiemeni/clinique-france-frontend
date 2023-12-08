@@ -27,6 +27,9 @@
   height: 40vmin;
   pointer-events: none;
 }
+.css-14kn98t{
+  border-radius: 30% !important;
+}
 
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
