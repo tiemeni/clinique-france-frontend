@@ -30,8 +30,11 @@ function* login({ payload }) {
         type: types.LOGIN_REQUEST_SUCCESS,
         payload: result.data?.user,
       });
-      console.log('===== > debug access_token', result.access_token);
+      
+      localStorage.setItem('acces_bo_token', result.data.access_token);
       localStorage.setItem('idc', payload?.idCentre);
+      localStorage.setItem('username', result.data.user.name);
+
       window.location = '/content';
     } else {
       yield put({ type: types.LOGIN_REQUEST_FAILED, payload: result.message });

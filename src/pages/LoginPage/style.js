@@ -14,7 +14,7 @@ const styles = {
   inputIconLeft: {
     marginLeft: 20,
     marginTop: 5,
-  },
+  }
 };
 
 export default styles;
