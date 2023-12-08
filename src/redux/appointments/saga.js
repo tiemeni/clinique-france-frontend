@@ -9,8 +9,7 @@ import {
   getUnauthRequest,
 } from '../../utils/api';
 
-const idc = localStorage.getItem('idc');
-const BASE_URL = process.env.REACT_APP_LOCAL_URL;
+const BASE_URL = process.env.REACT_APP_BASE_URL;
 
 function extractQuery(payload) {
   let query = {};
@@ -21,7 +20,6 @@ function extractQuery(payload) {
       startTime: payload.heureDebut,
       endTime: incrementTime(payload.heureDebut, payload.duration),
       date: payload.date,
-      // centre: payload.idCentre ?? idc,
       date_long: payload.date_long,
       duration: payload.duration,
       status: payload?.status,
@@ -102,7 +100,7 @@ function* pasteAppointment({ payload }) {
 }
 
 function* reportAppointment({ payload }) {
-  const query = new URLSearchParams({ ...payload, idCentre: idc });
+  const query = new URLSearchParams({ ...payload });
   try {
     const url = `${BASE_URL}/appointments/rechercher_dispo?${query.toString()}`;
     const result = yield getUnauthRequest(url);

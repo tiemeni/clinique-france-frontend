@@ -1,11 +1,11 @@
 import React, { memo, useCallback } from 'react';
-import { UilAngleDoubleLeft } from '@iconscout/react-unicons';
+import { UilAngleDoubleLeft, UilPlus } from '@iconscout/react-unicons';
 import {
   Accordion,
   Box,
   HStack,
   IconButton,
-  Input,
+  // Input,
   VStack,
 } from '@chakra-ui/react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -14,9 +14,10 @@ import { formatUserName } from '../../utils/helpers';
 import { saveCheckedPractitioners } from '../../redux/praticiens/actions';
 
 const _spacing = 3;
+const _iconSizesm = 25;
 function MenuPraticien() {
   const dispatch = useDispatch();
-  const [searchedValue, setSearchedValue] = React.useState('');
+  // const [searchedValue, setSearchedValue] = React.useState('');
   const { practitionersCheckedList, datas } = useSelector(
     (state) => state.Praticiens,
   );
@@ -85,29 +86,29 @@ function MenuPraticien() {
     [practitionersCheckedList.idsList],
   );
 
-  const handleSearch = (e) => {
-    const value = e.target.value.toLowerCase()
-    setSearchedValue(value);
-    const copy = { ...datas };
-    if (value === '') {
-      setPractitionersList({ ...copy });
-      return;
-    }
-    Object.keys(datas).map((key) => {
-      copy[key] = datas[key].filter(
-        (practitioner) =>
-          practitioner.name.toLowerCase().includes(value) ||
-          practitioner.surname.toLowerCase().includes(value),
-      );
+  // const handleSearch = (e) => {
+  //   const value = e.target.value.toLowerCase()
+  //   setSearchedValue(value);
+  //   const copy = { ...datas };
+  //   if (value === '') {
+  //     setPractitionersList({ ...copy });
+  //     return;
+  //   }
+  //   Object.keys(datas).map((key) => {
+  //     copy[key] = datas[key].filter(
+  //       (practitioner) =>
+  //         practitioner.name.toLowerCase().includes(value) ||
+  //         practitioner.surname.toLowerCase().includes(value),
+  //     );
 
-      if (copy[key].length === 0) {
-        delete copy[key];
-      }
+  //     if (copy[key].length === 0) {
+  //       delete copy[key];
+  //     }
 
-      return false;
-    });
-    setPractitionersList({ ...copy });
-  };
+  //     return false;
+  //   });
+  //   setPractitionersList({ ...copy });
+  // };
 
   React.useEffect(() => {
     setPractitionersList(datas);
@@ -122,7 +123,7 @@ function MenuPraticien() {
           icon={<UilAngleDoubleLeft size="50" color="#04B7C9" />}
         />
       </HStack>
-      <Box p={_spacing}>
+      {/* <Box p={_spacing}>
         <Input
           variant="outline"
           placeholder="Rechercher un praticien"
@@ -130,7 +131,21 @@ function MenuPraticien() {
           value={searchedValue}
           fontSize="sm"
         />
-      </Box>
+      </Box> */}
+      <div style={{ width: "18em", height: 30, backgroundColor: '#393c43', marginBottom: 28}}>
+        {/* <div style={{width: 82, height: '2em', padding: '3em', marginRight: '2em', marginTop: -22, float: 'right', borderRadius: 20, backgroundColor: 'white'}}> */}
+          <div style={{width: 50, float: 'right', border: 'solid 2px white', marginTop: -10, marginRight: 19, borderRadius: 31, height: 50, backgroundColor: '#393c43'}}>
+          <IconButton
+           style={{margin: 10}}
+          size="xs"
+          variant="unstyled"
+          icon={<UilPlus color="white" size={_iconSizesm} />}
+        />
+          </div> 
+        {/* </div> */}
+      </div>
+
+
       <Box h="full" w="full" px={_spacing} overflow="auto">
         <Accordion w="full" allowMultiple defaultIndex={[0]}>
           {Object.keys(practitionersList).map((profession) => (
