@@ -139,7 +139,7 @@ function NavigationBar() {
       <VStack justifyItems="center">
       <Link to="/content" style={{borderColor:"red"}}>
           <Text fontSize={windowWidth < 958 ? 16 : 20} style={{...styles.textLogo, borderColor:"red"}}>
-            CLINIQUE FRANCE
+            Clinique de France
           </Text>
       </Link>
         <Text style={styles.dateText}>{getDateAndTime()}</Text>
