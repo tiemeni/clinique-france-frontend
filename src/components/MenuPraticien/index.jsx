@@ -60,7 +60,7 @@ function MenuPraticien() {
       }
 
       if (finalTab.idsList.length === 0) {
-        const profession = Object.keys(datas)[0];
+        const profession = Object.keys(datas)[0].charAt(0).toUpperCase();
         const selectedPractitioner = datas[profession][0];
         const username = formatUserName(
           selectedPractitioner.name,

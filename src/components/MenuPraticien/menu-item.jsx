@@ -11,6 +11,7 @@ import {
   VStack,
 } from '@chakra-ui/react';
 import { UilPlus } from '@iconscout/react-unicons';
+import styles from './style';
 import MenuItemChild from './menu-Item-child';
 import { formatUserName } from '../../utils/helpers';
 
@@ -38,7 +39,7 @@ function MenuItem(props) {
   return (
     <AccordionItem>
       <HStack alignItems="center">
-        <Checkbox onChange={handleChange} size="md" colorScheme="primary" />
+        <Checkbox onChange={handleChange} size="md" style={styles.inputCheckbox}  colorScheme="primary" />
         <AccordionButton
           px={0}
           _hover={{ bg: 'transparent' }}
@@ -47,7 +48,7 @@ function MenuItem(props) {
           <HStack w="full" justifyContent="space-between">
             <Text
               fontSize="sm"
-              textTransform="uppercase"
+              // textTransform="uppercase"
               color="primary.500"
               fontWeight="semibold"
             >

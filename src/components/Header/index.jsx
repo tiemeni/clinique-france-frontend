@@ -28,6 +28,18 @@ import styles from './styles';
 function NavigationBar() {
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
+  const[username,setUserName] = useState(localStorage.getItem("username"));
+
+    const handleUs = () => {
+      setUserName(localStorage.getItem("username"))
+  }
+
+  console.log('username===< > ', username);
+
+  useEffect(() => {
+    handleUs()
+  }, [])
+
   useEffect(() => {
     const handleResize = () => {
       setWindowWidth(window.innerWidth);
@@ -136,9 +148,11 @@ function NavigationBar() {
       alignItems="center"
     >
       <VStack justifyItems="center">
-        <Text fontSize={windowWidth < 958 ? 16 : 20} style={styles.textLogo}>
-          CLINIQUE FRANCE
-        </Text>
+      <Link to="/content">
+          <Text fontSize={windowWidth < 958 ? 16 : 20} style={styles.textLogo}>
+            CLINIQUE FRANCE
+          </Text>
+      </Link>
         <Text style={styles.dateText}>{getDateAndTime()}</Text>
       </VStack>
       {windowWidth > 758 ? (
@@ -226,14 +240,14 @@ function NavigationBar() {
           <Menu isLazy>
             <MenuButton>
               <HStack>
-                <Text>Clinique France Admin</Text>
+                <Text>{username}</Text>
                 <IoMdArrowDropdown color="white" />
               </HStack>
             </MenuButton>
             <MenuList color="blue.400">
-              <MenuItem>Download</MenuItem>
-              <MenuItem>Create a Copy</MenuItem>
-              <MenuItem>Mark as Draft</MenuItem>
+             <Link to='/'> 
+                <MenuItem>Deconnexion</MenuItem>
+             </Link>
             </MenuList>
           </Menu>
         ) : null}

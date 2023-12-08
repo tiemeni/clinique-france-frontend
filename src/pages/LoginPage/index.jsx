@@ -55,8 +55,20 @@ function LoginPage() {
     });
   };
 
+  const [TOKEN, setTokenValue] = useState(localStorage.getItem("acces_bo_token"))
+
+  const handleRes = () => {
+      setTokenValue(localStorage.getItem("acces_bo_token"))
+  }
+
+  console.log('TOKEN===< > ', TOKEN);
+
   useEffect(() => {
-    if (successLogin) {
+      handleRes()
+  }, [])
+
+  useEffect(() => {
+    if (successLogin && TOKEN) {
       try {
         window.location = '/content';
       } catch (e) {
