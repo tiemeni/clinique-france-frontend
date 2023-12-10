@@ -74,11 +74,23 @@ const CommonReducer = (state = initialState, action = undefined) => {
           ...state,
           showPratDrawer: action.truth
         }
+        case types.VERIFY_TOKEN:
+          return {
+            ...state,
+            isVerifyingToken: true
+          }
         case types.ISTOKENVALID: 
         return {
+          ...state,
+          isVerifyingToken: false,
           tokenValid: action.truth
         }
-
+        case types.ISTOKENVALID_FAILED: 
+        return {
+          ...state,
+          isVerifyingToken: false,
+          tokenValid: action.truth
+        }
     default:
       return state;
   }

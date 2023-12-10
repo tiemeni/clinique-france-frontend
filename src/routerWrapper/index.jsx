@@ -1,16 +1,11 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Routes, Route, BrowserRouter } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
 import ContentRouter from './ContentRouter';
 import AuthRouter from './AuthRouter';
-import { resetApp } from '../redux/common/actions';
 import AppointmentPDF from '../components/pdf/appointment-pdf';
 
 function Routeur() {
-  const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(resetApp());
-  });
+  
 
   return (
     

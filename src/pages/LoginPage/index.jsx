@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import {
   Alert,
   AlertIcon,
@@ -27,10 +27,8 @@ function LoginPage() {
   const dispatch = useDispatch();
   const [error, setError] = useState();
   const loginLoading = useSelector((state) => state.User.loginLoading);
-  const successLogin = useSelector((state) => state.User.loginSuccess);
-  const loginErrorMessage = useSelector(
-    (state) => state.User.loginErrorMessage,
-  );
+  const isVerifyingToken = useSelector((state) => state.Common.isVerifyingToken);
+ 
   const [formData, setFormData] = useState({
     username: '',
     password: '',
@@ -55,31 +53,10 @@ function LoginPage() {
     });
   };
 
-  const [TOKEN, setTokenValue] = useState(localStorage.getItem("acces_bo_token"))
-
-  const handleRes = () => {
-      setTokenValue(localStorage.getItem("acces_bo_token"))
+  if(isVerifyingToken){
+    return "checking token...."
   }
 
-  console.log('TOKEN===< > ', TOKEN);
-
-  useEffect(() => {
-      handleRes()
-  }, [])
-
-  useEffect(() => {
-    if (successLogin && TOKEN) {
-      try {
-        window.location = '/content';
-      } catch (e) {
-        /**
-         *
-         */
-      }
-    } else if (loginErrorMessage) {
-      setError(loginErrorMessage);
-    }
-  }, [successLogin, loginErrorMessage]);
   return (
     <Grid templateColumns="repeat(8, 1fr)" gap={4}>
       <GridItem

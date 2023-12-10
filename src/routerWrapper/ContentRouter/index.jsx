@@ -21,7 +21,6 @@ function ContentRouter() {
   const socket = useSocket();
   const { innerWidth } = useDimensions();
 
-
   useEffect(() => {
     dispatch(getAllLieux());
     dispatch(getAllMotifs());
