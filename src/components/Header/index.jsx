@@ -175,26 +175,20 @@ function NavigationBar() {
             <AiFillSetting size={24} />
           </MenuButton>
           <MenuList zIndex={9999} color="blue.400">
-            <Link to="/content/structure">
-              <MenuItem>Structure</MenuItem>
-            </Link>
             <Link to="/content/patient">
-              <MenuItem>Comptes patient</MenuItem>
+              <MenuItem>Comptes patients</MenuItem>
             </Link>
             <Link to="/content/user">
               <MenuItem>Utilisateurs</MenuItem>
             </Link>
             <Link to="/content/praticien">
-              <MenuItem>Fiches praticien</MenuItem>
+              <MenuItem>Fiches praticiens</MenuItem>
             </Link>
             <Link to="/content/speciality">
               <MenuItem>Spécialités</MenuItem>
             </Link>
             <Link to="/content/motif">
               <MenuItem>Motifs de rendez-vous</MenuItem>
-            </Link>
-            <Link to="/content/lieu">
-              <MenuItem>Lieux</MenuItem>
             </Link>
             <Link to="/content">
               <MenuItem>Parametres avancés</MenuItem>

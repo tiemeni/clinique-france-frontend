@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Alert,
   AlertIcon,
@@ -28,6 +28,10 @@ function LoginPage() {
   const [error, setError] = useState();
   const loginLoading = useSelector((state) => state.User.loginLoading);
   const isVerifyingToken = useSelector((state) => state.Common.isVerifyingToken);
+  const successLogin = useSelector((state) => state.User.loginSuccess);
+  const loginErrorMessage = useSelector(
+    (state) => state.User.loginErrorMessage,
+  );
  
   const [formData, setFormData] = useState({
     username: '',
@@ -53,6 +57,20 @@ function LoginPage() {
     });
   };
 
+  useEffect(() => {
+    if (successLogin) {
+      try {
+        window.location = '/content';
+      } catch (e) {
+        /**
+         *
+         */
+      }
+    } else if (loginErrorMessage) {
+      setError(loginErrorMessage);
+    }
+    
+  }, [successLogin, loginErrorMessage]);
   if(isVerifyingToken){
     return "checking token...."
   }

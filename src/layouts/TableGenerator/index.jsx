@@ -106,7 +106,7 @@ function TableGenerator({
       default:
         break;
     }
-    return result?.length > 0;
+    return !(result?.length === 0 || loadingRessource);
   };
 
 

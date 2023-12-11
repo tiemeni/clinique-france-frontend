@@ -40,6 +40,7 @@ function* login({ payload }) {
       yield put({ type: types.LOGIN_REQUEST_FAILED, payload: result.message });
     }
   } catch (error) {
+    console.log(typeof(error.message), error.message)
     yield put({ type: types.LOGIN_REQUEST_FAILED, payload: error.message });
   }
 }
