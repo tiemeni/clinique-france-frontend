@@ -16,7 +16,7 @@ function PraticienPage() {
   const dispatch = useDispatch();
   const praticiens = useSelector((state) => state.Praticiens.praticiens);
   useEffect(() => {
-    if (praticiens.length === 0) {
+    if (praticiens?.length === 0) {
       dispatch(getAllPraticiens());
     }
   }, []);
@@ -33,7 +33,7 @@ function PraticienPage() {
     <Box p={5} spacing={5}>
       <RessourceSearchLayout handlePost={handlePost} data={praticien} />
       <p style={{ marginTop: 15 }}>
-        {praticiens.length} praticiens correspondent a votre recherche
+        {praticiens?.length} praticiens correspondent a votre recherche
       </p>
       <Link to="upsert">
         <Button

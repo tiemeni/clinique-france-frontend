@@ -39,6 +39,7 @@ function Agenda() {
   };
 
   const onDateClick = (info) => {
+    console.log("info-----------", info)
     const { dateStr } = info;
     const dateClicked = moment(dateStr);
     if (dateClicked.isBefore(moment())) {

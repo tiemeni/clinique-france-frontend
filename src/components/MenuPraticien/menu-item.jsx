@@ -34,7 +34,6 @@ function MenuItem(props) {
     if (isChecked) handleSelection(tabIds, tabNames);
     else handleSelection(tabIds, tabNames, 'remove');
   };
-  console.log('========= > ', data);
 
   return (
     <AccordionItem>

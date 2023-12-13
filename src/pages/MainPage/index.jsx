@@ -5,18 +5,22 @@ import { useDispatch, useSelector } from 'react-redux';
 import Calendar from '../../components/Calendar';
 import MenuPraticien from '../../components/MenuPraticien';
 import { useDimensions } from '../../hooks/useDimensions';
-import { getPraticiens } from '../../redux/praticiens/actions';
+import { getAllPraticiens, getPraticiens } from '../../redux/praticiens/actions';
 import { closePraticienPanel, verifyToken } from '../../redux/common/actions';
 
 
 function MainPage() {
   const { innerHeight, innerWidth } = useDimensions();
   const dispatch = useDispatch();
+  const {praticiens} = useSelector(state => state.Praticiens)
   const showPratDrawer = useSelector(state => state.Common.showPratDrawer);
 
   useEffect(() => {
     dispatch(getPraticiens());
     dispatch(verifyToken(false))
+    if (praticiens?.length === 0) {
+      dispatch(getAllPraticiens());
+    }
   }, []);
   
 

@@ -7,6 +7,7 @@ import * as types from './types';
 
 const initialState = {
   motifs: [],
+  motifsBySpec: []
 };
 
 const MotifReducers = (state = initialState, action = undefined) => {
@@ -75,6 +76,11 @@ const MotifReducers = (state = initialState, action = undefined) => {
         deletingMotif: false,
         errordeletingMotif: action.payload,
       };
+      case types.GET_MOTIFS_BY_SPECS_SUCCESS:
+        return {
+          ...state,
+          motifsBySpec: action.payload
+        }
     default:
       return state;
   }

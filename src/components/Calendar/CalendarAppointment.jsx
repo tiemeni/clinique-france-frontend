@@ -17,7 +17,7 @@ import {
   VStack,
   useToast,
 } from '@chakra-ui/react';
-import React from 'react';
+import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { UilArrowCircleRight, UilPrint } from '@iconscout/react-unicons';
 import { Field, Formik } from 'formik';
@@ -33,6 +33,9 @@ import LoadingText from '../elements/WaitingMessage';
 
 function CalendarAppointment() {
   const dispatch = useDispatch();
+  const {praticiens} = useSelector(state => state.Praticiens)
+  const allMotifs = useSelector((state) => state.Motifs.motifs)
+  const [motifsBySpec, setmotifsBySpec] = useState([])
   const { openModal, dateSelected } = useSelector((state) => state.Common);
   const { copyId, duration, pasteProcessing, pasteFailed, pasteSuccess } =
     useSelector((state) => state.Appointments);
@@ -64,7 +67,7 @@ function CalendarAppointment() {
           endTime: incrementTime(date.format('HH:mm'), duration),
         }),
       );
-    else console.log(values);
+    else console.log("------",values);
   };
   const onClose = () => {
     dispatch(onDateSelected({ date: '', isOpen: false }));
@@ -122,25 +125,18 @@ function CalendarAppointment() {
                   <VStack gap={10} alignItems="flex-start">
                     <VStack alignItems="start" w="full" gap={5}>
                       <HStack w="full">
-                        <FormControl isDisabled>
+                        <FormControl onChange={(e) =>{
+                          const {job} = praticiens.find(p => p._id === e.target.value)
+                          const {_id} = job
+                          setmotifsBySpec(allMotifs.filter(m => m.idSpeciality === _id))
+                        }}>
                           <Field
                             as={Select}
                             id="praticien"
                             name="praticien"
                             fontSize="sm"
                           >
-                            <option value="">Dr OTPHA2 WIEM Pierre</option>
-                          </Field>
-                        </FormControl>
-                        <FormControl>
-                          <Field
-                            as={Select}
-                            id="lieu"
-                            name="lieu"
-                            fontSize="sm"
-                            placeholder="Selectionnez un lieu"
-                          >
-                            <option value="">Clinique optha meridien</option>
+                            {praticiens?.length > 0 && praticiens.map(({_id, name, surname, job}) => <option key={_id} data-job={job} value={_id}>Dr {name} {surname}</option>)}
                           </Field>
                         </FormControl>
                         <FormControl>
@@ -151,7 +147,7 @@ function CalendarAppointment() {
                             fontSize="sm"
                             placeholder="Selectionnez un motif"
                           >
-                            <option value="Clinique optha meridien">Clinique optha meridien</option>
+                            {motifsBySpec?.length > 0 && motifsBySpec.map(({_id, nom}) => <option key={_id} value={_id}> {nom} </option>)}
                           </Field>
                         </FormControl>
                       </HStack>
@@ -210,6 +206,18 @@ function CalendarAppointment() {
                     </VStack>
                     <Divider />
                     <PatientInfo />
+                    <Button
+                    type='submit'
+              size="md"
+              colorScheme="primary"
+              rightIcon={<UilArrowCircleRight />}
+              isLoading={pasteProcessing}
+              loadingText={LoadingText}
+            >
+              <Text fontSize="sm" fontWeight="normal">
+                Valider
+              </Text>
+            </Button>
                   </VStack>
                 </form>
               )}
