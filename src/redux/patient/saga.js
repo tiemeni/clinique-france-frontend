@@ -127,9 +127,25 @@ function* deletePatient({ id }) {
   }
 }
 
+function* searchPatient({ payload }){
+  const result = yield getUnauthRequest(`${process.env.REACT_APP_BASE_URL}/patients/search?name=${payload.name}&email=${payload.email}`);
+
+ try {
+  if(result.success){
+    yield put({type: types.SEARCH_PATIENT_SUCCESS, payload: result.data});
+  }else{
+    yield put({ type: types.SEARCH_PATIENT_FAILLED, payload: result.message})
+  }
+ } catch (error) {
+  yield put({ type: types.SEARCH_PATIENT_FAILLED, payload: error.message})
+ }
+}
+
+
 export default function* PatientSaga() {
   yield takeLatest(types.GET_ALL_PATIENT, getAllPatients);
   yield takeLatest(types.POST_PATIENT_REQUEST, postPatient);
   yield takeLatest(types.UPDATE_PATIENT_REQUEST, updatePatient);
   yield takeLatest(types.DELETE_PATIENT_REQUEST, deletePatient);
+  yield takeLatest(types.SEARCH_PATIENT_REQUEST, searchPatient);
 }

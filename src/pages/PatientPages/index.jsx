@@ -7,7 +7,7 @@ import RessourceSearchLayout from '../../layouts/RessourceSearchLayout';
 import { praticien } from '../../utils/data';
 import TableGenerator from '../../layouts/TableGenerator';
 import { dataPatient } from '../../utils/dataFields';
-import { deletePatient, getAllPatients } from '../../redux/patient/actions';
+import { deletePatient, getAllPatients, searchPatient } from '../../redux/patient/actions';
 
 function PatientPage() {
   const dispatch = useDispatch();
@@ -20,9 +20,18 @@ function PatientPage() {
   const handleDeleteEntity = (id) => {
     dispatch(deletePatient(id));
   };
+
+  const handlePost = (m) => {
+  
+    if(m !== null ){
+      console.log('=== > m in if ', m.nom)
+      
+      dispatch(searchPatient({nom : m?.nom, email: m.email}));
+    }}
+
   return (
     <Box p={5} spacing={5}>
-      <RessourceSearchLayout data={praticien} />
+      <RessourceSearchLayout data={praticien} handlePost={handlePost}/>
       <p style={{ marginTop: 15 }}>
         {patients.length} patients correspondent a votre recherche
       </p>

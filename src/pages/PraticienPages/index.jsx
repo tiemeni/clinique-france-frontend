@@ -10,10 +10,13 @@ import { dataPraticien } from '../../utils/dataFields';
 import {
   deletePraticien,
   getAllPraticiens,
+  searchPraticien,
 } from '../../redux/praticiens/actions';
 
 function PraticienPage() {
   const dispatch = useDispatch();
+  const type = 'PRATICIEN';
+
   const praticiens = useSelector((state) => state.Praticiens.praticiens);
   useEffect(() => {
     if (praticiens.length === 0) {
@@ -25,13 +28,27 @@ function PraticienPage() {
     dispatch(deletePraticien(id));
   };
 
-  const handlePost = (data) => {
-    console.log(data);
+  // const handlePost = (data) => {
+  //   console.log('page praticien => ',JSON.stringify(data));
+  // };
+
+  
+  const cle = true;
+
+  const handlePost = (m) => {
+  
+    if(m !== null ){
+      console.log('=== > m in if ', m)
+
+      dispatch(searchPraticien({ m }));
+    }
+    
+     // 
   };
 
   return (
     <Box p={5} spacing={5}>
-      <RessourceSearchLayout handlePost={handlePost} data={praticien} />
+      <RessourceSearchLayout data={praticien} cle={cle} type={type} handlePost={handlePost}/>
       <p style={{ marginTop: 15 }}>
         {praticiens.length} praticiens correspondent a votre recherche
       </p>

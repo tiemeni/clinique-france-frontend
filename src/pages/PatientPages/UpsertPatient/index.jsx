@@ -9,7 +9,7 @@ import getAllCivilities from '../../../redux/civility/actions';
 import getAllGroupes from '../../../redux/groupes/actions';
 import { getAllSpecialities } from '../../../redux/speciality/actions';
 import { getAllLieux } from '../../../redux/lieux/actions';
-import { postPatient, updatePatient } from '../../../redux/patient/actions';
+import {  getAllPatients, postPatient, updatePatient } from '../../../redux/patient/actions';
 
 const patientAPIformatter = (data) => ({
   civility: data?.civility?._id,
@@ -31,6 +31,11 @@ function CreatePatient() {
   const [launchPatients, setLaunchPatients] = useState(true);
   const [patientToUpdate, setPatientToUpdate] = useState({});
   const [data] = useState(patientCreateOrEdite);
+
+  useEffect(() => {
+    dispatch(getAllPatients());
+  });
+
   useEffect(() => {
     patients.forEach((m) => {
       if (m?._id === id) {
@@ -42,7 +47,7 @@ function CreatePatient() {
     dispatch(getAllGroupes());
     dispatch(getAllSpecialities());
     dispatch(getAllLieux());
-  }, []);
+  });
 
   if (id && launchPatients) {
     return 'launching patients';

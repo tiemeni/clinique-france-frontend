@@ -2,6 +2,7 @@ import {
   DELETE_PATIENT_REQUEST,
   GET_ALL_PATIENT,
   POST_PATIENT_REQUEST,
+  SEARCH_PATIENT_REQUEST,
   UPDATE_PATIENT_REQUEST,
 } from './types';
 
@@ -22,4 +23,9 @@ export const updatePatient = (patient) => ({
 export const deletePatient = (id) => ({
   type: DELETE_PATIENT_REQUEST,
   id,
+});
+
+export const searchPatient = (patient) => ({
+  type: SEARCH_PATIENT_REQUEST,
+  patient
 });

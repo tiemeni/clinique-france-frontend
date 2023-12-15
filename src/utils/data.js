@@ -100,7 +100,7 @@ export const praticien = {
   dataFields: {
     callBacks: {
       onUp: {
-        action: (d) => console.log(d),
+        action: (d) => console.log('====>  ',d),
         label: 'Rechercher',
         color: '#04B7C9',
       },
@@ -113,11 +113,18 @@ export const praticien = {
     data: [
       {
         name: 'nom',
-        placeholder: 'Nom',
+        placeholder: 'Prenom',
         required: true,
         type: 'text',
         id: 1,
       },
+      // {
+      //   name: 'surname',
+      //   placeholder: 'Prenom',
+      //   required: false,
+      //   type: 'text',
+      //   id: 2,
+      // },
       {
         name: 'email',
         placeholder: 'E-mail',
@@ -125,25 +132,25 @@ export const praticien = {
         type: 'email',
         id: 2,
       },
-      {
-        name: 'civility',
-        placeholder: 'Civilité',
-        required: false,
-        type: 'picklist',
-        id: 3,
-        options: [
-          {
-            name: 'option1',
-            label: 'option1',
-            _id: 1,
-          },
-          {
-            name: 'option2',
-            label: 'option2',
-            _id: 2,
-          },
-        ],
-      },
+      // {
+      //   name: 'civility',
+      //   placeholder: 'Civilité',
+      //   required: false,
+      //   type: 'picklist',
+      //   id: 3,
+      //   options: [
+      //     {
+      //       name: 'option1',
+      //       label: 'option1',
+      //       _id: 1,
+      //     },
+      //     {
+      //       name: 'option2',
+      //       label: 'option2',
+      //       _id: 2,
+      //     },
+      //   ],
+      // },
     ],
   },
 };
@@ -165,11 +172,18 @@ export const utilisateur = {
     data: [
       {
         name: 'nom',
-        placeholder: 'Nom',
+        placeholder: 'Prenom',
         required: true,
         type: 'text',
         id: 1,
       },
+      // {
+      //   name: 'surname',
+      //   placeholder: 'Prenom',
+      //   required: false,
+      //   type: 'text',
+      //   id: 2,
+      // },
       {
         name: 'email',
         placeholder: 'E-mail',
@@ -177,25 +191,25 @@ export const utilisateur = {
         type: 'email',
         id: 2,
       },
-      {
-        name: 'civility',
-        placeholder: 'Civilité',
-        required: false,
-        type: 'picklist',
-        id: 3,
-        options: [
-          {
-            name: 'option1',
-            label: 'option1',
-            _id: 1,
-          },
-          {
-            name: 'option2',
-            label: 'option2',
-            _id: 2,
-          },
-        ],
-      },
+      // {
+      //   name: 'civility',
+      //   placeholder: 'Civilité',
+      //   required: false,
+      //   type: 'picklist',
+      //   id: 3,
+      //   options: [
+      //     {
+      //       name: 'option1',
+      //       label: 'option1',
+      //       _id: 1,
+      //     },
+      //     {
+      //       name: 'option2',
+      //       label: 'option2',
+      //       _id: 2,
+      //     },
+      //   ],
+      // },
     ],
   },
 };
@@ -215,13 +229,13 @@ export const speciality = {
       },
     },
     data: [
-      {
-        name: 'label',
-        placeholder: 'Label',
-        required: true,
-        type: 'text',
-        id: 1,
-      },
+      // {
+      //   name: 'label',
+      //   placeholder: 'Label',
+      //   required: true,
+      //   type: 'text',
+      //   id: 1,
+      // },
       {
         name: 'title',
         placeholder: 'Title',
@@ -230,8 +244,8 @@ export const speciality = {
         id: 2,
       },
       {
-        name: 'reference',
-        placeholder: 'Reference',
+        name: 'webAlert',
+        placeholder: 'Alert pour web',
         required: false,
         type: 'text',
         id: 3,
@@ -315,7 +329,7 @@ export const motif = {
   dataFields: {
     callBacks: {
       onUp: {
-        action: (d) => console.log(d),
+        action: (d) => console.log('==== > ' ,d),
         label: 'Rechercher',
         color: '#04B7C9',
       },
@@ -327,26 +341,26 @@ export const motif = {
     },
     data: [
       {
-        name: 'label',
-        placeholder: 'Label',
+        name: 'nom',
+        placeholder: 'nom',
         required: true,
         type: 'text',
         id: 1,
       },
       {
-        name: 'nom',
-        placeholder: 'Nom',
+        name: 'couleur',
+        placeholder: 'couleur',
         required: false,
         type: 'text',
         id: 2,
       },
-      {
-        name: 'reference',
-        placeholder: 'Reference',
-        required: false,
-        type: 'text',
-        id: 3,
-      },
+      // {
+      //   name: 'reference',
+      //   placeholder: 'Reference',
+      //   required: false,
+      //   type: 'text',
+      //   id: 3,
+      // },
     ],
   },
 };
@@ -398,7 +412,7 @@ export const praticienCreateOrEdite = {
       },
       {
         name: 'surname',
-        placeholder: 'prenom',
+        placeholder: 'Prenom',
         required: true,
         type: 'text',
         id: 2,
@@ -476,25 +490,25 @@ export const praticienCreateOrEdite = {
           },
         ],
       },
-      {
-        name: 'affectation',
-        placeholder: 'affectation',
-        required: false,
-        type: 'picklist',
-        id: 10,
-        options: [
-          {
-            _id: 1,
-            name: 'affectation 1',
-            label: 'affectation 1',
-          },
-          {
-            _id: 2,
-            name: 'affectation 2',
-            label: 'affectation 2',
-          },
-        ],
-      },
+      // {
+      //   name: 'affectation',
+      //   placeholder: 'affectation',
+      //   required: false,
+      //   type: 'picklist',
+      //   id: 10,
+      //   options: [
+      //     {
+      //       _id: 1,
+      //       name: 'affectation 1',
+      //       label: 'affectation 1',
+      //     },
+      //     {
+      //       _id: 2,
+      //       name: 'affectation 2',
+      //       label: 'affectation 2',
+      //     },
+      //   ],
+      // },
       {
         name: 'job',
         placeholder: 'job',
@@ -536,7 +550,7 @@ export const praticienCreateOrEdite = {
       {
         name: 'timeSlot',
         placeholder: 'durée de traitement',
-        required: false,
+        required: true,
         type: 'picklist',
         id: 13,
         options: [
@@ -752,7 +766,7 @@ export const patientCreateOrEdite = {
       },
       {
         name: 'surname',
-        placeholder: 'prenom',
+        placeholder: 'Prenom',
         required: true,
         type: 'text',
         id: 2,
@@ -943,7 +957,7 @@ export const upsertMotifs = {
       {
         name: 'couleur',
         placeholder: 'couleur',
-        required: false,
+        required: true,
         type: 'text',
         id: 20,
       },

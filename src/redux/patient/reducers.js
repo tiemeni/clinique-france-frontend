@@ -75,6 +75,23 @@ const PatientReducers = (state = initialState, action = undefined) => {
         deletingPatient: false,
         errordeletingPatient: action.payload,
       };
+    
+    case types.SEARCH_PATIENT_REQUEST:
+      return {
+        ...state,
+        loadingPatients: true
+      };
+    case types.SEARCH_PATIENT_SUCCESS:
+      return {
+        ...state,
+        patients: action.payload,
+        loadingPatients: false
+      };
+    case types.SEARCH_PATIENT_FAILLED: 
+      return {
+        ...state,
+        loadingPatients: false
+      };  
     default:
       return state;
   }

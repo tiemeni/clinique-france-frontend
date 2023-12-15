@@ -29,3 +29,8 @@ export const deletePraticien = (id) => ({
   type: types.DELETE_PRATICIEN_REQUEST,
   id,
 });
+
+export const searchPraticien = (wordKey) => ({
+  type: types.SEARCH_PRATICIEN_REQUEST,
+  wordKey
+});

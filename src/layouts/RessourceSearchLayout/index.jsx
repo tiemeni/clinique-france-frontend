@@ -12,7 +12,8 @@ import {
 } from '@chakra-ui/react';
 import FormGenerator from '../FormGenerator';
 
-function RessourceSearchLayout({ data, handlePost, handleClearSearchForm }) {
+function RessourceSearchLayout({ data,type, cle,  handlePost, handleClearSearchForm }) {
+
   return (
     <Accordion allowToggle>
       <AccordionItem>
@@ -31,8 +32,10 @@ function RessourceSearchLayout({ data, handlePost, handleClearSearchForm }) {
           <Grid templateColumns="repeat(7, 1fr)" gap={4}>
             <GridItem colStart={2} colEnd={6} rowStart={1}>
               <FormGenerator
+                type={type}
                 handleClearSearchForm={() => handleClearSearchForm()}
                 handlePost={handlePost}
+                cle={cle}
                 data={data}
               />
             </GridItem>

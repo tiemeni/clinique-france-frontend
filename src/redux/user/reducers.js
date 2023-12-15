@@ -128,6 +128,23 @@ const UserReducers = (state = initialState, action = undefined) => {
         deletingUser: false,
         errorDeletingUser: action.payload,
       };
+    case types.SEARCH_USER_REQUEST:
+      return {
+        ...state,
+        loadingUsers: true
+      };
+    case types.SEARCH_USER_FAILLED:
+      return {
+        ...state,
+        loadingUsers: false
+        
+      };
+    case types.SEARCH_USER_SUCCESS:
+      return {
+        ...state,
+        loadingUsers: false,
+        users: action.payload
+      };
     default:
       return state;
   }

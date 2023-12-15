@@ -9,7 +9,7 @@ import { getAllSpecialities } from '../../../redux/speciality/actions';
 import { getAllLieux } from '../../../redux/lieux/actions';
 import { userCreateOrEdite } from '../../../utils/data';
 import FormGenerator from '../../../layouts/FormGenerator';
-import { postUser, updateUser } from '../../../redux/user/actions';
+import { postUser, updateUser,getAllUser } from '../../../redux/user/actions';
 
 const userApiFormatter = (data) => ({
   civility: data.civility,
@@ -29,10 +29,17 @@ function CreateUser() {
   const dispatch = useDispatch();
   const { id } = useParams();
   const users = useSelector((state) => state.User.users);
+  useEffect(() => {
+    dispatch(getAllUser());
+  });
+
   const [launchUser, setLaunchUser] = useState(true);
   const [userToUpdate, setUserToUpdate] = useState({});
   const [data] = useState(userCreateOrEdite);
+
+  
   useEffect(() => {
+    dispatch(getAllUser());
     users.forEach((u) => {
       if (u?._id === id) {
         setUserToUpdate(u);
@@ -43,7 +50,7 @@ function CreateUser() {
     dispatch(getAllGroupes());
     dispatch(getAllSpecialities());
     dispatch(getAllLieux());
-  }, []);
+  });
 
   if (id && launchUser) {
     return 'launching users';

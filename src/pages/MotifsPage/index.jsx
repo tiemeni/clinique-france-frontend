@@ -7,7 +7,7 @@ import RessourceSearchLayout from '../../layouts/RessourceSearchLayout';
 import { motif } from '../../utils/data';
 import { dataMotifs } from '../../utils/dataFields';
 import TableGenerator from '../../layouts/TableGenerator';
-import { deleteMotif, getAllMotifs } from '../../redux/motifs/actions';
+import { deleteMotif, getAllMotifs,searchMotif  } from '../../redux/motifs/actions';
 
 function MotifsPage() {
   const dispatch = useDispatch();
@@ -20,11 +20,28 @@ function MotifsPage() {
   const handleDeleteEntity = (id) => {
     dispatch(deleteMotif(id));
   };
+
+ const cle = true;
+ const type='MOTIF';
+
+  const handlePost = (m) => {
+  
+    if(m !== null ){
+      console.log('=== > m in if ', m)
+
+      dispatch(searchMotif({nom : m?.nom, couleur: m?.couleur}));
+    }
+    
+     // 
+  };
+
+ 
+
   return (
     <Box p={5} spacing={5}>
-      <RessourceSearchLayout data={motif} />
+      <RessourceSearchLayout data={motif} type={type} cle={cle} handlePost={handlePost} />
       <p style={{ marginTop: 15 }}>
-        {motifs.length} motifs correspondent a votre recherche
+        {motifs?.length} motifs correspondent a votre recherche
       </p>
       <Link to="upsert">
         <Button

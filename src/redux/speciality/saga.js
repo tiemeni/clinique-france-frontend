@@ -8,6 +8,8 @@ import {
 } from '../../utils/api';
 import { SHOW_MODAL_DEL_RESSOURCE } from '../common/types';
 
+const { REACT_APP_BASE_URL } = process.env;
+
 /**
  * @description ici le saga reducer
  */
@@ -114,9 +116,25 @@ function* deleteSpec({ id }) {
   }
 }
 
+function* searchSpeciality({ wordKey }){
+  const url1 = `${REACT_APP_BASE_URL}/specialites/search?webAlert=${wordKey.webAlert}&title=${wordKey?.title}`;
+  try {
+    const result = yield getUnauthRequest(url1);
+
+    if (result.success) {
+      yield put({ type: types.SEARCH_SPECIALITY_SUCCESS, payload: result.data });
+    } else {
+      yield put({ type: types.SEARCH_SPECIALITY_FAILLED, payload: result.message });
+    }
+  } catch (error) {
+    yield put({ type: types.SEARCH_SPECIALITY_FAILLED, payload: error.message });
+  }
+}
+
 export default function* SpecialitySaga() {
   yield takeLatest(types.GET_ALL_SPECIALITIES, getAllSpecialities);
   yield takeLatest(types.POST_SPEC_REQUEST, postSpecialities);
   yield takeLatest(types.UPDATE_SPECIALITY_REQUEST, updateSpec);
   yield takeLatest(types.DELETE_SPEC_REQUEST, deleteSpec);
+  yield takeLatest(types.SEARCH_SPECIALITY_REQUEST, searchSpeciality);
 }

@@ -39,7 +39,7 @@ function CreateMotif() {
     });
     dispatch(getAllLieux());
     dispatch(getAllSpecialities());
-  }, []);
+  });
 
   if (id && launchMotif) {
     return 'launching motifs';

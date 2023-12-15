@@ -135,6 +135,7 @@ export const dataSpeciality = {
     { label: 'Label', fname: 'label' },
     { label: 'Titre', fname: 'title' },
     { label: 'Reference', fname: 'reference' },
+    { label: 'Alert pour web', fname: 'webAlert' },
   ],
   rows: [
     {

@@ -9,6 +9,8 @@ import {
 import { convertIndexIntoNumber } from '../../utils/helpers';
 import { SHOW_MODAL_DEL_RESSOURCE } from '../common/types';
 
+const BASE_URL = process.env.REACT_APP_BASE_URL;
+
 /**
  * @description ici le saga reducer
  */
@@ -130,9 +132,31 @@ function* deleteMotif({ id }) {
   }
 }
 
+function* searchMotif({ wordKey }){
+
+  console.log('result nom === > ' ,wordKey);
+  
+  const url1 = `${BASE_URL}/motif/search?nom=${wordKey?.nom}&couleur=${wordKey.couleur}`;
+  try {
+    console.log('result url1 === > ' ,url1);
+    // const result = yield getUnauthRequest(`${BASE_URL}/motif/search?nom=${ nom }`);
+    const result = yield getUnauthRequest(url1);
+    console.log('result search === > ' ,JSON.stringify(result));
+
+    if (result.success) {
+      yield put({ type: types.SEARCH_MOTIF_SUCCESS, payload: result.data });
+    } else {
+      yield put({ type: types.SEARCH_MOTIF_FAILLED, payload: result.message });
+    }
+  } catch (error) {
+    yield put({ type: types.SEARCH_MOTIF_FAILLED, payload: error.message });
+  }
+}
+
 export default function* MotifSaga() {
   yield takeLatest(types.GET_ALL_MOTIFS, getAllMotifs);
   yield takeLatest(types.POST_MOTIF_REQUEST, postMotif);
   yield takeLatest(types.UPDATING_MOTIF_REQUEST, updateMotif);
   yield takeLatest(types.DELETE_MOTIF_REQUEST, deleteMotif);
+  yield takeLatest(types.SEARCH_MOTIF_REQUEST, searchMotif);
 }
