@@ -32,10 +32,14 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Formik, Field } from 'formik';
 import moment from 'moment';
 import { onOpenDialog, onEventClick } from '../../redux/common/actions';
-import { onUpdateAppointment } from '../../redux/appointments/actions';
+import {
+  onUpdateAppointment,
+  openReportModal,
+} from '../../redux/appointments/actions';
 import LoadingText from '../elements/WaitingMessage';
 
 function RdvInfo() {
+  const allMotifs = useSelector((state) => state.Motifs.motifs);
   return (
     <VStack alignItems="flex-start" w="full" gap={5}>
       <HStack minW="full">
@@ -57,8 +61,11 @@ function RdvInfo() {
             Motif
           </FormLabel>
           <Field fontSize="sm" as={Select} id="motif" name="motif">
-            <option value="1">Consultation 16-59 ans</option>
-            <option value="2">Chirurgie de la cataracte</option>
+            {allMotifs.map((m) => (
+              <option key={m._id} value={m._id}>
+                {m.label}
+              </option>
+            ))}
           </Field>
         </FormControl>
       </HStack>
@@ -124,12 +131,16 @@ function FicheRdv() {
   const { isLoading, success, isFailed } = useSelector(
     (state) => state.Appointments,
   );
-  const patient  = infoRdv?.patient ?? null;
+  const { praticiens } = useSelector((state) => state.Praticiens);
+  const allMotifs = useSelector((state) => state.Motifs.motifs);
+  const patient = infoRdv?.patient ?? null;
   const dispatch = useDispatch();
   const toast = useToast();
   const initialValues = {
     status: infoRdv?.status,
-    motif: infoRdv?.motif,
+    motif: allMotifs.find(
+      (m) => m.label === infoRdv.motif || m.nom === infoRdv.motif,
+    )?._id,
     date: moment(infoRdv?.date).format('YYYY-MM-DD'),
     heureDebut: infoRdv?.timeStart,
     heureReel: infoRdv?.timeStart,
@@ -161,7 +172,7 @@ function FicheRdv() {
       }),
     );
 
-  const onDelete = () => dispatch(onOpenDialog(true));
+  // const onDelete = () => dispatch(onOpenDialog(true));
   const onSubmit = (data) => {
     dispatch(
       onUpdateAppointment({
@@ -268,7 +279,7 @@ function FicheRdv() {
                                   alignItems="center"
                                   gap=".2em"
                                   fontSize="sm"
-                                  href="/fiche"
+                                  href={`/content/patient/upsert/${patient._id}`}
                                   color="primary.500"
                                   ml={5}
                                 >
@@ -363,7 +374,24 @@ function FicheRdv() {
                                   variant="outline"
                                   color="secondary.500"
                                   size="md"
-                                  onClick={onClose}
+                                  // onClick={onClose}
+                                  onClick={() => {
+                                    dispatch(
+                                      openReportModal({
+                                        isOpen: true,
+                                        id: infoRdv?._id,
+                                        idp: praticiens.find(
+                                          (p) =>
+                                            p.name.toLowerCase() ===
+                                            infoRdv.praticien
+                                              .split(' ')[0]
+                                              .toLowerCase(),
+                                        )?._id,
+                                        praticien: infoRdv?.praticien,
+                                        duration: infoRdv?.duree,
+                                      }),
+                                    );
+                                  }}
                                   isDisabled={isLoading}
                                   loadingText={LoadingText}
                                 >
@@ -380,7 +408,7 @@ function FicheRdv() {
                                   variant="outline"
                                   color="red.500"
                                   size="md"
-                                  onClick={onDelete}
+                                  onClick={() => dispatch(onOpenDialog({ open: true, idRdv: infoRdv._id, mode: 'delete' }))}
                                   isDisabled={isLoading}
                                   loadingText={LoadingText}
                                 >

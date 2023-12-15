@@ -124,6 +124,21 @@ const AppointmentReducer = (state = iniatialState, action) => {
         errorMsg: action.payload.message,
         availabilities: [],
       };
+      case types.CREATE_RDV_REQUEST:
+        return {
+          ...state, 
+          creatingRDV: true
+        }
+        case types.CREATE_RDV_REQUEST_SUCCESS:
+        return {
+          ...state, 
+          creatingRDV: false,
+        }
+        case types.CREATE_RDV_REQUEST_FAILED:
+        return {
+          ...state, 
+          creatingRDV: false
+        }
     default:
       return state;
   }

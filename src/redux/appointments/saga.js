@@ -1,7 +1,7 @@
 import { put, takeLatest } from 'redux-saga/effects';
 import * as types from './types';
 import { AGENDA_DATE_CLICK } from '../common/types';
-import { incrementTime } from '../../utils/helpers';
+import { ajouterDuree, incrementTime } from '../../utils/helpers';
 import {
   deleteUnauthRequest,
   putUnauthRequest,
@@ -23,6 +23,7 @@ function extractQuery(payload) {
       date_long: payload.date_long,
       duration: payload.duration,
       status: payload?.status,
+      motif: payload?.motif
     };
   }
   if (payload.wasMoved) query.wasMoved = payload.wasMoved;
@@ -65,6 +66,10 @@ function* deleteAppointment({ payload }) {
       return;
     }
     yield put({ type: types.DELETE_APPOINTMENT_SUCCESS });
+    yield put({
+      type: AGENDA_DATE_CLICK,
+      payload: { date: '', isOpen: false },
+    });
   } catch (error) {
     yield put({ type: types.DELETE_APPOINTMENT_FAILED });
   }
@@ -118,9 +123,94 @@ function* reportAppointment({ payload }) {
   }
 }
 
+function* postRDV({ data }) {
+  const url1 = `${BASE_URL}/patients/register`
+  const url2 =
+    `${BASE_URL}/appointments/enregistrer_rdv/`;
+  const payload = {
+    name: data?.name,
+    surname: data?.surname ?? "",
+    birthdate: data?.birthdate,
+    telephone: data?.phone,
+    email: data?.email,
+    active: true,
+  };
+  try {
+    const result = yield postUnauthRequest(url1, payload);
+    // const idFiche;
+    let rdv;
+    if (result.message) {
+      const rdvData = {
+        practitioner: data?.praticien,
+        patient: result.message,
+        motif: data?.motif,
+        startTime: data?.heureDebut,
+        endTime: ajouterDuree(data?.heureDebut, data?.duree),
+        provenance: "backoffice",
+        duration: data?.duree,
+        date_long: data?.date_long ? data?.date_long : new Date().toISOString(),
+        // "dayOfWeek": 1,
+        date: data?.date,
+      };
+      // idFiche = result.message;
+      rdv = yield postUnauthRequest(url2, rdvData);
+      // yield put({ type: types.GET_DISPO_REQUEST_SUCCESS, payload: result.data })
+      // RootNavigation.navigate(SCREENS.HOME_CONTAINER_ROUTE)
+    } else if (result.data._id) {
+      const rdvData = {
+        practitioner: data?.praticien,
+        patient: result.data._id,
+        motif: data?.motif,
+        startTime: data?.heureDebut,
+        // data?.period?.time,
+        endTime: ajouterDuree(data?.heureDebut, data?.duree),
+        provenance: "backoffice",
+        duration: data?.duree,
+        date_long: data?.date_long ? data?.date_long : new Date().toISOString(),
+        // "dayOfWeek": 1,
+        date: data?.date,
+      };
+      // idFiche = result.data?._id;
+      rdv = yield postUnauthRequest(url2, rdvData);
+    } else {
+      yield put({
+        type: types.CREATE_RDV_REQUEST_FAILED,
+        payload: "Erreur lors de la creation du rendez-vous!",
+      });
+      yield setTimeout(() => {
+        put({ type: "CLEAR_ERR_SUCC" });
+      }, 3000);
+    }
+    if (rdv?.success) {
+      yield put({
+        type: types.CREATE_RDV_REQUEST_SUCCESS,
+        payload: rdv?.data[0],
+      });
+      yield put({
+        type: AGENDA_DATE_CLICK,
+        payload: { date: '', isOpen: false },
+      });
+    } else {
+      yield put({
+        type: types.CREATE_RDV_REQUEST_FAILED,
+        payload: "Erreur lors de la creation du rendez-vous!",
+      });
+      yield setTimeout(() => {
+        put({ type: "CLEAR_ERR_SUCC" });
+      }, 3000);
+    }
+  } catch (error) {
+    yield put({ type: types.CREATE_RDV_REQUEST_FAILED, payload: error.message });
+    yield setTimeout(() => {
+      put({ type: "CLEAR_ERR_SUCC" });
+    }, 3000);
+  }
+}
+
 export default function* AppointmentsSaga() {
   yield takeLatest(types.UPDATE_APPOINTMENT_REQUEST, updateAppointment);
   yield takeLatest(types.DELETE_APPOINTMENT_REQUEST, deleteAppointment);
   yield takeLatest(types.DUPLICATE_APPOINTMENT_REQUEST, pasteAppointment);
   yield takeLatest(types.GET_DISPO_REQUEST, reportAppointment);
+  yield takeLatest(types.CREATE_RDV_REQUEST, postRDV);
 }

@@ -34,3 +34,8 @@ export const onSearchDispo = (payload) => ({
   type: types.GET_DISPO_REQUEST,
   payload,
 });
+
+export const createRdv = data => ({
+  type: types.CREATE_RDV_REQUEST,
+  data
+})

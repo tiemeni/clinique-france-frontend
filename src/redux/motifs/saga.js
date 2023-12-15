@@ -130,9 +130,24 @@ function* deleteMotif({ id }) {
   }
 }
 
+function* getMotifsByIdSpec({id}){
+  try {
+    const result = yield getUnauthRequest(
+      `${process.env.REACT_APP_BASE_URL}/motif/speciality/${id}`,
+    );
+    console.log("result -------->", result)
+    if (result.success) {
+      yield put({ type: types.GET_MOTIFS_BY_SPECS_SUCCESS, payload: result.data });
+    } 
+  } catch (error) {
+    console.log("failed gettieng motis by specs")
+  }
+}
+
 export default function* MotifSaga() {
   yield takeLatest(types.GET_ALL_MOTIFS, getAllMotifs);
   yield takeLatest(types.POST_MOTIF_REQUEST, postMotif);
   yield takeLatest(types.UPDATING_MOTIF_REQUEST, updateMotif);
   yield takeLatest(types.DELETE_MOTIF_REQUEST, deleteMotif);
+  yield takeLatest(types.GET_MOTIFS_BY_SPECS, getMotifsByIdSpec);
 }

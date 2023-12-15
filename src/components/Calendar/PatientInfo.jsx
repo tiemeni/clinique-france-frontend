@@ -25,7 +25,7 @@ function PatientInfo() {
             Informations du patient
           </Text>
         </HStack>
-        <FormControl>
+        <FormControl isRequired>
           <RadioGroup colorScheme="primary">
             <HStack direction="row">
               <Radio value="1">M.</Radio>
@@ -45,7 +45,7 @@ function PatientInfo() {
               placeholder="Nom"
             />
           </FormControl>
-          <FormControl>
+          <FormControl isRequired>
             <Field
               as={Input}
               id="surname"
@@ -68,7 +68,7 @@ function PatientInfo() {
             />
           </FormControl>
         </HStack>
-        <FormControl>
+        <FormControl isRequired>
           <Field
             as={Input}
             id="birthdate"
@@ -80,7 +80,7 @@ function PatientInfo() {
           />
         </FormControl>
         <HStack w="full">
-          <FormControl>
+          <FormControl isRequired>
             <Field
               as={Input}
               id="address"
@@ -91,7 +91,7 @@ function PatientInfo() {
               placeholder="Adresse"
             />
           </FormControl>
-          <FormControl>
+          <FormControl isRequired>
             <Field
               as={Select}
               id="city"
@@ -106,7 +106,7 @@ function PatientInfo() {
           </FormControl>
         </HStack>
         <HStack w="full">
-          <FormControl>
+          <FormControl isRequired>
             <Field
               as={Input}
               id="email"
@@ -117,7 +117,7 @@ function PatientInfo() {
               placeholder="Email"
             />
           </FormControl>
-          <FormControl>
+          <FormControl isRequired>
             <Field
               as={Input}
               id="phone"
@@ -150,8 +150,8 @@ function PatientInfo() {
               fontSize="sm"
               placeholder="Assurance"
             >
-              <option value="Yaounde">Yaounde</option>
-              <option value="Yaounde">Douala</option>
+              <option value="Yaounde">assurance 1</option>
+              <option value="Yaounde">assurance 2</option>
             </Field>
           </FormControl>
         </HStack>
