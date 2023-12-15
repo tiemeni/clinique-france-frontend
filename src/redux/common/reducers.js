@@ -36,6 +36,7 @@ const CommonReducer = (state = initialState, action = undefined) => {
         ...state,
         dateSelected: action.payload.date,
         openModal: action.payload.isOpen,
+        mode: action.payload.mode
       };
     case types.SHOW_CALENDAR_LOADER:
       return {

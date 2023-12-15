@@ -26,6 +26,7 @@ import { onDateSelected } from '../../redux/common/actions';
 import PatientInfo from './PatientInfo';
 import {
   copyAppointmentId,
+  createRdv,
   duplicateAppointment,
 } from '../../redux/appointments/actions';
 import { incrementTime } from '../../utils/helpers';
@@ -33,16 +34,17 @@ import LoadingText from '../elements/WaitingMessage';
 
 function CalendarAppointment() {
   const dispatch = useDispatch();
-  const {praticiens} = useSelector(state => state.Praticiens)
-  const allMotifs = useSelector((state) => state.Motifs.motifs)
-  const [motifsBySpec, setmotifsBySpec] = useState([])
-  const { openModal, dateSelected } = useSelector((state) => state.Common);
-  const { copyId, duration, pasteProcessing, pasteFailed, pasteSuccess } =
+  const { praticiens } = useSelector((state) => state.Praticiens);
+  const allMotifs = useSelector((state) => state.Motifs.motifs);
+  const [motifsBySpec, setmotifsBySpec] = useState([]);
+  const { openModal, dateSelected, mode } = useSelector((state) => state.Common);
+  const { copyId, duration, pasteProcessing, pasteFailed, pasteSuccess, creatingRDV } =
     useSelector((state) => state.Appointments);
   const date = moment(dateSelected);
   const toast = useToast();
   const initialValues = {
     email: '',
+    motif: '',
     name: '',
     surname: '',
     birthname: '',
@@ -67,10 +69,10 @@ function CalendarAppointment() {
           endTime: incrementTime(date.format('HH:mm'), duration),
         }),
       );
-    else console.log("------",values);
+    else dispatch(createRdv({...values, date_long: dateSelected ? date : new Date().toISOString()}));
   };
   const onClose = () => {
-    dispatch(onDateSelected({ date: '', isOpen: false }));
+    dispatch(onDateSelected({ date: '', isOpen: false, mode: "" }));
     dispatch(copyAppointmentId({ id: null, duration: null }));
   };
 
@@ -125,29 +127,55 @@ function CalendarAppointment() {
                   <VStack gap={10} alignItems="flex-start">
                     <VStack alignItems="start" w="full" gap={5}>
                       <HStack w="full">
-                        <FormControl onChange={(e) =>{
-                          const {job} = praticiens.find(p => p._id === e.target.value)
-                          const {_id} = job
-                          setmotifsBySpec(allMotifs.filter(m => m.idSpeciality === _id))
-                        }}>
+                        <FormControl
+                          isRequired
+                          defaultValue={allMotifs.filter((m) => m.idSpeciality === praticiens[0]?.job?._id)[0]?._id}
+                          onChange={(e) => {
+                            const { job } = praticiens.find(
+                              (p) => p._id === e.target.value,
+                            );
+                            const { _id } = job;
+                            setmotifsBySpec(
+                              allMotifs.filter((m) => m.idSpeciality === _id),
+                            );
+                          }}
+                        >
+                          <FormLabel color="gray.500" fontSize="sm">
+                            Praticien
+                          </FormLabel>
                           <Field
                             as={Select}
                             id="praticien"
                             name="praticien"
                             fontSize="sm"
                           >
-                            {praticiens?.length > 0 && praticiens.map(({_id, name, surname, job}) => <option key={_id} data-job={job} value={_id}>Dr {name} {surname}</option>)}
+                            {praticiens?.length > 0 &&
+                              praticiens.map(({ _id, name, surname, job }) => (
+                                <option key={_id} data-job={job} value={_id}>
+                                  Dr {name} {surname}
+                                </option>
+                              ))}
                           </Field>
                         </FormControl>
-                        <FormControl>
+                        <FormControl isRequired>
+                          <FormLabel color="gray.500" fontSize="sm">
+                            Motif
+                          </FormLabel>
                           <Field
                             as={Select}
+                            // defaultValue={allMotifs.find(m => m.idSpeciality === praticiens[0].job?._id)?._id}
                             id="motif"
                             name="motif"
                             fontSize="sm"
                             placeholder="Selectionnez un motif"
                           >
-                            {motifsBySpec?.length > 0 && motifsBySpec.map(({_id, nom}) => <option key={_id} value={_id}> {nom} </option>)}
+                            {motifsBySpec?.length > 0 &&
+                              motifsBySpec.map(({ _id, nom }) => (
+                                <option key={_id} value={_id}>
+                                  {' '}
+                                  {nom}{' '}
+                                </option>
+                              ))}
                           </Field>
                         </FormControl>
                       </HStack>
@@ -206,18 +234,37 @@ function CalendarAppointment() {
                     </VStack>
                     <Divider />
                     <PatientInfo />
-                    <Button
-                    type='submit'
-              size="md"
-              colorScheme="primary"
-              rightIcon={<UilArrowCircleRight />}
-              isLoading={pasteProcessing}
-              loadingText={LoadingText}
-            >
-              <Text fontSize="sm" fontWeight="normal">
-                Valider
-              </Text>
-            </Button>
+                    {mode === "create" && <HStack justifyContent="start" w="full" gap={5} mb={10}>
+                      <Button
+                        type="submit"
+                        size="md"
+                        colorScheme="primary"
+                        rightIcon={<UilArrowCircleRight />}
+                        isLoading={pasteProcessing || creatingRDV}
+                        loadingText={LoadingText}
+                      >
+                        <Text fontSize="sm" fontWeight="normal">
+                          Valider
+                        </Text>
+                      </Button>
+                      <Button
+                        colorScheme="primary"
+                        variant="outline"
+                        color="primary.500"
+                        size="md"
+                        rightIcon={<UilPrint />}
+                        onClick={onClose}
+                      >
+                        <Text fontSize="sm" fontWeight="normal">
+                          Valider et Imprimer
+                        </Text>
+                      </Button>
+                      <Button size="md" onClick={onClose}>
+                        <Text fontSize="sm" fontWeight="normal">
+                          Annuler
+                        </Text>
+                      </Button>
+                    </HStack>}
                   </VStack>
                 </form>
               )}
@@ -225,9 +272,9 @@ function CalendarAppointment() {
           )}
         </ModalBody>
 
-        <ModalFooter flexDirection="column" gap={5} pb={5}>
+        {(mode !== "create" || copyId) && <ModalFooter flexDirection="column" gap={5} pb={5}>
           <Divider />
-          <HStack justifyContent="center" w="full" gap={5}>
+           <HStack justifyContent="center" w="full" gap={5}>
             <Button
               size="md"
               colorScheme="primary"
@@ -260,7 +307,7 @@ function CalendarAppointment() {
               </Text>
             </Button>
           </HStack>
-        </ModalFooter>
+        </ModalFooter>}
       </ModalContent>
     </Modal>
   );

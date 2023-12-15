@@ -139,3 +139,25 @@ export const convertNumberToVille = (region) => {
 };
 
 export const convertIndexIntoNumber = (index) => 5 * index + 5;
+
+export const ajouterDuree = (date, duree) => {
+  const [heure, minute] = date.split(":");
+  const dureeEnMinutes = parseInt(duree, 10);
+
+  let nouvelleHeure = parseInt(heure, 10);
+  let nouveauMinute = parseInt(minute, 10) + dureeEnMinutes;
+
+  // Gérer le dépassement de 60 minutes
+  if (nouveauMinute >= 60) {
+    const heuresSupplementaires = Math.floor(nouveauMinute / 60);
+    nouvelleHeure += heuresSupplementaires;
+    nouveauMinute %= 60;
+  }
+
+  // Formater la nouvelle heure et minute
+  const nouvelleHeureFormattee = nouvelleHeure.toString().padStart(2, "0");
+  const nouveauMinuteFormattee = nouveauMinute.toString().padStart(2, "0");
+
+  // Renvoyer la nouvelle date au format "hh:mm"
+  return `${nouvelleHeureFormattee}:${nouveauMinuteFormattee}`;
+};

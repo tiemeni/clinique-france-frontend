@@ -5,6 +5,8 @@ import {
   Box,
   HStack,
   IconButton,
+  Skeleton,
+  Stack,
   // Input,
   VStack,
 } from '@chakra-ui/react';
@@ -12,7 +14,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import MenuItem from './menu-item';
 import { formatUserName } from '../../utils/helpers';
 import { saveCheckedPractitioners } from '../../redux/praticiens/actions';
-import { closePraticienPanel } from '../../redux/common/actions';
+import { closePraticienPanel, onDateSelected } from '../../redux/common/actions';
 
 const _spacing = 3;
 const _iconSizesm = 25;
@@ -134,31 +136,70 @@ function MenuPraticien() {
           fontSize="sm"
         />
       </Box> */}
-      <div style={{ width: "18em", height: 30, backgroundColor: '#2c3e50', marginBottom: 28}}>
+      <div
+        style={{
+          width: '18em',
+          height: 30,
+          backgroundColor: '#2c3e50',
+          marginBottom: 28,
+        }}
+      >
         {/* <div style={{width: 82, height: '2em', padding: '3em', marginRight: '2em', marginTop: -22, float: 'right', borderRadius: 20, backgroundColor: 'white'}}> */}
-          <div style={{width: 50, display: "flex", flexDirection: "row", justifyContent: "center", alignItems: 'center', float: 'right', border: 'solid 2px white', marginTop: -10, marginRight: 19, borderRadius: 31, height: 50, backgroundColor: '#2c3e50'}}>
+        <div
+          style={{
+            width: 50,
+            display: 'flex',
+            flexDirection: 'row',
+            justifyContent: 'center',
+            alignItems: 'center',
+            float: 'right',
+            border: 'solid 2px white',
+            marginTop: -10,
+            marginRight: 19,
+            borderRadius: 31,
+            height: 50,
+            backgroundColor: '#2c3e50',
+          }}
+        >
           <IconButton
-           style={{margin: 10}}
-          size="xs"
-          variant="unstyled"
-          icon={<UilPlus color="white" size={_iconSizesm} />}
-        />
-          </div> 
+            style={{ margin: 10 }}
+            size="xs"
+            onClick={() => dispatch(onDateSelected({ date: null, isOpen: true, mode: 'create' }))}
+            variant="unstyled"
+            icon={<UilPlus color="white" size={_iconSizesm} />}
+          />
+        </div>
         {/* </div> */}
       </div>
 
-
       <Box h="full" w="full" px={_spacing} overflow="auto">
         <Accordion w="full" allowMultiple defaultIndex={[0]}>
-          {Object.keys(practitionersList).map((profession) => (
-            <MenuItem
-              key={profession}
-              professionName={profession}
-              data={practitionersList[profession]}
-              selectedPractitioners={practitionersCheckedList.idsList}
-              handleSelection={handleSelection}
-            />
-          ))}
+          {Object.keys(practitionersList).length > 0 ? (
+            Object.keys(practitionersList).map((profession) => (
+              <MenuItem
+                key={profession}
+                professionName={profession}
+                data={practitionersList[profession]}
+                selectedPractitioners={practitionersCheckedList.idsList}
+                handleSelection={handleSelection}
+              />
+            ))
+          ) : (
+            <Stack>
+              <Stack width="97%" display="flex" flexDirection="row" mb="10px">
+                <Skeleton height="25px" width="90%" borderRadius={10} />
+                <Skeleton height="25px" width="25px" borderRadius="100%" />
+              </Stack>
+              <Stack width="97%" display="flex" flexDirection="row" mb="10px">
+                <Skeleton height="25px" width="90%" borderRadius={10} />
+                <Skeleton height="25px" width="25px" borderRadius="100%" />
+              </Stack>
+              <Stack width="97%" display="flex" flexDirection="row" mb="10px">
+                <Skeleton height="25px" width="90%" borderRadius={10} />
+                <Skeleton height="25px" width="25px" borderRadius="100%" />
+              </Stack>
+            </Stack>
+          )}
         </Accordion>
       </Box>
     </VStack>

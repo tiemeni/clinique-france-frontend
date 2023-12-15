@@ -29,6 +29,8 @@ function Agenda() {
   const calendarRef = useRef(null);
   const pickerRef = useRef(null);
   const { practitionersCheckedList } = useSelector((state) => state.Praticiens);
+  const { copyId } =
+    useSelector((state) => state.Appointments);
   const socket = useSocket();
 
   const handlePikadayDateChange = (date) => {
@@ -39,7 +41,6 @@ function Agenda() {
   };
 
   const onDateClick = (info) => {
-    console.log("info-----------", info)
     const { dateStr } = info;
     const dateClicked = moment(dateStr);
     if (dateClicked.isBefore(moment())) {
@@ -48,7 +49,7 @@ function Agenda() {
       );
       return;
     }
-    dispatch(onDateSelected({ date: dateStr, isOpen: true }));
+    dispatch(onDateSelected({ date: dateStr, isOpen: true, mode: copyId ? null : 'create' }));
   };
   const renderEventContent = ({ event }) => <EventContent event={event} />;
   const onLoad = (isLoading) => dispatch(onChangeCalendar(isLoading));

@@ -36,7 +36,7 @@ function Dialog() {
   const onDelete = () => {
     if (mode === dialogMode.ALERT) {
       dispatch(onOpenDialog({ open: false, idRdv: '', dateSelected }));
-      dispatch(onDateSelected({ date: dateSelected, isOpen: true }));
+      dispatch(onDateSelected({ date: dateSelected, isOpen: true, mode: "create" }));
       return;
     }
     dispatch(onDeleteAppointment(eventId));
