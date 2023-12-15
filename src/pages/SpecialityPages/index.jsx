@@ -7,9 +7,10 @@ import RessourceSearchLayout from '../../layouts/RessourceSearchLayout';
 import { speciality } from '../../utils/data';
 import TableGenerator from '../../layouts/TableGenerator';
 import { dataSpeciality } from '../../utils/dataFields';
-import { deleteSpec, getAllSpecialities } from '../../redux/speciality/actions';
+import { deleteSpec, getAllSpecialities, searchSpeciality } from '../../redux/speciality/actions';
 
 function SpecialityPage() {
+  const type = 'SPECIALITE';
   const dispatch = useDispatch();
   const specialities = useSelector((state) => state.Specialities.specialities);
 
@@ -23,9 +24,23 @@ function SpecialityPage() {
     dispatch(deleteSpec(id));
   };
 
+  const cle = true;
+  const handlePost = (m) => {
+  
+    if(m !== null ){
+      console.log('=== > m in if ', m)
+
+      dispatch(searchSpeciality({webAlert : m?.webAlert, title: m?.title}));
+    }
+    
+     // 
+  };
+
+
+
   return (
     <Box p={5} spacing={5}>
-      <RessourceSearchLayout data={speciality} />
+      <RessourceSearchLayout data={speciality} cle={cle} type={type} handlePost={handlePost}/>
       <p style={{ marginTop: 15 }}>
         {specialities.length} specialités correspondent a votre recherche
       </p>

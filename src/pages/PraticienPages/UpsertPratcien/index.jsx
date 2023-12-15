@@ -10,6 +10,7 @@ import getAllGroupes from '../../../redux/groupes/actions';
 import { getAllSpecialities } from '../../../redux/speciality/actions';
 import { getAllLieux } from '../../../redux/lieux/actions';
 import {
+  getAllPraticiens,
   postPraticien,
   updatePraticien,
 } from '../../../redux/praticiens/actions';
@@ -38,8 +39,13 @@ function CreatePraticien() {
   const [launchPrat, setLaunchPrat] = useState(true);
   const [pratToUpdate, setPratToUpdate] = useState({});
   const [data] = useState(praticienCreateOrEdite);
+  useEffect(() => {
+    dispatch(getAllPraticiens());
+  });
+
 
   useEffect(() => {
+    dispatch(getAllPraticiens);
     praticiens.forEach((p) => {
       if (p?._id === id) {
         setPratToUpdate(p);
@@ -50,7 +56,7 @@ function CreatePraticien() {
     dispatch(getAllGroupes());
     dispatch(getAllSpecialities());
     dispatch(getAllLieux());
-  }, [id]);
+  });
 
   if (id && launchPrat) {
     return 'launching praticiens';

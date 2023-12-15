@@ -9,6 +9,8 @@ import {
 import { convertIndexIntoNumber } from '../../utils/helpers';
 import { SHOW_MODAL_DEL_RESSOURCE } from '../common/types';
 
+const BASE_URL = process.env.REACT_APP_BASE_URL;
+
 /**
  * @description ici le saga reducer
  */
@@ -130,17 +132,30 @@ function* deleteMotif({ id }) {
   }
 }
 
-function* getMotifsByIdSpec({id}){
+function* getMotifsByIdSpec({ id }) {
   try {
     const result = yield getUnauthRequest(
       `${process.env.REACT_APP_BASE_URL}/motif/speciality/${id}`,
     );
-    console.log("result -------->", result)
     if (result.success) {
       yield put({ type: types.GET_MOTIFS_BY_SPECS_SUCCESS, payload: result.data });
-    } 
+    }
   } catch (error) {
     console.log("failed gettieng motis by specs")
+  }
+}
+
+function* searchMotif({ wordKey }) {
+  const url1 = `${BASE_URL}/motif/search?nom=${wordKey?.nom}&couleur=${wordKey.couleur}`;
+  try {
+    const result = yield getUnauthRequest(url1);
+    if (result.success) {
+      yield put({ type: types.SEARCH_MOTIF_SUCCESS, payload: result.data });
+    } else {
+      yield put({ type: types.SEARCH_MOTIF_FAILLED, payload: result.message });
+    }
+  } catch (error) {
+    yield put({ type: types.SEARCH_MOTIF_FAILLED, payload: error.message });
   }
 }
 
@@ -150,4 +165,5 @@ export default function* MotifSaga() {
   yield takeLatest(types.UPDATING_MOTIF_REQUEST, updateMotif);
   yield takeLatest(types.DELETE_MOTIF_REQUEST, deleteMotif);
   yield takeLatest(types.GET_MOTIFS_BY_SPECS, getMotifsByIdSpec);
+  yield takeLatest(types.SEARCH_MOTIF_REQUEST, searchMotif);
 }

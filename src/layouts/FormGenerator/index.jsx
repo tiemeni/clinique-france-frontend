@@ -13,13 +13,21 @@ import {
   VStack,
 } from '@chakra-ui/react';
 import { useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { useFormik } from 'formik';
+import { getAllMotifs } from '../../redux/motifs/actions';
+import { getAllUser } from '../../redux/user/actions';
+import { getAllSpecialities } from '../../redux/speciality/actions';
+import { getAllPraticiens } from '../../redux/praticiens/actions';
+// import { searchMotif } from '../../redux/motifs/actions';
 
 function FormGenerator({
+  type,
   data,
   editeData = {},
+  cle,
   handlePost = null,
-  // handleClearSearchForm = undefined,
+  // handleClearSearchForm = undefined,?
 }) {
   const loadingPostLieu = useSelector(
     (state) => state.Lieux.postingLieuLoading,
@@ -50,6 +58,7 @@ function FormGenerator({
   const groupes = useSelector((state) => state.Groupes.groups);
   const specialities = useSelector((state) => state.Specialities.specialities);
   const lieux = useSelector((state) => state.Lieux.lieux);
+  const dispatch = useDispatch();
   const [formData, setFormData] = useState(() => {
     const state = {};
     data.dataFields.data.forEach((e) => {
@@ -93,13 +102,40 @@ function FormGenerator({
     onSubmit: (values) => {
       if (handlePost) {
         handlePost(values);
+        console.log('search ==> submit', values)
       } else {
+       
+        console.log('search ==> ', values)
         alert(JSON.stringify(values, null, 2));
       }
     },
+    
   });
 
+  const clearForm = (key) => {
+    console.log('cle===============> 1', cle)
+    if(cle && type==='MOTIF'){
+      console.log('cle===============> ', cle)
+      formik.resetForm();
+      dispatch(getAllMotifs());
+    }else if(cle && type==='USER'){
+      formik.resetForm();
+      dispatch(getAllUser());
+    }else if(cle && type==='SPECIALITE'){
+      formik.resetForm();
+      dispatch(getAllSpecialities());
+    }else if(cle && type=== 'PRATICIEN'){
+      formik.resetForm();
+      dispatch(getAllPraticiens());
+    }
+    else{
+      data.dataFields.callBacks[key].action();
+    }
+    // handleClearSearchForm();
+  };
+
   const generatePickListData = (name, e) => {
+    
     let result;
     switch (name) {
       case 'civility':
@@ -624,7 +660,7 @@ function FormGenerator({
         <Box w="100%" paddingLeft="200px">
           {Object.keys(data.dataFields.callBacks)?.map((key, i) => (
             <Button
-              type={i === 0 ? 'submit' : null}
+              type={i === 0 ? 'submit' :null }
               isLoading={
                 i === 0 &&
                 (loadingPostLieu ||
@@ -641,8 +677,8 @@ function FormGenerator({
                   updatingSpecialities)
               }
               onClick={() =>
-                i === 1
-                  ? data.dataFields.callBacks[key].action()
+                i === 1 && cle
+                  ? clearForm(key) 
                   : data.dataFields.callBacks[key].action(() =>
                       console.log('worked'),
                     )
@@ -650,9 +686,6 @@ function FormGenerator({
               key={key}
               marginLeft={i !== 0 ? 5 : 0}
               backgroundColor={data.dataFields.callBacks[key].color ?? null}
-              // onClick={() => {
-              //   data.dataFields.callBacks[key].action(formData);
-              // }}
               textColor="white"
             >
               {data.dataFields.callBacks[key].label}

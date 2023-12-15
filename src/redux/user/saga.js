@@ -9,6 +9,7 @@ import {
 import { SHOW_MODAL_DEL_RESSOURCE } from '../common/types';
 
 const { REACT_APP_BASE_URL } = process.env;
+// const BASE_URL = process.env.REACT_APP_BASE_URL;
 
 /**
  * @description ici le saga reducer de l'evenement RESET_APP
@@ -161,10 +162,26 @@ function* deleteUser({ id }) {
   }
 }
 
+function* searchUser({ wordKey }) {
+  const url1 = `${REACT_APP_BASE_URL}/users/search?email=${wordKey?.email}&surname=${wordKey.nom}`;
+  try {
+    const result = yield getUnauthRequest(url1);
+
+    if (result.success) {
+      yield put({ type: types.SEARCH_USER_SUCCESS, payload: result.data });
+    } else {
+      yield put({ type: types.SEARCH_USER_FAILLED, payload: result.message });
+    }
+  } catch (error) {
+    yield put({ type: types.SEARCH_USER_FAILLED, payload: error.message });
+  }
+}
+
 export default function* UserSaga() {
   yield takeLatest(types.LOGIN_REQUEST, login);
   yield takeLatest(types.GET_ALL_USERS, getAllUsers);
   yield takeLatest(types.POST_USER_REQUEST, postUser);
   yield takeLatest(types.UPDATE_USER_REQUEST, updateUser);
   yield takeLatest(types.DELETE_USER_REQUEST, deleteUser);
+  yield takeLatest(types.SEARCH_USER_REQUEST, searchUser);
 }

@@ -114,7 +114,7 @@ function* postPraticien({ praticien }) {
     job: praticien?.job,
     timeSlot: convertIndexIntoNumber(praticien?.timeSlot),
     active: praticien.active ? 1 : 2,
-    affectation: [praticien?.affectation],
+    // affectation: [praticien?.affectation],
     isPraticien: true,
   };
   try {
@@ -155,8 +155,8 @@ function* updatePraticien({ praticien }) {
     job: praticien?.job,
     timeSlot: convertIndexIntoNumber(praticien?.timeSlot),
     active: parseInt(praticien.active, 10) === 1,
-    groups: praticien?.groups,
-    affectation: [praticien?.affectation],
+    groups: [praticien?.groups],
+    // affectation: [praticien?.affectation],
     isPraticien: true,
   };
   try {
@@ -209,10 +209,26 @@ function* deletePraticien({ id }) {
   }
 }
 
+function* searchPraticien({ wordKey }) {
+  const url1 = `${REACT_APP_BASE_URL}/users/search?email=${wordKey?.m?.email}&surname=${wordKey?.m?.nom}`;
+  try {
+    const result = yield getUnauthRequest(url1);
+
+    if (result.success) {
+      yield put({ type: types.SEARCH_PRATICIEN_SUCCESS, payload: result.data });
+    } else {
+      yield put({ type: types.SEARCH_PRATICIEN_FAILLED, payload: result.message });
+    }
+  } catch (error) {
+    yield put({ type: types.SEARCH_PRATICIEN_FAILLED, payload: error.message });
+  }
+}
+
 export default function* PraticiensSaga() {
   yield takeLatest(types.GET_PRATICIENS_REQUEST, getPraticiens);
   yield takeLatest(types.GET_ALL_PRATICIENS_REQUEST, getAllPraticiens);
   yield takeLatest(types.POST_PRATICIEN_REQUEST, postPraticien);
   yield takeLatest(types.UPDATE_PRATICIEN_REQUEST, updatePraticien);
   yield takeLatest(types.DELETE_PRATICIEN_REQUEST, deletePraticien);
+  yield takeLatest(types.SEARCH_PRATICIEN_REQUEST, searchPraticien);
 }

@@ -106,6 +106,23 @@ const PraticiensReducer = (state = initialState, action = undefined) => {
         deletingPraticien: false,
         errordeletingPraticien: action.payload,
       };
+    case types.SEARCH_PRATICIEN_REQUEST:
+      return {
+        ...state,
+        allPratloading: true,
+      };
+    case types.SEARCH_PRATICIEN_SUCCESS:
+      return {
+        ...state,
+        allPratloading: false,
+        praticiens: action.payload
+      }
+    case types.SEARCH_PRATICIEN_FAILLED:
+      return {
+        ...state,
+        allPratloading: false,
+        message: action.payload.error
+      }
     default:
       return state;
   }

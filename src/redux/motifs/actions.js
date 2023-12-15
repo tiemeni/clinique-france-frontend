@@ -4,6 +4,7 @@ import {
   GET_MOTIFS_BY_SPECS,
   POST_MOTIF_REQUEST,
   UPDATING_MOTIF_REQUEST,
+  SEARCH_MOTIF_REQUEST
 } from './types';
 
 export const getAllMotifs = () => ({
@@ -28,4 +29,9 @@ export const deleteMotif = (id) => ({
 export const getMotifsByIdSpec = id => ({
   type: GET_MOTIFS_BY_SPECS,
   id
+})
+
+export const searchMotif = (wordKey) => ({
+  type: SEARCH_MOTIF_REQUEST,
+  wordKey
 })

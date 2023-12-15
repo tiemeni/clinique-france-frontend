@@ -9,9 +9,10 @@ import TableGenerator from '../../layouts/TableGenerator';
 import { dataUSer } from '../../utils/dataFields';
 import {
   deleteUser,
-  filterOnUsers,
+  // filterOnUsers,
   getAllUser,
-  unFilterOnUsers,
+  searchUser,
+  // unFilterOnUsers,
 } from '../../redux/user/actions';
 
 function UserPage() {
@@ -25,18 +26,34 @@ function UserPage() {
     dispatch(deleteUser(id));
   };
 
-  const handlePost = (data) => {
-    dispatch(filterOnUsers(data));
+  // const handlePost = (data) => {
+  //   dispatch(filterOnUsers(data));
+  // };
+
+  const cle = true;
+  const type='USER';
+
+  const handlePost = (m) => {
+  
+    if(m !== null ){
+      console.log('=== > m in if ', m)
+
+      dispatch(searchUser({nom : m?.nom, email: m?.email}));
+    }
+    
+     // 
   };
 
-  const handleClearSearchForm = () => {
-    dispatch(unFilterOnUsers());
-  };
+  // const handleClearSearchForm = () => {
+  //   dispatch(unFilterOnUsers());
+  // };
 
   return (
     <Box p={5} spacing={5}>
       <RessourceSearchLayout
-        handleClearSearchForm={() => handleClearSearchForm()}
+        cle={cle}
+        type={type}
+        // handleClearSearchForm={() => handleClearSearchForm()}
         handlePost={handlePost}
         data={utilisateur}
       />

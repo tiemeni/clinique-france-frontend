@@ -4,7 +4,7 @@ import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import FormGenerator from '../../../layouts/FormGenerator';
 import { upsertSpeciality } from '../../../utils/data';
-import { postSpeciality, updateSpec } from '../../../redux/speciality/actions';
+import { getAllSpecialities, postSpeciality, updateSpec } from '../../../redux/speciality/actions';
 
 const specialityAPIformatter = (data) => ({
   idProfession: data?.idProfession,
@@ -23,6 +23,13 @@ function CreateSpeciality() {
   const [launchSpeciality, setLaunchSpeciality] = useState(true);
   const [specToUpdate, setSpecToUpdate] = useState({});
   const [data] = useState(upsertSpeciality);
+
+
+    useEffect(() => {
+      dispatch(getAllSpecialities());
+    });
+
+
   useEffect(() => {
     specs.forEach((m) => {
       if (m?._id === id) {
@@ -30,7 +37,7 @@ function CreateSpeciality() {
         setLaunchSpeciality(false);
       }
     });
-  }, []);
+  });
 
   if (id && launchSpeciality) {
     return 'launching specs';

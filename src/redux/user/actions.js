@@ -1,9 +1,11 @@
+
 import {
   DELETE_USER_REQUEST,
   FILTERING_ON_USERS,
   GET_ALL_USERS,
   LOGIN_REQUEST,
   POST_USER_REQUEST,
+  SEARCH_USER_REQUEST,
   UNFILTERED_ON_USERS,
   UPDATE_USER_REQUEST,
 } from './types';
@@ -41,3 +43,8 @@ export const filterOnUsers = (payload) => ({
 export const unFilterOnUsers = () => ({
   type: UNFILTERED_ON_USERS,
 });
+
+export const searchUser=(wordKey) => ({
+  type: SEARCH_USER_REQUEST,
+  wordKey
+})
