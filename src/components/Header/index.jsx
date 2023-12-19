@@ -27,8 +27,8 @@ import { disconnectUser } from '../../redux/common/actions';
 
 function NavigationBar() {
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
-  const dispatch = useDispatch()
-  const[username] = useState(localStorage.getItem("username"));
+  const dispatch = useDispatch();
+  const [username] = useState(localStorage.getItem('username'));
 
   useEffect(() => {
     const handleResize = () => {
@@ -137,11 +137,14 @@ function NavigationBar() {
       alignItems="center"
     >
       <VStack justifyItems="center">
-      <Link to="/content" style={{borderColor:"red"}}>
-          <Text fontSize={windowWidth < 958 ? 16 : 20} style={{...styles.textLogo, borderColor:"red"}}>
+        <Link to="/content" style={{ borderColor: 'red' }}>
+          <Text
+            fontSize={windowWidth < 958 ? 16 : 20}
+            style={{ ...styles.textLogo, borderColor: 'red' }}
+          >
             Clinique de France
           </Text>
-      </Link>
+        </Link>
         <Text style={styles.dateText}>{getDateAndTime()}</Text>
       </VStack>
       {windowWidth > 758 ? (
@@ -170,31 +173,31 @@ function NavigationBar() {
               <MdMail size={20} />
             </Box>
             <Box style={styles.boxLeftIcon}>
-            <Menu>
-          <MenuButton>
-            <AiFillSetting size={24} />
-          </MenuButton>
-          <MenuList zIndex={9999} color="blue.400">
-            <Link to="/content/patient">
-              <MenuItem>Comptes patients</MenuItem>
-            </Link>
-            <Link to="/content/user">
-              <MenuItem>Utilisateurs</MenuItem>
-            </Link>
-            <Link to="/content/praticien">
-              <MenuItem>Fiches praticiens</MenuItem>
-            </Link>
-            <Link to="/content/speciality">
-              <MenuItem>Spécialités</MenuItem>
-            </Link>
-            <Link to="/content/motif">
-              <MenuItem>Motifs de rendez-vous</MenuItem>
-            </Link>
-            <Link to="/content">
-              <MenuItem>Parametres avancés</MenuItem>
-            </Link>
-          </MenuList>
-        </Menu>
+              <Menu>
+                <MenuButton>
+                  <AiFillSetting size={24} />
+                </MenuButton>
+                <MenuList zIndex={9999} color="blue.400">
+                  <Link to="/content/patient">
+                    <MenuItem>Comptes patients</MenuItem>
+                  </Link>
+                  <Link to="/content/user">
+                    <MenuItem>Utilisateurs</MenuItem>
+                  </Link>
+                  <Link to="/content/praticien">
+                    <MenuItem>Fiches praticiens</MenuItem>
+                  </Link>
+                  <Link to="/content/speciality">
+                    <MenuItem>Spécialités</MenuItem>
+                  </Link>
+                  <Link to="/content/motif">
+                    <MenuItem>Motifs de rendez-vous</MenuItem>
+                  </Link>
+                  <Link to="/content">
+                    <MenuItem>Parametres avancés</MenuItem>
+                  </Link>
+                </MenuList>
+              </Menu>
             </Box>
             <Box
               backgroundColor="black"
@@ -215,7 +218,9 @@ function NavigationBar() {
               </HStack>
             </MenuButton>
             <MenuList color="blue.400">
-                <MenuItem onClick={() => dispatch(disconnectUser())} color="red">Deconnexion</MenuItem>
+              <MenuItem onClick={() => dispatch(disconnectUser())} color="red">
+                Deconnexion
+              </MenuItem>
             </MenuList>
           </Menu>
         ) : null}

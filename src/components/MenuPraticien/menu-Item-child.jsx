@@ -9,7 +9,8 @@ import {
   MenuList,
   Text,
 } from '@chakra-ui/react';
-import { UilPlus, UilCog, UilEdit } from '@iconscout/react-unicons';
+import { Link } from 'react-router-dom';
+import { UilCog } from '@iconscout/react-unicons';
 import PropTypes from 'prop-types';
 import { formatUserName } from '../../utils/helpers';
 
@@ -70,38 +71,15 @@ function MenuItemChild(props) {
           />
           <MenuList minW="12em" zIndex={10}>
             <MenuItem>
+              <Link to={`/content/praticien/upsert/${_id}`}>
               <Text fontSize="sm">Fiche praticien</Text>
-            </MenuItem>
-            <MenuItem>
-              <Text fontSize="sm">Lieu</Text>
+              </Link>
             </MenuItem>
             <MenuItem>
               <Text fontSize="sm">Consignes</Text>
             </MenuItem>
-            <MenuItem>
-              <Text fontSize="sm">Planning</Text>
-            </MenuItem>
-            <MenuItem>
-              <Text fontSize="sm">Motifs de RDV</Text>
-            </MenuItem>
-            <MenuItem>
-              <Text fontSize="sm">Absences</Text>
-            </MenuItem>
           </MenuList>
         </Menu>
-        <IconButton
-          onClick={() => console.log(_id)}
-          size="xs"
-          variant="unstyled"
-          icon={<UilPlus color="black" size={_iconSizesm} />}
-        />
-        <IconButton
-          onClick={(e) => e.stopPropagation()}
-          size="xs"
-          variant="unstyled"
-          icon={<UilEdit color="black" size={_iconSizesm} />}
-          aria-label="consignes"
-        />
       </HStack>
     </HStack>
   );

@@ -31,10 +31,9 @@ import { UilUser, UilHistoryAlt, UilPen } from '@iconscout/react-unicons';
 import { useDispatch, useSelector } from 'react-redux';
 import { Formik, Field } from 'formik';
 import moment from 'moment';
-import { onOpenDialog, onEventClick } from '../../redux/common/actions';
+import { onEventClick } from '../../redux/common/actions';
 import {
   onUpdateAppointment,
-  openReportModal,
 } from '../../redux/appointments/actions';
 import LoadingText from '../elements/WaitingMessage';
 
@@ -131,7 +130,6 @@ function FicheRdv() {
   const { isLoading, success, isFailed } = useSelector(
     (state) => state.Appointments,
   );
-  const { praticiens } = useSelector((state) => state.Praticiens);
   const allMotifs = useSelector((state) => state.Motifs.motifs);
   const patient = infoRdv?.patient ?? null;
   const dispatch = useDispatch();
@@ -357,67 +355,17 @@ function FicheRdv() {
                               </FormControl>
                             </VStack>
                             <VStack w="full" gap={5} mt={5}>
-                              <HStack justifyContent="center" w="full">
+                              <HStack justifyContent="start" w="full">
                                 <Button
                                   type="submit"
                                   size="md"
+                                  width="100%"
                                   colorScheme="primary"
                                   isLoading={isLoading}
                                   loadingText={LoadingText}
                                 >
                                   <Text fontSize="sm" fontWeight="normal">
                                     Modifier
-                                  </Text>
-                                </Button>
-                                <Button
-                                  colorScheme="primary"
-                                  variant="outline"
-                                  color="secondary.500"
-                                  size="md"
-                                  // onClick={onClose}
-                                  onClick={() => {
-                                    dispatch(
-                                      openReportModal({
-                                        isOpen: true,
-                                        id: infoRdv?._id,
-                                        idp: praticiens.find(
-                                          (p) =>
-                                            p.name.toLowerCase() ===
-                                            infoRdv.praticien
-                                              .split(' ')[0]
-                                              .toLowerCase(),
-                                        )?._id,
-                                        praticien: infoRdv?.praticien,
-                                        duration: infoRdv?.duree,
-                                      }),
-                                    );
-                                  }}
-                                  isDisabled={isLoading}
-                                  loadingText={LoadingText}
-                                >
-                                  <Text
-                                    fontSize="sm"
-                                    color="secondary.500"
-                                    fontWeight="normal"
-                                  >
-                                    Déplacer
-                                  </Text>
-                                </Button>
-                                <Button
-                                  colorScheme="primary"
-                                  variant="outline"
-                                  color="red.500"
-                                  size="md"
-                                  onClick={() => dispatch(onOpenDialog({ open: true, idRdv: infoRdv._id, mode: 'delete' }))}
-                                  isDisabled={isLoading}
-                                  loadingText={LoadingText}
-                                >
-                                  <Text
-                                    fontSize="sm"
-                                    color="red.500"
-                                    fontWeight="normal"
-                                  >
-                                    Supprimer
                                   </Text>
                                 </Button>
                               </HStack>

@@ -13,7 +13,7 @@ import {
   VStack,
 } from '@chakra-ui/react';
 import { useDispatch, useSelector } from 'react-redux';
-import logi from '../../assets/images/cliniqueDeFrance.png';
+import logi from '../../assets/images/icone 512-100.jpg';
 import { useDimensions } from '../../hooks/useDimensions';
 import styles from './style';
 import user from '../../assets/images/user.png';

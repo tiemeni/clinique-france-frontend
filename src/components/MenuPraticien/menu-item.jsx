@@ -6,17 +6,14 @@ import {
   AccordionPanel,
   Checkbox,
   HStack,
-  IconButton,
   Text,
   VStack,
 } from '@chakra-ui/react';
-import { UilPlus } from '@iconscout/react-unicons';
 import styles from './style';
 import MenuItemChild from './menu-Item-child';
 import { formatUserName } from '../../utils/helpers';
 
-const _spacing = 3;
-const _iconSize = 20;
+const _spacing = 1;
 
 function MenuItem(props) {
   const { professionName, selectedPractitioners, data, handleSelection } =
@@ -53,18 +50,11 @@ function MenuItem(props) {
             >
               {professionName}
             </Text>
-
-            <IconButton
-              onClick={(e) => e.stopPropagation()}
-              size="xs"
-              variant="ghost"
-              icon={<UilPlus color="black" size={_iconSize} />}
-            />
           </HStack>
         </AccordionButton>
       </HStack>
       <AccordionPanel py={_spacing} px={0}>
-        <VStack spacing={_spacing}>
+        <VStack spacing={_spacing} ml={5}>
           {data.map((practitioner) => (
             <MenuItemChild
               key={practitioner._id}
