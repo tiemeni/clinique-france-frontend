@@ -187,16 +187,16 @@ function MenuPraticien() {
           ) : (
             <Stack>
               <Stack width="97%" display="flex" flexDirection="row" mb="10px">
-                <Skeleton height="25px" width="90%" borderRadius={10} />
-                <Skeleton height="25px" width="25px" borderRadius="100%" />
+                <Skeleton height="20px" width="90%" borderRadius={10} />
+                <Skeleton height="20px" width="20px" borderRadius="100%" />
               </Stack>
               <Stack width="97%" display="flex" flexDirection="row" mb="10px">
-                <Skeleton height="25px" width="90%" borderRadius={10} />
-                <Skeleton height="25px" width="25px" borderRadius="100%" />
+                <Skeleton height="20px" width="90%" borderRadius={10} />
+                <Skeleton height="20px" width="20px" borderRadius="100%" />
               </Stack>
               <Stack width="97%" display="flex" flexDirection="row" mb="10px">
-                <Skeleton height="25px" width="90%" borderRadius={10} />
-                <Skeleton height="25px" width="25px" borderRadius="100%" />
+                <Skeleton height="20px" width="90%" borderRadius={10} />
+                <Skeleton height="20px" width="20px" borderRadius="100%" />
               </Stack>
             </Stack>
           )}

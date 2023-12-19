@@ -217,7 +217,7 @@ function NavigationBar() {
                 <IoMdArrowDropdown color="white" />
               </HStack>
             </MenuButton>
-            <MenuList color="blue.400">
+            <MenuList zIndex={9999} color="blue.400">
               <MenuItem onClick={() => dispatch(disconnectUser())} color="red">
                 Deconnexion
               </MenuItem>

@@ -34,7 +34,7 @@ function* getAllMotifs() {
 function* postMotif({ motif }) {
   const payload = {
     active: motif?.active === 1,
-    couleur: motif?.couleur,
+    couleur: `#${motif?.couleur}`,
     default_time: convertIndexIntoNumber(motif?.default_time),
     idLieux: [motif?.idLieux],
     idProfession: motif?.idProfession,
@@ -76,7 +76,7 @@ function* updateMotif({ motif }) {
     idProfession: motif.idProfession,
     idLieux: [motif.idLieux],
     idSpeciality: motif.idSpeciality,
-    couleur: motif.couleur,
+    couleur: `#${motif?.couleur}`,
     nom: motif.nom,
     label: motif.label,
     initiales: motif.initiales,

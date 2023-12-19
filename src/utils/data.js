@@ -958,7 +958,7 @@ export const upsertMotifs = {
         name: 'couleur',
         placeholder: 'couleur',
         required: true,
-        type: 'text',
+        type: 'couleur',
         id: 20,
       },
       {

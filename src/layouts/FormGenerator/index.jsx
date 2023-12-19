@@ -12,8 +12,9 @@ import {
   Stack,
   VStack,
 } from '@chakra-ui/react';
-import { useSelector } from 'react-redux';
-import { useDispatch } from 'react-redux';
+import './style.css';
+import { ColorPicker } from 'primereact/colorpicker';
+import { useSelector, useDispatch } from 'react-redux';
 import { useFormik } from 'formik';
 import { getAllMotifs } from '../../redux/motifs/actions';
 import { getAllUser } from '../../redux/user/actions';
@@ -101,41 +102,33 @@ function FormGenerator({
         : { ...formData },
     onSubmit: (values) => {
       if (handlePost) {
-        handlePost(values);
-        console.log('search ==> submit', values)
+         handlePost(values);
       } else {
-       
-        console.log('search ==> ', values)
         alert(JSON.stringify(values, null, 2));
       }
     },
-    
   });
 
   const clearForm = (key) => {
-    console.log('cle===============> 1', cle)
-    if(cle && type==='MOTIF'){
-      console.log('cle===============> ', cle)
+    if (cle && type === 'MOTIF') {
       formik.resetForm();
       dispatch(getAllMotifs());
-    }else if(cle && type==='USER'){
+    } else if (cle && type === 'USER') {
       formik.resetForm();
       dispatch(getAllUser());
-    }else if(cle && type==='SPECIALITE'){
+    } else if (cle && type === 'SPECIALITE') {
       formik.resetForm();
       dispatch(getAllSpecialities());
-    }else if(cle && type=== 'PRATICIEN'){
+    } else if (cle && type === 'PRATICIEN') {
       formik.resetForm();
       dispatch(getAllPraticiens());
-    }
-    else{
+    } else {
       data.dataFields.callBacks[key].action();
     }
     // handleClearSearchForm();
   };
 
   const generatePickListData = (name, e) => {
-    
     let result;
     switch (name) {
       case 'civility':
@@ -324,17 +317,45 @@ function FormGenerator({
                       placeholder={e.placeholder}
                       // value={formData[e.name]}
                       required={e.required}
-                      // {...register(e.name, {
-                      //   required: e.required
-                      //     ? 'ce champs est requi'
-                      //     : false,
-                      // })}
-                      // onChange={(event) =>
-                      //   handleChange(event, e.name?.toString())
-                      // }
                       onChange={formik.handleChange}
                       value={formik.values[e.name]}
                     />
+                  </Stack>
+                  {/* <FormErrorMessage marginLeft="210px">
+                    {errors[e.name] && errors[e.name].message}
+                  </FormErrorMessage> */}
+                </FormControl>
+              );
+              break;
+            case 'couleur':
+              result = (
+                <FormControl
+                  // isInvalid={errors[e.name]}
+                  marginBottom={5}
+                  key={e.id}
+                  isRequired={e.required}
+                >
+                  <Stack
+                    style={{
+                      ...flexDesign,
+                      display: 'flex',
+                      flexDirection: 'row',
+                      alignItems: 'center',
+                    }}
+                  >
+                    <FormLabel width="250px" textAlign="right" htmlFor={e.name}>
+                      {e.placeholder}
+                    </FormLabel>
+                    <Stack width="100%">
+                      <ColorPicker
+                      defaultColor='#C5C5C5'
+                        format="hex"
+                        id={e.name}
+                        name={e.name}
+                        value={formik.values[e.name]}
+                        onChange={formik.handleChange}
+                      />
+                    </Stack>
                   </Stack>
                   {/* <FormErrorMessage marginLeft="210px">
                     {errors[e.name] && errors[e.name].message}
@@ -660,7 +681,7 @@ function FormGenerator({
         <Box w="100%" paddingLeft="200px">
           {Object.keys(data.dataFields.callBacks)?.map((key, i) => (
             <Button
-              type={i === 0 ? 'submit' :null }
+              type={i === 0 ? 'submit' : null}
               isLoading={
                 i === 0 &&
                 (loadingPostLieu ||
@@ -678,7 +699,7 @@ function FormGenerator({
               }
               onClick={() =>
                 i === 1 && cle
-                  ? clearForm(key) 
+                  ? clearForm(key)
                   : data.dataFields.callBacks[key].action(() =>
                       console.log('worked'),
                     )

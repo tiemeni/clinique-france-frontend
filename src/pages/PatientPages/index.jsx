@@ -22,10 +22,7 @@ function PatientPage() {
   };
 
   const handlePost = (m) => {
-  
-    if(m !== null ){
-      console.log('=== > m in if ', m.nom)
-      
+    if(m !== null ){      
       dispatch(searchPatient({nom : m?.nom, email: m.email}));
     }}
 

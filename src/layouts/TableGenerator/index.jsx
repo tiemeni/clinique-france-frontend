@@ -6,6 +6,8 @@ import {
   MenuButton,
   MenuItem,
   MenuList,
+  Skeleton,
+  Stack,
   Table,
   TableContainer,
   Tbody,
@@ -164,7 +166,11 @@ function TableGenerator({
   }, [praticiens, users, patients, lieux, motifs, specialities]);
 
   if (loading) {
-    return 'loading...';
+    return <Stack width="100%" display="flex" flexDirection="column" mb="10px">
+      <Skeleton height="35px" width="100%" borderRadius={3} />
+      <Skeleton height="40px" width="100%" borderRadius={10} />
+      <Skeleton height="40px" width="100%" borderRadius={10} />
+    </Stack>
   }
 
   return (
@@ -223,7 +229,7 @@ function TableGenerator({
                 (col, i) =>
                   i > 0 && (
                     <Td fontSize="sm" key={`${r[col.fname]}${i}`}>
-                      {r[col.fname]}
+                      {col.fname !== "couleur" ? r[col.fname] : <Stack width="45px"backgroundColor={r[col.fname]}  height="25px"/>}
                     </Td>
                   ),
               )}
