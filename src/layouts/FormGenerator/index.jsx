@@ -22,6 +22,7 @@ import { getAllMotifs } from '../../redux/motifs/actions';
 import { getAllUser } from '../../redux/user/actions';
 import { getAllSpecialities } from '../../redux/speciality/actions';
 import { getAllPraticiens } from '../../redux/praticiens/actions';
+import { formatDataForConsignePicKlist } from '../../utils/helpers';
 // import { searchMotif } from '../../redux/motifs/actions';
 
 function FormGenerator({
@@ -400,7 +401,7 @@ function FormGenerator({
                         id={e.name}
                         value={formik.values[e.name]}
                         onChange={(ev) => formik.setFieldValue(e.name,ev)}
-                        options={consignes}
+                        options={formatDataForConsignePicKlist(consignes)}
                         className="basic-multi-select"
                         classNamePrefix="select"
                       />
@@ -433,6 +434,7 @@ function FormGenerator({
                     </FormLabel>
                     <Stack width="100%">
                       <ColorPicker
+                      style={{width: "25px"}}
                         defaultColor="#C5C5C5"
                         format="hex"
                         id={e.name}

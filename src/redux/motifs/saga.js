@@ -42,7 +42,7 @@ function* postMotif({ motif }) {
     nom: motif?.nom,
     idSpeciality: motif?.idSpeciality,
     reference: motif?.reference,
-    idConsigne: motif?.idConsigne?.map(({_id}) => _id)
+    idConsigne: motif?.idConsigne?.map(({value}) => value)
   };
   try {
     const result = yield postUnauthRequest(
@@ -82,7 +82,7 @@ function* updateMotif({ motif }) {
     label: motif.label,
     initiales: motif.initiales,
     active: motif.active === '1',
-    idConsigne: motif?.idConsigne?.map(({_id}) => _id)
+    idConsigne: motif?.idConsigne?.map(({value}) => value)
   };
   try {
     const result = yield putUnauthRequest(

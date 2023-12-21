@@ -7,6 +7,7 @@ import { upsertMotifs } from '../../../utils/data';
 import { getAllSpecialities } from '../../../redux/speciality/actions';
 import { getAllLieux } from '../../../redux/lieux/actions';
 import { postMotif, updateMotif } from '../../../redux/motifs/actions';
+import { formatDataForConsignePicKlist } from '../../../utils/helpers';
 
 const motifAPIformatter = (data) => ({
   nom: data.nom,
@@ -20,7 +21,7 @@ const motifAPIformatter = (data) => ({
   idSpeciality: data.idSpeciality,
   reference: data.reference,
   couleur: data?.couleur,
-  idConsigne: data?.idConsigne
+  idConsigne: formatDataForConsignePicKlist(data?.idConsigne)
 });
 
 function CreateMotif() {

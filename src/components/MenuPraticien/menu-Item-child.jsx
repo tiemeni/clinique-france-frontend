@@ -75,9 +75,6 @@ function MenuItemChild(props) {
               <Text fontSize="sm">Fiche praticien</Text>
               </Link>
             </MenuItem>
-            <MenuItem>
-              <Text fontSize="sm">Consignes</Text>
-            </MenuItem>
           </MenuList>
         </Menu>
       </HStack>

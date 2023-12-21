@@ -161,3 +161,8 @@ export const ajouterDuree = (date, duree) => {
   // Renvoyer la nouvelle date au format "hh:mm"
   return `${nouvelleHeureFormattee}:${nouveauMinuteFormattee}`;
 };
+
+export const formatDataForConsignePicKlist = data => data.map((c) =>({
+      label: c?.label,
+      value: c?._id
+    }))
