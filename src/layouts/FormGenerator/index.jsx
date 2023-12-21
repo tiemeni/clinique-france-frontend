@@ -434,7 +434,7 @@ function FormGenerator({
                     </FormLabel>
                     <Stack width="100%">
                       <ColorPicker
-                      style={{width: "25px"}}
+                      style={{width: "25px", overflowX: 'hidden'}}
                         defaultColor="#C5C5C5"
                         format="hex"
                         id={e.name}
