@@ -193,6 +193,9 @@ function NavigationBar() {
                   <Link to="/content/motif">
                     <MenuItem>Motifs de rendez-vous</MenuItem>
                   </Link>
+                  <Link to="/content/consigne">
+                    <MenuItem>consignes</MenuItem>
+                  </Link>
                   <Link to="/content">
                     <MenuItem>Parametres avancés</MenuItem>
                   </Link>

@@ -8,6 +8,7 @@ import { motif } from '../../utils/data';
 import { dataMotifs } from '../../utils/dataFields';
 import TableGenerator from '../../layouts/TableGenerator';
 import { deleteMotif, getAllMotifs,searchMotif  } from '../../redux/motifs/actions';
+import { getAllConsignes } from '../../redux/consignes/actions';
 
 function MotifsPage() {
   const dispatch = useDispatch();
@@ -15,6 +16,7 @@ function MotifsPage() {
 
   useEffect(() => {
     dispatch(getAllMotifs());
+    dispatch(getAllConsignes());
   }, []);
 
   const handleDeleteEntity = (id) => {
@@ -25,14 +27,9 @@ function MotifsPage() {
  const type='MOTIF';
 
   const handlePost = (m) => {
-  
     if(m !== null ){
-      console.log('=== > m in if ', m)
-
       dispatch(searchMotif({nom : m?.nom, couleur: m?.couleur}));
     }
-    
-     // 
   };
 
  

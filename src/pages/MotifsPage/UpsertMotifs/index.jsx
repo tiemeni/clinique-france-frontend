@@ -20,6 +20,7 @@ const motifAPIformatter = (data) => ({
   idSpeciality: data.idSpeciality,
   reference: data.reference,
   couleur: data?.couleur,
+  idConsigne: data?.idConsigne
 });
 
 function CreateMotif() {

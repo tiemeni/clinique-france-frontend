@@ -15,6 +15,7 @@ import { getAllLieux } from '../../redux/lieux/actions';
 import { getAllMotifs } from '../../redux/motifs/actions';
 import { closePraticienPanel, getStructureInfo, verifyToken } from '../../redux/common/actions';
 import { useDimensions } from '../../hooks/useDimensions';
+import ConsigneRouter from './ConsigneRouter';
 
 function ContentRouter() {
   const dispatch = useDispatch();
@@ -52,6 +53,7 @@ function ContentRouter() {
       <Routes>
         <Route path="/" element={<MainPage />} />
         <Route path="/praticien/*" element={<PraticienRouter />} />
+        <Route path="/consigne/*" element={<ConsigneRouter />} />
         <Route path="/user/*" element={<UserRouter />} />
         <Route path="/patient/*" element={<PatientRouter />} />
         <Route path="/speciality/*" element={<SpecialityRouter />} />

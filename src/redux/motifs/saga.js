@@ -42,6 +42,7 @@ function* postMotif({ motif }) {
     nom: motif?.nom,
     idSpeciality: motif?.idSpeciality,
     reference: motif?.reference,
+    idConsigne: motif?.idConsigne?.map(({_id}) => _id)
   };
   try {
     const result = yield postUnauthRequest(
@@ -76,11 +77,12 @@ function* updateMotif({ motif }) {
     idProfession: motif.idProfession,
     idLieux: [motif.idLieux],
     idSpeciality: motif.idSpeciality,
-    couleur: `#${motif?.couleur}`,
+    couleur: motif?.couleur?.indexOf("#") !== -1 ? `${motif?.couleur}` : `#${motif?.couleur}`,
     nom: motif.nom,
     label: motif.label,
     initiales: motif.initiales,
     active: motif.active === '1',
+    idConsigne: motif?.idConsigne?.map(({_id}) => _id)
   };
   try {
     const result = yield putUnauthRequest(

@@ -9,6 +9,7 @@ import SpecialityReducers from '../speciality/reducers';
 import LieuxReducers from '../lieux/reducers';
 import PatientReducers from '../patient/reducers';
 import MotifReducers from '../motifs/reducers';
+import ConsigneReducers from '../consignes/reducers';
 
 const rootReducer = combineReducers({
   Common: CommonReducer,
@@ -21,6 +22,7 @@ const rootReducer = combineReducers({
   Lieux: LieuxReducers,
   Patient: PatientReducers,
   Motifs: MotifReducers,
+  Consignes: ConsigneReducers
 });
 
 export default rootReducer;

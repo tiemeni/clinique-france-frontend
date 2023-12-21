@@ -9,6 +9,7 @@ import LieuxSaga from '../lieux/saga';
 import PatientSaga from '../patient/saga';
 import MotifSaga from '../motifs/saga';
 import PraticiensSaga from '../praticiens/saga';
+import ConsignesSaga from '../consignes/saga';
 
 /**
 
@@ -28,5 +29,6 @@ export default function* Sagas() {
     LieuxSaga(),
     PatientSaga(),
     MotifSaga(),
+    ConsignesSaga()
   ]);
 }

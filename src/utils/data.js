@@ -325,6 +325,33 @@ export const lieu = {
   },
 };
 
+export const consigne = {
+  dataFields: {
+    callBacks: {
+      onUp: {
+        action: (d) => console.log(d),
+        label: 'Rechercher',
+        color: '#04B7C9',
+      },
+      onBack: {
+        action: () => console.log('on back'),
+        label: 'Annuler',
+        color: 'red',
+      },
+    },
+    data: [
+      {
+        name: 'label',
+        placeholder: 'Label',
+        required: true,
+        type: 'text',
+        id: 1,
+      },
+    ],
+  },
+};
+
+
 export const motif = {
   dataFields: {
     callBacks: {
@@ -916,7 +943,7 @@ export const upsertMotifs = {
       {
         name: 'default_time',
         placeholder: 'Temps par defaut du motif',
-        required: false,
+        required: true,
         type: 'picklist',
         id: 3,
         options: [
@@ -962,29 +989,10 @@ export const upsertMotifs = {
         id: 20,
       },
       {
-        name: 'idProfession',
-        placeholder: 'Profession liée',
-        required: true,
-        type: 'picklist',
-        id: 9,
-        options: [
-          {
-            _id: '64c3c11375bd57ec005d880a',
-            label: 'Specialiste',
-            nom: 'Specialiste',
-          },
-          {
-            _id: '64c3c10875bd57ec005d8807',
-            label: 'Generaliste',
-            nom: 'Generaliste',
-          },
-        ],
-      },
-      {
-        name: 'idLieux',
-        placeholder: 'Lieu lié',
+        name: 'idConsigne',
+        placeholder: 'consigne(s) liée(s)',
         required: false,
-        type: 'picklist',
+        type: 'multiselect',
         id: 10,
         options: [],
       },
@@ -1136,6 +1144,43 @@ export const upsertLieux = {
             _id: 2,
           },
         ],
+      },
+    ],
+  },
+};
+
+/**
+ * @description data for consignes
+ */
+
+export const upsertConsigne = {
+  dataFields: {
+    callBacks: {
+      onUp: {
+        action: (d) => console.log(d),
+        label: 'Enregistrer',
+        color: '#04B7C9',
+      },
+      onBack: {
+        action: () => window.history.back(),
+        label: 'Retour',
+        color: 'red',
+      },
+    },
+    data: [
+      {
+        name: 'label',
+        placeholder: 'Label',
+        required: true,
+        type: 'text',
+        id: 1,
+      },
+      {
+        name: 'content',
+        placeholder: 'contenu',
+        required: true,
+        type: 'textarea',
+        id: 3,
       },
     ],
   },

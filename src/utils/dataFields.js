@@ -79,6 +79,26 @@ export const dataLieux = {
   ],
 };
 
+export const dataConsignes = {
+  cols: [
+    { label: 'Actions', fname: 'Action' },
+    { label: 'Label', fname: 'label' },
+    { label: 'content', fname: 'content' },
+  ],
+  rows: [],
+  actions: [
+    {
+      label: 'modifier',
+      action: () => console.log('modifier'),
+      editePath: '/content/consigne/upsert/',
+    },
+    {
+      label: 'supprimer',
+      action: (fn) => fn(),
+    },
+  ],
+};
+
 export const dataMotifs = {
   cols: [
     { label: 'Actions', fname: 'Action' },

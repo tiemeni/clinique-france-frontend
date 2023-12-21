@@ -41,6 +41,8 @@ function TableGenerator({
   const loadingUsers = useSelector((state) => state.User.loadingUsers);
   const gettingAllLieux = useSelector((state) => state.Lieux.gettingAllLieux);
   const loadingPatients = useSelector((state) => state.Patient.loadingPatients);
+  const gettingAllConsigne = useSelector((state) => state.Consignes.gettingAllConsigne);
+  const consignes = useSelector((state) => state.Consignes.consignes);
   const gettingAllSpecs = useSelector(
     (state) => state.Specialities.gettingAllSpecs,
   );
@@ -105,6 +107,13 @@ function TableGenerator({
           result = specialities;
         }
         break;
+        case 'consigne':
+          if (loadingRessource) {
+            result = [];
+          } else {
+            result = consignes;
+          }
+        break;
       default:
         break;
     }
@@ -146,6 +155,10 @@ function TableGenerator({
         specialities.forEach((e) => {
           formatedData.push(e);
         });
+      } else if (entityType === 'consigne') {
+        consignes.forEach((e) => {
+          formatedData.push(e);
+        });
       }
       ancien = { ...v, rows: formatedData };
       return { ...ancien };
@@ -158,12 +171,13 @@ function TableGenerator({
           !!loadingMotifs ||
           !!loadingPatients ||
           !!loadingUsers ||
-          !!allPratloading,
+          !!allPratloading ||
+          !!gettingAllConsigne
       )
     ) {
       setLoading(false);
     }
-  }, [praticiens, users, patients, lieux, motifs, specialities]);
+  }, [praticiens, users, patients, lieux, motifs, specialities, consignes]);
 
   if (loading) {
     return <Stack width="100%" display="flex" flexDirection="column" mb="10px">

@@ -10,9 +10,11 @@ import {
   RadioGroup,
   Select,
   Stack,
+  Textarea,
   VStack,
 } from '@chakra-ui/react';
 import './style.css';
+import  ReactSelectContainer from 'react-select';
 import { ColorPicker } from 'primereact/colorpicker';
 import { useSelector, useDispatch } from 'react-redux';
 import { useFormik } from 'formik';
@@ -54,10 +56,17 @@ function FormGenerator({
   const updatingUser = useSelector((state) => state.User.updatingUser);
   const postingMotif = useSelector((state) => state.Motifs.postingMotif);
   const updatingMotif = useSelector((state) => state.Motifs.updatingMotif);
+  const creatingConsignes = useSelector(
+    (state) => state.Consignes.creatingConsigne,
+  );
+  const updatingConsigne = useSelector(
+    (state) => state.Consignes.updatingConsigne,
+  );
   const [dataCp, setDataCp] = useState({});
   const civilities = useSelector((state) => state.Civilities.civilities);
   const groupes = useSelector((state) => state.Groupes.groups);
   const specialities = useSelector((state) => state.Specialities.specialities);
+  const consignes = useSelector((state) => state.Consignes.consignes);
   const lieux = useSelector((state) => state.Lieux.lieux);
   const dispatch = useDispatch();
   const [formData, setFormData] = useState(() => {
@@ -103,6 +112,7 @@ function FormGenerator({
     onSubmit: (values) => {
       if (handlePost) {
          handlePost(values);
+         // alert(JSON.stringify(values, null, 2));
       } else {
         alert(JSON.stringify(values, null, 2));
       }
@@ -327,6 +337,81 @@ function FormGenerator({
                 </FormControl>
               );
               break;
+            case 'textarea':
+              result = (
+                <FormControl
+                  // isInvalid={errors[e.name]}
+                  marginBottom={5}
+                  key={e.id}
+                  isRequired={e.required}
+                >
+                  <Stack
+                    style={{
+                      ...flexDesign,
+                      display: 'flex',
+                      flexDirection: 'row',
+                      alignItems: 'center',
+                    }}
+                  >
+                    <FormLabel width="250px" textAlign="right" htmlFor={e.name}>
+                      {e.placeholder}
+                    </FormLabel>
+                    <Textarea
+                      id={e.name}
+                      placeholder={e.placeholder}
+                      // value={formData[e.name]}
+                      required={e.required}
+                      onChange={formik.handleChange}
+                      value={formik.values[e.name]}
+                    />
+                  </Stack>
+                  {/* <FormErrorMessage marginLeft="210px">
+                    {errors[e.name] && errors[e.name].message}
+                  </FormErrorMessage> */}
+                </FormControl>
+              );
+              break;
+            case 'multiselect':
+              result = (
+                <FormControl
+                  // isInvalid={errors[e.name]}
+                  marginBottom={5}
+                  key={e.id}
+                  isRequired={e.required}
+                >
+                  <Stack
+                    style={{
+                      ...flexDesign,
+                      display: 'flex',
+                      flexDirection: 'row',
+                      alignItems: 'center',
+                    }}
+                  >
+                    <FormLabel width="250px" textAlign="right" htmlFor={e.name}>
+                      {e.placeholder}
+                    </FormLabel>
+                    <Stack width="100%">
+                      <ReactSelectContainer
+                        isMulti
+                        closeMenuOnSelect
+                        multiple
+                        placeholder="consignes liees"
+                        name={e.name}
+                        id={e.name}
+                        value={formik.values[e.name]}
+                        onChange={(ev) => formik.setFieldValue(e.name,ev)}
+                        options={consignes}
+                        className="basic-multi-select"
+                        classNamePrefix="select"
+                      />
+                    </Stack>
+                  </Stack>
+                  {/* <FormErrorMessage marginLeft="210px">
+                    {errors[e.name] && errors[e.name].message}
+                  </FormErrorMessage> */}
+                </FormControl>
+              );
+              break;
             case 'couleur':
               result = (
                 <FormControl
@@ -348,7 +433,7 @@ function FormGenerator({
                     </FormLabel>
                     <Stack width="100%">
                       <ColorPicker
-                      defaultColor='#C5C5C5'
+                        defaultColor="#C5C5C5"
                         format="hex"
                         id={e.name}
                         name={e.name}
@@ -690,6 +775,8 @@ function FormGenerator({
                   postingPatient ||
                   postingUser ||
                   postingPraticien ||
+                  creatingConsignes ||
+                  updatingConsigne ||
                   updatingUser ||
                   UpdatingPatient ||
                   UpdatingPraticien ||
