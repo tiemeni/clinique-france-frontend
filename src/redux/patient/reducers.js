@@ -79,18 +79,18 @@ const PatientReducers = (state = initialState, action = undefined) => {
     case types.SEARCH_PATIENT_REQUEST:
       return {
         ...state,
-        loadingPatients: true
+        searchpat: true
       };
     case types.SEARCH_PATIENT_SUCCESS:
       return {
         ...state,
         patients: action.payload,
-        loadingPatients: false
+        searchpat: false
       };
     case types.SEARCH_PATIENT_FAILLED: 
       return {
         ...state,
-        loadingPatients: false
+        searchpat: false
       };  
     default:
       return state;

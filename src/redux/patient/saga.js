@@ -127,11 +127,13 @@ function* deletePatient({ id }) {
   }
 }
 
-function* searchPatient({ payload }){
-  const result = yield getUnauthRequest(`${process.env.REACT_APP_BASE_URL}/patients/search?name=${payload.name}&email=${payload.email}`);
+function* searchPatient({ wordKey }){
+  const result = yield getUnauthRequest(`${process.env.REACT_APP_BASE_URL}/patients/search?email=${wordKey?.m?.email}&surname=${wordKey?.m?.nom}`);
+  console.log(result)
 
  try {
   if(result.success){
+    console.log('sucess ...')
     yield put({type: types.SEARCH_PATIENT_SUCCESS, payload: result.data});
   }else{
     yield put({ type: types.SEARCH_PATIENT_FAILLED, payload: result.message})

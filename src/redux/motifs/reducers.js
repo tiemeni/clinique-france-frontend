@@ -85,18 +85,18 @@ const MotifReducers = (state = initialState, action = undefined) => {
     case types.SEARCH_MOTIF_REQUEST:
       return {
         ...state,
-        loadingMotifs: true,
+        searchMotif: true,
       };
     case types.SEARCH_MOTIF_SUCCESS:
       return{
         ...state,
         motifs: action.payload,
-        loadingMotifs: false,
+        searchMotif: false,
       };  
     case types.SEARCH_MOTIF_FAILLED:
       return {
         ...state,
-        loadingMotifs: false,
+        searchMotif: false,
       };  
     default:
       return state;

@@ -21,17 +21,19 @@ function PatientPage() {
     dispatch(deletePatient(id));
   };
 
+  const cle=true;
+  const type='PATIENT';
   const handlePost = (m) => {
   
     if(m !== null ){
       console.log('=== > m in if ', m.nom)
       
-      dispatch(searchPatient({nom : m?.nom, email: m.email}));
+      dispatch(searchPatient({ m }));
     }}
 
   return (
     <Box p={5} spacing={5}>
-      <RessourceSearchLayout data={praticien} handlePost={handlePost}/>
+      <RessourceSearchLayout data={praticien} cle={cle} type={type} handlePost={handlePost}/>
       <p style={{ marginTop: 15 }}>
         {patients.length} patients correspondent a votre recherche
       </p>

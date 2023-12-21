@@ -109,18 +109,18 @@ const PraticiensReducer = (state = initialState, action = undefined) => {
     case types.SEARCH_PRATICIEN_REQUEST:
       return {
         ...state,
-        allPratloading: true,
+        searchprat: true,
       };
     case types.SEARCH_PRATICIEN_SUCCESS:
       return {
         ...state,
-        allPratloading: false,
+        searchprat: false,
         praticiens: action.payload
       }
     case types.SEARCH_PRATICIEN_FAILLED:
       return {
         ...state,
-        allPratloading: false,
+        searchprat: false,
         message: action.payload.error
       }
     default:

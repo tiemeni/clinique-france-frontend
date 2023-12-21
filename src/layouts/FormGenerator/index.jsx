@@ -19,6 +19,7 @@ import { getAllMotifs } from '../../redux/motifs/actions';
 import { getAllUser } from '../../redux/user/actions';
 import { getAllSpecialities } from '../../redux/speciality/actions';
 import { getAllPraticiens } from '../../redux/praticiens/actions';
+import { getAllPatients } from '../../redux/patient/actions';
 // import { searchMotif } from '../../redux/motifs/actions';
 
 function FormGenerator({
@@ -46,7 +47,13 @@ function FormGenerator({
   const postingPraticien = useSelector(
     (state) => state.Praticiens.postingPraticien,
   );
-  const UpdatingPatient = useSelector((state) => state.Patient.UpdatingPatient);
+  const searchPraticien = useSelector((state) => state.Praticiens.searchprat);
+  const searchUser = useSelector((state) => state.User.searchUser);
+  const searchMotif = useSelector((state) => state.Motifs.searchMotif);
+  const searchPatient = useSelector((state) => state.Patient.searchpat);
+  const searchSpecialite = useSelector((state) => state.Specialities.searchspeciali);
+
+  const UpdatingPatient = useSelector((state) => state.Praticiens.UpdatingPatient);
   const UpdatingPraticien = useSelector(
     (state) => state.Praticiens.UpdatingPraticien,
   );
@@ -127,6 +134,9 @@ function FormGenerator({
     }else if(cle && type=== 'PRATICIEN'){
       formik.resetForm();
       dispatch(getAllPraticiens());
+    }else if(cle && type=== 'PATIENT'){
+      formik.resetForm();
+      dispatch(getAllPatients());
     }
     else{
       data.dataFields.callBacks[key].action();
@@ -669,8 +679,13 @@ function FormGenerator({
                   postingPatient ||
                   postingUser ||
                   postingPraticien ||
+                  searchPraticien ||
                   updatingUser ||
                   UpdatingPatient ||
+                  searchUser ||
+                  searchMotif ||
+                  searchPatient ||
+                  searchSpecialite ||
                   UpdatingPraticien ||
                   updatingLieuLoading ||
                   updatingMotif ||
