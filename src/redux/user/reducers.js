@@ -131,18 +131,18 @@ const UserReducers = (state = initialState, action = undefined) => {
     case types.SEARCH_USER_REQUEST:
       return {
         ...state,
-        loadingUsers: true
+        searchUser: true
       };
     case types.SEARCH_USER_FAILLED:
       return {
         ...state,
-        loadingUsers: false
+        searchUser: false
         
       };
     case types.SEARCH_USER_SUCCESS:
       return {
         ...state,
-        loadingUsers: false,
+        searchUser: false,
         users: action.payload
       };
     default:

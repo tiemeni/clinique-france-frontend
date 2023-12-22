@@ -68,18 +68,18 @@ const SpecialityReducers = (state = initialState, action = undefined) => {
     case types.SEARCH_SPECIALITY_REQUEST:
       return {
         ...state,
-        gettingAllSpecs: true,
+        searchspeciali: true,
       };
     case types.SEARCH_SPECIALITY_SUCCESS:
       return {
         ...state,
-        gettingAllSpecs: false,
+        searchspeciali: false,
         specialities: action.payload,
       };
     case types.SEARCH_SPECIALITY_FAILLED:
       return {
         ...state,
-        gettingAllSpecs: false,
+        searchspeciali: false,
       };
     default:
       return state;
