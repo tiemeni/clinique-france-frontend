@@ -6,9 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import FormGenerator from '../../../layouts/FormGenerator';
 import { patientCreateOrEdite } from '../../../utils/data';
 import getAllCivilities from '../../../redux/civility/actions';
-import getAllGroupes from '../../../redux/groupes/actions';
 import { getAllSpecialities } from '../../../redux/speciality/actions';
-import { getAllLieux } from '../../../redux/lieux/actions';
 import {  getAllPatients, postPatient, updatePatient } from '../../../redux/patient/actions';
 
 const patientAPIformatter = (data) => ({
@@ -32,11 +30,9 @@ function CreatePatient() {
   const [patientToUpdate, setPatientToUpdate] = useState({});
   const [data] = useState(patientCreateOrEdite);
 
-  useEffect(() => {
-    dispatch(getAllPatients());
-  });
 
   useEffect(() => {
+    if(patients.length === 0) dispatch(getAllPatients())
     patients.forEach((m) => {
       if (m?._id === id) {
         setPatientToUpdate(m);
@@ -44,10 +40,8 @@ function CreatePatient() {
       }
     });
     dispatch(getAllCivilities());
-    dispatch(getAllGroupes());
     dispatch(getAllSpecialities());
-    dispatch(getAllLieux());
-  });
+  }, [patients]);
 
   if (id && launchPatients) {
     return 'launching patients';

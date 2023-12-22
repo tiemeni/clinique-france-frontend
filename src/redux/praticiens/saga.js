@@ -155,7 +155,7 @@ function* updatePraticien({ praticien }) {
     job: praticien?.job,
     timeSlot: convertIndexIntoNumber(praticien?.timeSlot),
     active: parseInt(praticien.active, 10) === 1,
-    groups: [praticien?.groups],
+    // groups: [praticien?.groups],
     // affectation: [praticien?.affectation],
     isPraticien: true,
   };

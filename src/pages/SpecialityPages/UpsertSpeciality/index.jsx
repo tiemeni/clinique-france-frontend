@@ -25,19 +25,15 @@ function CreateSpeciality() {
   const [data] = useState(upsertSpeciality);
 
 
-    useEffect(() => {
-      dispatch(getAllSpecialities());
-    });
-
-
   useEffect(() => {
+    if(specs.length === 0) dispatch(getAllSpecialities());
     specs.forEach((m) => {
       if (m?._id === id) {
         setSpecToUpdate(m);
         setLaunchSpeciality(false);
       }
     });
-  });
+  }, [specs]);
 
   if (id && launchSpeciality) {
     return 'launching specs';

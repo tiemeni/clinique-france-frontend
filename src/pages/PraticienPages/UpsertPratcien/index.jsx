@@ -6,9 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import FormGenerator from '../../../layouts/FormGenerator';
 import { praticienCreateOrEdite } from '../../../utils/data';
 import getAllCivilities from '../../../redux/civility/actions';
-import getAllGroupes from '../../../redux/groupes/actions';
 import { getAllSpecialities } from '../../../redux/speciality/actions';
-import { getAllLieux } from '../../../redux/lieux/actions';
 import {
   getAllPraticiens,
   postPraticien,
@@ -39,13 +37,10 @@ function CreatePraticien() {
   const [launchPrat, setLaunchPrat] = useState(true);
   const [pratToUpdate, setPratToUpdate] = useState({});
   const [data] = useState(praticienCreateOrEdite);
-  useEffect(() => {
-    dispatch(getAllPraticiens());
-  });
-
+  
 
   useEffect(() => {
-    dispatch(getAllPraticiens);
+    if(praticiens.length === 0) dispatch(getAllPraticiens());
     praticiens.forEach((p) => {
       if (p?._id === id) {
         setPratToUpdate(p);
@@ -53,10 +48,8 @@ function CreatePraticien() {
       }
     });
     dispatch(getAllCivilities());
-    dispatch(getAllGroupes());
     dispatch(getAllSpecialities());
-    dispatch(getAllLieux());
-  });
+  }, [praticiens]);
 
   if (id && launchPrat) {
     return 'launching praticiens';

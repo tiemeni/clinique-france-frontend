@@ -34,14 +34,9 @@ function UserPage() {
   const type='USER';
 
   const handlePost = (m) => {
-  
     if(m !== null ){
-      console.log('=== > m in if ', m)
-
       dispatch(searchUser({nom : m?.nom, email: m?.email}));
     }
-    
-     // 
   };
 
   // const handleClearSearchForm = () => {

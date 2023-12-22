@@ -5,8 +5,7 @@ import { Grid, GridItem } from '@chakra-ui/react';
 import FormGenerator from '../../../layouts/FormGenerator';
 import { upsertMotifs } from '../../../utils/data';
 import { getAllSpecialities } from '../../../redux/speciality/actions';
-import { getAllLieux } from '../../../redux/lieux/actions';
-import { postMotif, updateMotif } from '../../../redux/motifs/actions';
+import { getAllMotifs, postMotif, updateMotif } from '../../../redux/motifs/actions';
 import { formatDataForConsignePicKlist } from '../../../utils/helpers';
 
 const motifAPIformatter = (data) => ({
@@ -33,15 +32,15 @@ function CreateMotif() {
   const [data] = useState(upsertMotifs);
 
   useEffect(() => {
+    if(motif.length === 0) dispatch(getAllMotifs())
     motif.forEach((m) => {
       if (m?._id === id) {
         setMotifToUpdate(m);
         setLaunchMotif(false);
       }
     });
-    dispatch(getAllLieux());
     dispatch(getAllSpecialities());
-  });
+  }, [motif]);
 
   if (id && launchMotif) {
     return 'launching motifs';

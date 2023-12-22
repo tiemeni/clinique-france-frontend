@@ -4,9 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { Grid, GridItem } from '@chakra-ui/react';
 import getAllCivilities from '../../../redux/civility/actions';
-import getAllGroupes from '../../../redux/groupes/actions';
 import { getAllSpecialities } from '../../../redux/speciality/actions';
-import { getAllLieux } from '../../../redux/lieux/actions';
 import { userCreateOrEdite } from '../../../utils/data';
 import FormGenerator from '../../../layouts/FormGenerator';
 import { postUser, updateUser,getAllUser } from '../../../redux/user/actions';
@@ -29,9 +27,6 @@ function CreateUser() {
   const dispatch = useDispatch();
   const { id } = useParams();
   const users = useSelector((state) => state.User.users);
-  useEffect(() => {
-    dispatch(getAllUser());
-  });
 
   const [launchUser, setLaunchUser] = useState(true);
   const [userToUpdate, setUserToUpdate] = useState({});
@@ -39,7 +34,7 @@ function CreateUser() {
 
   
   useEffect(() => {
-    dispatch(getAllUser());
+    if(users.length === 0) dispatch(getAllUser());
     users.forEach((u) => {
       if (u?._id === id) {
         setUserToUpdate(u);
@@ -47,10 +42,8 @@ function CreateUser() {
       }
     });
     dispatch(getAllCivilities());
-    dispatch(getAllGroupes());
     dispatch(getAllSpecialities());
-    dispatch(getAllLieux());
-  });
+  },[users]);
 
   if (id && launchUser) {
     return 'launching users';
