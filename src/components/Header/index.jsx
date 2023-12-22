@@ -29,6 +29,29 @@ function NavigationBar() {
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   const dispatch = useDispatch();
   const [username] = useState(localStorage.getItem('username'));
+  const [time, setTime] = useState(new Date());
+
+  useEffect(() => {
+    // Mettre à jour l'heure toutes les secondes
+    const timer = setInterval(() => {
+      setTime(new Date());
+    }, 1000);
+
+    // Nettoyer le timer lorsque le composant est démonté
+    return () => {
+      clearInterval(timer);
+    };
+  }, []);
+
+  const formatTime = (date) => {
+    const options = {
+      hour12: false,
+      hour: "2-digit",
+      minute: "2-digit",
+      second: "2-digit",
+    };
+    return date.toLocaleTimeString("fr-FR", options);
+  };
 
   useEffect(() => {
     const handleResize = () => {
@@ -40,6 +63,7 @@ function NavigationBar() {
       window.removeEventListener('resize', handleResize);
     };
   }, []);
+  
 
   function getDateAndTime() {
     const now = new Date();
@@ -119,11 +143,9 @@ function NavigationBar() {
         break;
     }
 
-    const hours = String(now.getHours()).padStart(2, '0');
-    const minutes = String(now.getMinutes()).padStart(2, '0');
-    const seconds = String(now.getSeconds()).padStart(2, '0');
+  
 
-    const dateTime = `${dayOfWeek} ${day} ${monthName} ${year} ${hours}:${minutes}:${seconds}`;
+    const dateTime = `${dayOfWeek} ${day} ${monthName} ${year} `;
     return dateTime;
   }
 
@@ -136,23 +158,29 @@ function NavigationBar() {
       flexDirection={{ base: 'column', md: 'row' }}
       alignItems="center"
     >
-      <VStack justifyItems="center">
+      <VStack justifyItems="center" style={{ position: 'fixed', marginTop: -18, marginLeft: 30 }}>
         <Link to="/content" style={{ borderColor: 'red' }}>
-          <Text
-            fontSize={windowWidth < 958 ? 16 : 20}
-            style={{ ...styles.textLogo, borderColor: 'red' }}
-          >
-            Clinique de France
-          </Text>
-        </Link>
-        <Text style={styles.dateText}>{getDateAndTime()}</Text>
+            <Text
+              fontSize={windowWidth < 958 ? 16 : 20}
+              style={{ ...styles.textLogo, borderColor: 'red' }}
+            >
+              Clinique de France
+            </Text>
+          </Link>
       </VStack>
+      <VStack justifyItems="center" style={{ position: 'fixed', marginTop: 29 }}>
+       
+        <div style={{ postion: 'fixed', marginLeft: 12 }}><Text style={styles.dateText}>{getDateAndTime()} | {  formatTime(time)}</Text></div>
+        
+      </VStack>
+      <div>
       {windowWidth > 758 ? (
         <InputGroup
           size="sm"
           mt={{ base: 0, md: 0 }}
           width={{ base: '100%', md: 250 }}
           ml={{ base: 0, md: 14 }}
+          style={{marginLeft: '22em'}}
         >
           <Input
             backgroundColor="whiteAlpha.800"
@@ -165,6 +193,7 @@ function NavigationBar() {
           </InputRightElement>
         </InputGroup>
       ) : null}
+      </div>
       <Spacer />
       <HStack spacing={6} color="whiteAlpha.800" mr={4}>
         {windowWidth > 958 ? (
