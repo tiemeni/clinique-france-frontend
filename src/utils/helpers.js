@@ -166,3 +166,5 @@ export const formatDataForConsignePicKlist = data => data?.map((c) =>({
       label: c?.label,
       value: c?._id
     }))
+
+export const delay = time => new Promise(resolve => {setTimeout(resolve, time)});

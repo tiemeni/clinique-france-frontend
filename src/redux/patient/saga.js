@@ -1,4 +1,4 @@
-import { put, takeLatest } from 'redux-saga/effects';
+import { call, put, takeLatest } from 'redux-saga/effects';
 import * as types from './types';
 import {
   deleteUnauthRequest,
@@ -7,6 +7,7 @@ import {
   putUnauthRequest,
 } from '../../utils/api';
 import { SHOW_MODAL_DEL_RESSOURCE } from '../common/types';
+import { delay } from '../../utils/helpers';
 
 /**
  * @description ici le saga reducer
@@ -55,35 +56,29 @@ function* postPatient({ patient }) {
       });
       yield put({ type: types.GET_ALL_PATIENT });
       window.history.back();
-      yield setTimeout(() => {
-        console.log("clearing all")
-         put({
-          type: types.CLEAR_ALL_ERR_MSG,
-        });
-      }, 2000)
+      yield call(delay, 4000);
+      yield put({
+        type: types.CLEAR_ALL_ERR_MSG,
+      });
     } else {
       yield put({
         type: types.POST_PATIENT_REQUEST_FAILED,
         payload: `cet utilisateur existe deja ou une erreur s'est produite ${result.message}`,
       });
-      yield setTimeout(() => {
-        console.log("clearing all")
-         put({
-          type: types.CLEAR_ALL_ERR_MSG,
-        });
-      }, 2000)
+      yield call(delay, 4000);
+      yield put({
+        type: types.CLEAR_ALL_ERR_MSG,
+      });
     }
   } catch (error) {
     yield put({
       type: types.POST_PATIENT_REQUEST_FAILED,
-      payload: error.message,
+      payload: `${error.message} - veillez verifier votre connexion internet`,
     });
-    yield setTimeout(() => {
-      console.log("clearing all")
-       put({
-        type: types.CLEAR_ALL_ERR_MSG,
-      });
-    }, 2000)
+    yield call(delay, 4000);
+    yield put({
+      type: types.CLEAR_ALL_ERR_MSG,
+    });
   }
 }
 
@@ -135,15 +130,25 @@ function* deletePatient({ id }) {
       yield put({ type: SHOW_MODAL_DEL_RESSOURCE, truth: false });
       yield put({ type: types.GET_ALL_PATIENT });
     } else {
+      yield put({ type: SHOW_MODAL_DEL_RESSOURCE, truth: false });
       yield put({
         type: types.DELETE_PATIENT_REQUEST_FAILED,
         payload: result.message,
       });
+      yield call(delay, 4000);
+      yield put({
+        type: types.CLEAR_ALL_ERR_MSG,
+      });
     }
   } catch (error) {
+    yield put({ type: SHOW_MODAL_DEL_RESSOURCE, truth: false });
     yield put({
       type: types.DELETE_PATIENT_REQUEST_FAILED,
-      payload: error.message,
+      payload: `${error.message} - veillez verifier votre connexion internet`,
+    });
+    yield call(delay, 4000);
+    yield put({
+      type: types.CLEAR_ALL_ERR_MSG,
     });
   }
 }

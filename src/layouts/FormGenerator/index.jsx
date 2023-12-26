@@ -76,7 +76,17 @@ function FormGenerator({
   const updatingConsigne = useSelector(
     (state) => state.Consignes.updatingConsigne,
   );
+  // ----------------
   const errorPostingPatient = useSelector((state) => state.Patient.errorPostingPatient);
+  const errorUpdatingPatient = useSelector((state) => state.Patient.errorUpdatingPatient);
+
+  const errorPostingPraticien = useSelector(
+    (state) => state.Praticiens.errorPostingPraticien,
+  );
+  const errorUpdatingPraticien = useSelector(
+    (state) => state.Praticiens.errorUpdatingPraticien,
+  );
+  // ----------
   const [dataCp, setDataCp] = useState({});
   const civilities = useSelector((state) => state.Civilities.civilities);
   const groupes = useSelector((state) => state.Groupes.groups);
@@ -788,10 +798,10 @@ function FormGenerator({
           return result;
         })}
         <p style={{color: "red", marginLeft: "200px", marginBottom: "10px"}}>
-        {errorPostingPatient && (
+        {(errorPostingPatient || errorPostingPraticien || errorUpdatingPatient || errorUpdatingPraticien) && (
             <Alert status="error" mt={2}>
               <AlertIcon />
-              {errorPostingPatient}
+              {errorPostingPatient || errorPostingPraticien || errorUpdatingPatient || errorUpdatingPraticien}
             </Alert>
           )}
         </p>

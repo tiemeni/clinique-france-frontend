@@ -11,6 +11,14 @@ const initialState = {
 
 const PraticiensReducer = (state = initialState, action = undefined) => {
   switch (action.type) {
+    case types.CLEAR_ALL_ERR_MSG_PRAT:
+      return {
+        ...state,
+        message: null,
+        errorPostingPraticien: null,
+        errorUpdatingPraticien: null,
+        errordeletingPraticien: null
+      }
     case types.GET_PRATICIENS_REQUEST:
       return {
         ...state,

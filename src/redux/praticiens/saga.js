@@ -1,4 +1,4 @@
-import { put, takeLatest } from 'redux-saga/effects';
+import { call, put, takeLatest } from 'redux-saga/effects';
 import * as types from './types';
 import {
   deleteUnauthRequest,
@@ -6,7 +6,7 @@ import {
   patchUnauthRequest,
   postUnauthRequest,
 } from '../../utils/api';
-import { convertIndexIntoNumber, formatUserName } from '../../utils/helpers';
+import { convertIndexIntoNumber, delay, formatUserName } from '../../utils/helpers';
 import { SHOW_MODAL_DEL_RESSOURCE } from '../common/types';
 
 const { REACT_APP_BASE_URL } = process.env;
@@ -34,7 +34,7 @@ function* getPraticiens() {
     const storedList = localStorage.getItem(`practitionerCheckedList${idc}`);
     let selectedPractitioner = '';
     let selectedValues = {};
-    
+
     // if checked practitioner was saved
     if (storedList) {
       const namesList = localStorage
@@ -117,6 +117,10 @@ function* postPraticien({ praticien }) {
     // affectation: [praticien?.affectation],
     isPraticien: true,
   };
+  yield call(delay, 4000);
+  yield put({
+    type: types.CLEAR_ALL_ERR_MSG_PRAT,
+  });
   try {
     const result = yield postUnauthRequest(
       `${process.env.REACT_APP_BASE_URL}/users/register/`,
@@ -133,11 +137,19 @@ function* postPraticien({ praticien }) {
         type: types.POST_PRATICIEN_REQUEST_FAILED,
         payload: result.message,
       });
+      yield call(delay, 4000);
+      yield put({
+        type: types.CLEAR_ALL_ERR_MSG_PRAT,
+      });
     }
   } catch (error) {
     yield put({
       type: types.POST_PRATICIEN_REQUEST_FAILED,
       payload: error.message,
+    });
+    yield call(delay, 4000);
+    yield put({
+      type: types.CLEAR_ALL_ERR_MSG_PRAT,
     });
   }
 }
@@ -159,6 +171,10 @@ function* updatePraticien({ praticien }) {
     // affectation: [praticien?.affectation],
     isPraticien: true,
   };
+  yield call(delay, 4000);
+  yield put({
+    type: types.CLEAR_ALL_ERR_MSG_PRAT,
+  });
   try {
     const result = yield patchUnauthRequest(
       `${process.env.REACT_APP_BASE_URL}/users/${praticien?._id}/?isPraticien=true`,
@@ -175,11 +191,19 @@ function* updatePraticien({ praticien }) {
         type: types.UPDATE_PRATICIEN_REQUEST_FAILED,
         payload: result.message,
       });
+      yield call(delay, 4000);
+      yield put({
+        type: types.CLEAR_ALL_ERR_MSG_PRAT,
+      });
     }
   } catch (error) {
     yield put({
       type: types.UPDATE_PRATICIEN_REQUEST_FAILED,
       payload: error.message,
+    });
+    yield call(delay, 4000);
+    yield put({
+      type: types.CLEAR_ALL_ERR_MSG_PRAT,
     });
   }
 }
@@ -196,15 +220,21 @@ function* deletePraticien({ id }) {
       yield put({ type: SHOW_MODAL_DEL_RESSOURCE, truth: false });
       yield put({ type: types.GET_ALL_PRATICIENS_REQUEST });
     } else {
+      yield put({ type: SHOW_MODAL_DEL_RESSOURCE, truth: false });
       yield put({
         type: types.DELETE_PRATICIEN_REQUEST_FAILED,
         payload: result.message,
       });
     }
   } catch (error) {
+    yield put({ type: SHOW_MODAL_DEL_RESSOURCE, truth: false });
     yield put({
       type: types.DELETE_PRATICIEN_REQUEST_FAILED,
-      payload: error.message,
+      payload: `${error.message} - veillez verifier votre connexion`,
+    });
+    yield call(delay, 4000);
+    yield put({
+      type: types.CLEAR_ALL_ERR_MSG_PRAT,
     });
   }
 }

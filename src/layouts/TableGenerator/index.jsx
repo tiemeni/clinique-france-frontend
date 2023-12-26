@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import {
+  Alert,
+  AlertIcon,
   IconButton,
   Menu,
   MenuButton,
@@ -26,7 +28,10 @@ import {
   userFormater,
 } from '../../utils/dataFormater';
 import DeleteRessourceDialogue from '../../components/Ressource/DeleteRessource';
-import { showModalDeleteRessource, verifyToken } from '../../redux/common/actions';
+import {
+  showModalDeleteRessource,
+  verifyToken,
+} from '../../redux/common/actions';
 
 function TableGenerator({
   data,
@@ -41,7 +46,9 @@ function TableGenerator({
   const loadingUsers = useSelector((state) => state.User.loadingUsers);
   const gettingAllLieux = useSelector((state) => state.Lieux.gettingAllLieux);
   const loadingPatients = useSelector((state) => state.Patient.loadingPatients);
-  const gettingAllConsigne = useSelector((state) => state.Consignes.gettingAllConsigne);
+  const gettingAllConsigne = useSelector(
+    (state) => state.Consignes.gettingAllConsigne,
+  );
   const consignes = useSelector((state) => state.Consignes.consignes);
   const gettingAllSpecs = useSelector(
     (state) => state.Specialities.gettingAllSpecs,
@@ -59,6 +66,11 @@ function TableGenerator({
   const lieux = useSelector((state) => state.Lieux.lieux);
   const motifs = useSelector((state) => state.Motifs.motifs);
   const specialities = useSelector((state) => state.Specialities.specialities);
+
+  const errordeletingPraticien = useSelector((state) => state.Praticiens.errordeletingPraticien);
+  const errordeletingPatient = useSelector(
+    (state) => state.Patient.errordeletingPatient,
+  );
   const [data1, setData1] = useState(data);
   const [loading, setLoading] = useState(true);
 
@@ -107,12 +119,12 @@ function TableGenerator({
           result = specialities;
         }
         break;
-        case 'consigne':
-          if (loadingRessource) {
-            result = [];
-          } else {
-            result = consignes;
-          }
+      case 'consigne':
+        if (loadingRessource) {
+          result = [];
+        } else {
+          result = consignes;
+        }
         break;
       default:
         break;
@@ -120,9 +132,8 @@ function TableGenerator({
     return !(result?.length === 0 || loadingRessource);
   };
 
-
   useEffect(() => {
-    dispatch(verifyToken())
+    dispatch(verifyToken());
     setData1((v) => {
       let ancien = {};
       let formatedData = [];
@@ -172,7 +183,7 @@ function TableGenerator({
           !!loadingPatients ||
           !!loadingUsers ||
           !!allPratloading ||
-          !!gettingAllConsigne
+          !!gettingAllConsigne,
       )
     ) {
       setLoading(false);
@@ -180,15 +191,23 @@ function TableGenerator({
   }, [praticiens, users, patients, lieux, motifs, specialities, consignes]);
 
   if (loading) {
-    return <Stack width="100%" display="flex" flexDirection="column" mb="10px">
-      <Skeleton height="35px" width="100%" borderRadius={3} />
-      <Skeleton height="40px" width="100%" borderRadius={10} />
-      <Skeleton height="40px" width="100%" borderRadius={10} />
-    </Stack>
+    return (
+      <Stack width="100%" display="flex" flexDirection="column" mb="10px">
+        <Skeleton height="35px" width="100%" borderRadius={3} />
+        <Skeleton height="40px" width="100%" borderRadius={10} />
+        <Skeleton height="40px" width="100%" borderRadius={10} />
+      </Stack>
+    );
   }
 
   return (
     <TableContainer w="100%">
+      {(errordeletingPatient || errordeletingPraticien) && (
+        <Alert status="error" mt={2} mb={5}>
+          <AlertIcon />
+          {errordeletingPatient || errordeletingPraticien}
+        </Alert>
+      )}
       <Table size="sm" variant="striped" colorScheme="gray">
         <Thead bgColor="#2c3e50" height="30px">
           <Tr>
@@ -243,7 +262,15 @@ function TableGenerator({
                 (col, i) =>
                   i > 0 && (
                     <Td fontSize="sm" key={`${r[col.fname]}${i}`}>
-                      {col.fname !== "couleur" ? r[col.fname] : <Stack width="45px"backgroundColor={r[col.fname]}  height="25px"/>}
+                      {col.fname !== 'couleur' ? (
+                        r[col.fname]
+                      ) : (
+                        <Stack
+                          width="45px"
+                          backgroundColor={r[col.fname]}
+                          height="25px"
+                        />
+                      )}
                     </Td>
                   ),
               )}
