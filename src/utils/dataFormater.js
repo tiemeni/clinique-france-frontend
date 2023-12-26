@@ -13,7 +13,7 @@ export const pratFormater = (data) => ({
   email: data.email,
   password: data?.password,
   initiales: data.initiales,
-  active: data.active?.toString(),
+  active: data.active ? "OUI" : "NON",
   timeSlot: data.timeSlot,
   _id: data._id,
 });
@@ -27,7 +27,7 @@ export const userFormater = (data) => ({
   email: data.email,
   password: data.password,
   initiales: data.initiales,
-  active: data.active?.toString(),
+  active: data.active ? "OUI" : "NON",
   _id: data._id,
 });
 
@@ -39,7 +39,7 @@ export const patientFormater = (data) => ({
   telephone: data.telephone,
   email: data.email,
   initiales: data.initiales,
-  active: data.active?.toString(),
+  active: data.active ? "OUI" : "NON",
   groups: data.groups,
   _id: data._id,
 });
@@ -50,12 +50,12 @@ export const motifFormater = (data) => ({
   default_time: data.default_time,
   couleur: data?.couleur,
   reference: data.reference,
-  active: data.active?.toString(),
+  active: data.active ? "OUI" : "NON",
   _id: data._id,
 });
 
 export const lieuxFormater = (data) => ({
-  active: data.active?.toString(),
+  active: data.active ? "OUI" : "NON",
   codePostal: data.codePostal,
   initiales: data.initiales,
   label: data.label,
