@@ -61,7 +61,7 @@ function FormGenerator({
   const searchPatient = useSelector((state) => state.Patient.searchpat);
   const searchSpecialite = useSelector((state) => state.Specialities.searchspeciali);
 
-  const UpdatingPatient = useSelector((state) => state.Praticiens.UpdatingPatient);
+  const UpdatingPatient = useSelector((state) => state.Patient.UpdatingPatient);
   const UpdatingPraticien = useSelector(
     (state) => state.Praticiens.UpdatingPraticien,
   );
