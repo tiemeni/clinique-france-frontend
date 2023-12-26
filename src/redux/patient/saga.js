@@ -55,7 +55,7 @@ function* postPatient({ patient }) {
     } else {
       yield put({
         type: types.POST_PATIENT_REQUEST_FAILED,
-        payload: result.message,
+        payload: `cet utilisateur existe deja ou une erreur s'est produite ${result.message}`,
       });
     }
   } catch (error) {

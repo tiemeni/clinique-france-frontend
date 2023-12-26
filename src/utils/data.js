@@ -672,14 +672,14 @@ export const userCreateOrEdite = {
       {
         name: 'birthdate',
         placeholder: 'Date de naissance',
-        required: false,
+        required: true,
         type: 'date',
         id: 4,
       },
       {
         name: 'telephone',
         placeholder: 'Portable',
-        required: false,
+        required: true,
         type: 'number',
         id: 5,
       },
@@ -801,14 +801,14 @@ export const patientCreateOrEdite = {
       {
         name: 'birthdate',
         placeholder: 'date de naissance',
-        required: false,
+        required: true,
         type: 'date',
         id: 4,
       },
       {
         name: 'telephone',
         placeholder: 'portable',
-        required: false,
+        required: true,
         type: 'number',
         id: 5,
       },
