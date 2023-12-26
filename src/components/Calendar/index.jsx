@@ -1,5 +1,6 @@
 import React, { useEffect, memo, useState } from 'react';
-import { Box, HStack, Heading, Switch, Text } from '@chakra-ui/react';
+import { Box, Heading } from '@chakra-ui/react';
+// import { Box, HStack, Heading, Switch, Text } from '@chakra-ui/react';
 import { useSelector } from 'react-redux';
 import CalendarAppointment from './CalendarAppointment';
 import Agenda from './Agenda';
@@ -23,10 +24,10 @@ function Calendar() {
 
   return (
     <Box p={5}>
-      <HStack justifyContent="flex-end">
+      {/* <HStack justifyContent="flex-end">
         <Text>Agenda</Text>
         <Switch size="lg" colorScheme="primary" />
-      </HStack>
+      </HStack> */}
       <Heading
         textAlign="center"
         size="lg"
