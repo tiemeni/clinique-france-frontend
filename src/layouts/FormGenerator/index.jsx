@@ -24,6 +24,7 @@ import { getAllSpecialities } from '../../redux/speciality/actions';
 import { getAllPraticiens } from '../../redux/praticiens/actions';
 import { formatDataForConsignePicKlist } from '../../utils/helpers';
 import { getAllPatients } from '../../redux/patient/actions';
+import { getAllConsignes } from '../../redux/consignes/actions';
 // import { searchMotif } from '../../redux/motifs/actions';
 
 function FormGenerator({
@@ -54,6 +55,9 @@ function FormGenerator({
   const searchPraticien = useSelector((state) => state.Praticiens.searchprat);
   const searchUser = useSelector((state) => state.User.searchUser);
   const searchMotif = useSelector((state) => state.Motifs.searchMotif);
+  const searchConsigne = useSelector(
+    (state) => state.Consignes.searchCons,
+  );
   const searchPatient = useSelector((state) => state.Patient.searchpat);
   const searchSpecialite = useSelector((state) => state.Specialities.searchspeciali);
 
@@ -121,6 +125,7 @@ function FormGenerator({
       if (handlePost) {
          handlePost(values);
          // alert(JSON.stringify(values, null, 2));
+         console.log('searchConsigne ==== > ' , searchConsigne)
       } else {
         alert(JSON.stringify(values, null, 2));
       }
@@ -143,6 +148,9 @@ function FormGenerator({
     }else if(cle && type=== 'PATIENT'){
       formik.resetForm();
       dispatch(getAllPatients());
+    }else if(cle && type === 'CONSIGNE'){
+      formik.resetForm();
+      dispatch(getAllConsignes());
     }
     else{
       data.dataFields.callBacks[key].action();
@@ -800,7 +808,8 @@ function FormGenerator({
                   UpdatingPraticien ||
                   updatingLieuLoading ||
                   updatingMotif ||
-                  updatingSpecialities)
+                  updatingSpecialities ||
+                  searchConsigne)
               }
               onClick={() =>
                 i === 1 && cle

@@ -7,7 +7,7 @@ import RessourceSearchLayout from '../../layouts/RessourceSearchLayout';
 import { consigne } from '../../utils/data';
 import TableGenerator from '../../layouts/TableGenerator';
 import { dataConsignes } from '../../utils/dataFields';
-import { deleteConsigne, getAllConsignes } from '../../redux/consignes/actions';
+import { deleteConsigne, getAllConsignes, searchConsigne } from '../../redux/consignes/actions';
 
 function ConsignePage() {
   const dispatch = useDispatch();
@@ -19,12 +19,21 @@ function ConsignePage() {
     }
   }, []);
 
+  const cle = true;
+  const type='CONSIGNE';
+ 
+   const handlePost = (m) => {
+     if(m !== null ){
+       dispatch(searchConsigne({label : m?.label}));
+     }
+   };
+
   const handleDeleteEntity = (id) => {
     dispatch(deleteConsigne(id));
   };
   return (
     <Box p={5} spacing={5}>
-      <RessourceSearchLayout data={consigne} />
+      <RessourceSearchLayout data={consigne} type={type} cle={cle} handlePost={handlePost}/>
       <p style={{ marginTop: 15 }}>
         {consignes.length} Consignes correspondent a votre recherche
       </p>

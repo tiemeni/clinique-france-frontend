@@ -3,6 +3,8 @@ import * as types from './types';
 import { deleteUnauthRequest, getUnauthRequest, patchUnauthRequest, postUnauthRequest } from '../../utils/api';
 import { SHOW_MODAL_DEL_RESSOURCE } from '../common/types';
 
+const BASE_URL = process.env.REACT_APP_BASE_URL;
+
 /**
  * @description ici le saga reducer
  */
@@ -97,10 +99,25 @@ function* createConsignes({ consigne }) {
     }
   }
 
+  function* searchConsigne({ consigne }) {
+    const url1 = `${BASE_URL}/consignes/search?label=${consigne?.label}`;
+    try {
+      const result = yield getUnauthRequest(url1);
+      if (result.success) {
+        yield put({ type: types.SEARCH_CONSIGNE_SUCCESS, payload: result.data });
+      } else {
+        yield put({ type: types.SEARCH_CONSIGNE_FAILLED, payload: result.message });
+      }
+    } catch (error) {
+      yield put({ type: types.SEARCH_CONSIGNE_FAILLED, payload: error.message });
+    }
+  }
+
 
 export default function* ConsignesSaga() {
   yield takeLatest(types.GET_ALL_CONSIGNES, getAllConsignes);
   yield takeLatest(types.CREATE_CONSIGNE, createConsignes);
   yield takeLatest(types.UPDATE_CONSIGNE, updateConsignes);
   yield takeLatest(types.DELETE_CONSIGNE, deleteConsignes);
+  yield takeLatest(types.SEARCH_CONSIGNE_REQUEST, searchConsigne);
 }

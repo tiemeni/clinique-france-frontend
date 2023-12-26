@@ -15,6 +15,7 @@ const initialState = {
   deletingConsigne: false,
   gettingAllConsigne: false,
   updatingConsigne: false,
+  searchCons: false
 };
 
 const ConsigneReducers = (state = initialState, action = undefined) => {
@@ -84,6 +85,22 @@ const ConsigneReducers = (state = initialState, action = undefined) => {
         deletingConsigne: false,
         deletingConsigneError: action.payload,
       };
+    case types.SEARCH_CONSIGNE_REQUEST:
+      return {
+        ...state,
+        searchCons: true
+      };
+      case types.SEARCH_CONSIGNE_SUCCESS:
+        return {
+          ...state,
+          searchCons: false,
+          consignes: action.payload
+        };
+      case types.SEARCH_CONSIGNE_FAILLED:
+        return {
+          ...state,
+          searchCons: false
+        };
     default:
       return {...state};
   }
