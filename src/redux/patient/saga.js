@@ -127,8 +127,9 @@ function* deletePatient({ id }) {
   }
 }
 
-function* searchPatient({ wordKey }){
-  const result = yield getUnauthRequest(`${process.env.REACT_APP_BASE_URL}/patients/search?email=${wordKey?.m?.email}&surname=${wordKey?.m?.nom}`);
+function* searchPatient({ patient }) {
+  console.log('patient wordKey === ',patient)
+  const result = yield getUnauthRequest(`${process.env.REACT_APP_BASE_URL}/patients/search?email=${patient?.email}&surname=${patient?.nom}`);
   console.log(result)
 
  try {
