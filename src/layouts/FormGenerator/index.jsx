@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import {
+  Alert,
+  AlertIcon,
   Box,
   Button,
   Checkbox,
@@ -74,6 +76,7 @@ function FormGenerator({
   const updatingConsigne = useSelector(
     (state) => state.Consignes.updatingConsigne,
   );
+  const errorPostingPatient = useSelector((state) => state.Patient.errorPostingPatient);
   const [dataCp, setDataCp] = useState({});
   const civilities = useSelector((state) => state.Civilities.civilities);
   const groupes = useSelector((state) => state.Groupes.groups);
@@ -784,7 +787,15 @@ function FormGenerator({
           }
           return result;
         })}
-        <Box w="100%" paddingLeft="200px">
+        <p style={{color: "red", marginLeft: "200px", marginBottom: "10px"}}>
+        {errorPostingPatient && (
+            <Alert status="error" mt={2}>
+              <AlertIcon />
+              {errorPostingPatient}
+            </Alert>
+          )}
+        </p>
+        <Box w="100%" paddingLeft="200px" marginBottom="10px">
           {Object.keys(data.dataFields.callBacks)?.map((key, i) => (
             <Button
               type={i === 0 ? 'submit' : null}

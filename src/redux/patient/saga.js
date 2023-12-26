@@ -46,23 +46,44 @@ function* postPatient({ patient }) {
       `${process.env.REACT_APP_BASE_URL}/patients/register/`,
       payload,
     );
+    yield put({
+      type: types.CLEAR_ALL_ERR_MSG,
+    });
     if (result.success) {
       yield put({
         type: types.POST_PATIENT_REQUEST_SUCCESS,
       });
       yield put({ type: types.GET_ALL_PATIENT });
       window.history.back();
+      yield setTimeout(() => {
+        console.log("clearing all")
+         put({
+          type: types.CLEAR_ALL_ERR_MSG,
+        });
+      }, 2000)
     } else {
       yield put({
         type: types.POST_PATIENT_REQUEST_FAILED,
         payload: `cet utilisateur existe deja ou une erreur s'est produite ${result.message}`,
       });
+      yield setTimeout(() => {
+        console.log("clearing all")
+         put({
+          type: types.CLEAR_ALL_ERR_MSG,
+        });
+      }, 2000)
     }
   } catch (error) {
     yield put({
       type: types.POST_PATIENT_REQUEST_FAILED,
       payload: error.message,
     });
+    yield setTimeout(() => {
+      console.log("clearing all")
+       put({
+        type: types.CLEAR_ALL_ERR_MSG,
+      });
+    }, 2000)
   }
 }
 
@@ -131,16 +152,16 @@ function* searchPatient({ patient }) {
   const result = yield getUnauthRequest(`${process.env.REACT_APP_BASE_URL}/patients/search?email=${patient?.email}&surname=${patient?.nom}`);
   console.log(result)
 
- try {
-  if(result.success){
-    console.log('sucess ...')
-    yield put({type: types.SEARCH_PATIENT_SUCCESS, payload: result.data});
-  }else{
-    yield put({ type: types.SEARCH_PATIENT_FAILLED, payload: result.message})
+  try {
+    if (result.success) {
+      console.log('sucess ...')
+      yield put({ type: types.SEARCH_PATIENT_SUCCESS, payload: result.data });
+    } else {
+      yield put({ type: types.SEARCH_PATIENT_FAILLED, payload: result.message })
+    }
+  } catch (error) {
+    yield put({ type: types.SEARCH_PATIENT_FAILLED, payload: error.message })
   }
- } catch (error) {
-  yield put({ type: types.SEARCH_PATIENT_FAILLED, payload: error.message})
- }
 }
 
 
