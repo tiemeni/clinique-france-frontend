@@ -20,6 +20,13 @@ const initialState = {
 
 const ConsigneReducers = (state = initialState, action = undefined) => {
   switch (action.type) {
+    case types.CLEAR_ALL_ERR_MSG_CONS:
+      return {
+        ...state,
+        creatingConsigneError: null,
+        updatingConsigneError: null,
+        deletingConsigneError: null
+      }
     case types.GET_ALL_CONSIGNES:
       return {
         ...state,
@@ -31,13 +38,13 @@ const ConsigneReducers = (state = initialState, action = undefined) => {
         gettingAllConsigne: false,
         consignes: action.payload,
       };
-      case types.GET_ALL_CONSIGNES_FAILED:
+    case types.GET_ALL_CONSIGNES_FAILED:
       return {
         ...state,
         gettingAllConsigne: false,
         gettingAllConsigneError: action.payload,
       };
-      case types.CREATE_CONSIGNE:
+    case types.CREATE_CONSIGNE:
       return {
         ...state,
         creatingConsigne: true
@@ -47,13 +54,13 @@ const ConsigneReducers = (state = initialState, action = undefined) => {
         ...state,
         creatingConsigne: false,
       };
-      case types.CREATE_CONSIGNE_FAILED:
+    case types.CREATE_CONSIGNE_FAILED:
       return {
         ...state,
         creatingConsigne: false,
         creatingConsigneError: action.payload,
       };
-      case types.UPDATE_CONSIGNE:
+    case types.UPDATE_CONSIGNE:
       return {
         ...state,
         updatingConsigne: true
@@ -63,13 +70,13 @@ const ConsigneReducers = (state = initialState, action = undefined) => {
         ...state,
         updatingConsigne: false,
       };
-      case types.UPDATE_CONSIGNE_FAILED:
+    case types.UPDATE_CONSIGNE_FAILED:
       return {
         ...state,
         updatingConsigne: false,
         updatingConsigneError: action.payload,
       };
-      case types.DELETE_CONSIGNE:
+    case types.DELETE_CONSIGNE:
       return {
         ...state,
         deletingConsigne: true
@@ -79,7 +86,7 @@ const ConsigneReducers = (state = initialState, action = undefined) => {
         ...state,
         deletingConsigne: false,
       };
-      case types.DELETE_CONSIGNE_FAILED:
+    case types.DELETE_CONSIGNE_FAILED:
       return {
         ...state,
         deletingConsigne: false,
@@ -90,19 +97,19 @@ const ConsigneReducers = (state = initialState, action = undefined) => {
         ...state,
         searchCons: true
       };
-      case types.SEARCH_CONSIGNE_SUCCESS:
-        return {
-          ...state,
-          searchCons: false,
-          consignes: action.payload
-        };
-      case types.SEARCH_CONSIGNE_FAILLED:
-        return {
-          ...state,
-          searchCons: false
-        };
+    case types.SEARCH_CONSIGNE_SUCCESS:
+      return {
+        ...state,
+        searchCons: false,
+        consignes: action.payload
+      };
+    case types.SEARCH_CONSIGNE_FAILLED:
+      return {
+        ...state,
+        searchCons: false
+      };
     default:
-      return {...state};
+      return { ...state };
   }
 };
 

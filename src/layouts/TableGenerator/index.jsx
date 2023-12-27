@@ -73,7 +73,7 @@ function TableGenerator({
   );
   const errorDeletingUser = useSelector((state) => state.User.errorDeletingUser);
   const deletingSpecsError = useSelector((state) => state.Specialities.deletingSpecsError);
-
+  const deletingConsigneError = useSelector((state) => state.Consignes.deletingConsigneError);
   const errordeletingMotif = useSelector((state) => state.Motifs.errordeletingMotif);
   const [data1, setData1] = useState(data);
   const [loading, setLoading] = useState(true);
@@ -206,10 +206,10 @@ function TableGenerator({
 
   return (
     <TableContainer w="100%">
-      {(errordeletingPatient || errordeletingPraticien || errorDeletingUser || deletingSpecsError || errordeletingMotif) && (
+      {(errordeletingPatient || errordeletingPraticien || errorDeletingUser || deletingSpecsError || errordeletingMotif || deletingConsigneError) && (
         <Alert status="error" mt={2} mb={5}>
           <AlertIcon />
-          {errordeletingPatient || errordeletingPraticien || errorDeletingUser || deletingSpecsError || errordeletingMotif}
+          {errordeletingPatient || errordeletingPraticien || errorDeletingUser || deletingSpecsError || errordeletingMotif || deletingConsigneError}
         </Alert>
       )}
       <Table size="sm" variant="striped" colorScheme="gray">

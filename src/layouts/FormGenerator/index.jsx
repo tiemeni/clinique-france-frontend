@@ -16,7 +16,7 @@ import {
   VStack,
 } from '@chakra-ui/react';
 import './style.css';
-import  ReactSelectContainer from 'react-select';
+import ReactSelectContainer from 'react-select';
 import { ColorPicker } from 'primereact/colorpicker';
 import { useSelector, useDispatch } from 'react-redux';
 import { useFormik } from 'formik';
@@ -57,11 +57,11 @@ function FormGenerator({
   const searchPraticien = useSelector((state) => state.Praticiens.searchprat);
   const searchUser = useSelector((state) => state.User.searchUser);
   const searchMotif = useSelector((state) => state.Motifs.searchMotif);
-  const searchConsigne = useSelector(
-    (state) => state.Consignes.searchCons,
-  );
+  const searchConsigne = useSelector((state) => state.Consignes.searchCons);
   const searchPatient = useSelector((state) => state.Patient.searchpat);
-  const searchSpecialite = useSelector((state) => state.Specialities.searchspeciali);
+  const searchSpecialite = useSelector(
+    (state) => state.Specialities.searchspeciali,
+  );
 
   const UpdatingPatient = useSelector((state) => state.Patient.UpdatingPatient);
   const UpdatingPraticien = useSelector(
@@ -76,9 +76,13 @@ function FormGenerator({
   const updatingConsigne = useSelector(
     (state) => state.Consignes.updatingConsigne,
   );
-  // ----------------
-  const errorPostingPatient = useSelector((state) => state.Patient.errorPostingPatient);
-  const errorUpdatingPatient = useSelector((state) => state.Patient.errorUpdatingPatient);
+
+  const errorPostingPatient = useSelector(
+    (state) => state.Patient.errorPostingPatient,
+  );
+  const errorUpdatingPatient = useSelector(
+    (state) => state.Patient.errorUpdatingPatient,
+  );
 
   const errorPostingPraticien = useSelector(
     (state) => state.Praticiens.errorPostingPraticien,
@@ -88,14 +92,31 @@ function FormGenerator({
   );
 
   const errorPostingUser = useSelector((state) => state.User.errorPostingUser);
-  const errorUpdatingUser = useSelector((state) => state.User.errorUpdatingUser);
+  const errorUpdatingUser = useSelector(
+    (state) => state.User.errorUpdatingUser,
+  );
 
-  const loadingSpecsError = useSelector((state) => state.Specialities.loadingSpecsError);
-  const updatingSpecsError = useSelector((state) => state.Specialities.updatingSpecsError);
+  const loadingSpecsError = useSelector(
+    (state) => state.Specialities.loadingSpecsError,
+  );
+  const updatingSpecsError = useSelector(
+    (state) => state.Specialities.updatingSpecsError,
+  );
 
-  const errorPostingMotif = useSelector((state) => state.Motifs.errorPostingMotif);
-  const errorupdatingMotif = useSelector((state) => state.Motifs.errorupdatingMotif);
-  // ----------
+  const errorPostingMotif = useSelector(
+    (state) => state.Motifs.errorPostingMotif,
+  );
+  const errorupdatingMotif = useSelector(
+    (state) => state.Motifs.errorupdatingMotif,
+  );
+
+  const creatingConsigneError = useSelector(
+    (state) => state.Consignes.creatingConsigneError,
+  );
+  const updatingConsigneError = useSelector(
+    (state) => state.Consignes.updatingConsigneError,
+  );
+
   const [dataCp, setDataCp] = useState({});
   const civilities = useSelector((state) => state.Civilities.civilities);
   const groupes = useSelector((state) => state.Groupes.groups);
@@ -145,9 +166,9 @@ function FormGenerator({
         : { ...formData },
     onSubmit: (values) => {
       if (handlePost) {
-         handlePost(values);
-         // alert(JSON.stringify(values, null, 2));
-         console.log('searchConsigne ==== > ' , searchConsigne)
+        handlePost(values);
+        // alert(JSON.stringify(values, null, 2));
+        console.log('searchConsigne ==== > ', searchConsigne);
       } else {
         alert(JSON.stringify(values, null, 2));
       }
@@ -167,14 +188,13 @@ function FormGenerator({
     } else if (cle && type === 'PRATICIEN') {
       formik.resetForm();
       dispatch(getAllPraticiens());
-    }else if(cle && type=== 'PATIENT'){
+    } else if (cle && type === 'PATIENT') {
       formik.resetForm();
       dispatch(getAllPatients());
-    }else if(cle && type === 'CONSIGNE'){
+    } else if (cle && type === 'CONSIGNE') {
       formik.resetForm();
       dispatch(getAllConsignes());
-    }
-    else{
+    } else {
       data.dataFields.callBacks[key].action();
     }
     // handleClearSearchForm();
@@ -441,7 +461,7 @@ function FormGenerator({
                         name={e.name}
                         id={e.name}
                         value={formik.values[e.name]}
-                        onChange={(ev) => formik.setFieldValue(e.name,ev)}
+                        onChange={(ev) => formik.setFieldValue(e.name, ev)}
                         options={formatDataForConsignePicKlist(consignes)}
                         className="basic-multi-select"
                         classNamePrefix="select"
@@ -475,7 +495,7 @@ function FormGenerator({
                     </FormLabel>
                     <Stack width="100%">
                       <ColorPicker
-                      style={{width: "25px", overflowX: 'hidden'}}
+                        style={{ width: '25px', overflowX: 'hidden' }}
                         defaultColor="#C5C5C5"
                         format="hex"
                         id={e.name}
@@ -806,11 +826,36 @@ function FormGenerator({
           }
           return result;
         })}
-        <p style={{color: "red", marginLeft: "200px", marginBottom: "10px"}}>
-        {(errorPostingPatient || errorPostingPraticien || errorUpdatingPatient || errorUpdatingPraticien || errorPostingUser || errorUpdatingUser || loadingSpecsError || updatingSpecsError || errorPostingMotif || errorupdatingMotif) && (
+        <p style={{ color: 'red', marginLeft: '200px', marginBottom: '10px' }}>
+          {(errorPostingPatient ||
+            errorPostingPraticien ||
+            errorUpdatingPatient ||
+            errorUpdatingPraticien ||
+            errorPostingUser ||
+            errorUpdatingUser ||
+            loadingSpecsError ||
+            updatingSpecsError ||
+            errorPostingMotif ||
+            errorupdatingMotif ||
+            creatingConsigneError ||
+            updatingConsigneError) && (
             <Alert status="error" mt={2}>
               <AlertIcon />
-              {errorPostingPatient || errorPostingPraticien || errorUpdatingPatient || errorUpdatingPraticien || errorPostingUser || errorUpdatingUser || loadingSpecsError || updatingSpecsError || errorPostingMotif || errorupdatingMotif}
+              {errorPostingPatient ||
+                errorPostingPraticien ||
+                errorUpdatingPatient ||
+                errorUpdatingPraticien ||
+                errorPostingUser ||
+                errorUpdatingUser ||
+                loadingSpecsError ||
+                updatingSpecsError ||
+                errorPostingMotif ||
+                errorupdatingMotif ||
+                updatingSpecsError ||
+                errorPostingMotif ||
+                errorupdatingMotif ||
+                creatingConsigneError ||
+                updatingConsigneError}
             </Alert>
           )}
         </p>
