@@ -12,6 +12,13 @@ const initialState = {
 
 const MotifReducers = (state = initialState, action = undefined) => {
   switch (action.type) {
+    case types.CLEAR_ALL_ERR_MSG_MOTIFS:
+      return {
+        ...state,
+        errorPostingMotif: null,
+        errorupdatingMotif: null,
+        errordeletingMotif: null
+      }
     case types.GET_ALL_MOTIFS:
       return {
         ...state,

@@ -1,4 +1,4 @@
-import { put, takeLatest } from 'redux-saga/effects';
+import { call, put, takeLatest } from 'redux-saga/effects';
 import * as types from './types';
 import {
   deleteUnauthRequest,
@@ -6,7 +6,7 @@ import {
   postUnauthRequest,
   putUnauthRequest,
 } from '../../utils/api';
-import { convertIndexIntoNumber } from '../../utils/helpers';
+import { convertIndexIntoNumber, delay } from '../../utils/helpers';
 import { SHOW_MODAL_DEL_RESSOURCE } from '../common/types';
 
 const BASE_URL = process.env.REACT_APP_BASE_URL;
@@ -42,13 +42,16 @@ function* postMotif({ motif }) {
     nom: motif?.nom,
     idSpeciality: motif?.idSpeciality,
     reference: motif?.reference,
-    idConsigne: motif?.idConsigne?.map(({value}) => value)
+    idConsigne: motif?.idConsigne?.map(({ value }) => value)
   };
   try {
     const result = yield postUnauthRequest(
       `${process.env.REACT_APP_BASE_URL}/motif/register`,
       payload,
     );
+    yield put({
+      type: types.CLEAR_ALL_ERR_MSG_MOTIFS,
+    });
     if (result.success) {
       yield put({
         type: types.POST_MOTIF_REQUEST_SUCCESS,
@@ -60,12 +63,20 @@ function* postMotif({ motif }) {
         type: types.POST_MOTIF_REQUEST_FAILED,
         payload: result.message,
       });
+      yield call(delay, 4000);
+      yield put({
+        type: types.CLEAR_ALL_ERR_MSG_MOTIFS,
+      });
     }
   } catch (error) {
     console.log(error.message);
     yield put({
       type: types.POST_MOTIF_REQUEST_FAILED,
-      payload: error.message,
+      payload: `${error.message} - veillez verifier votre connexion internet`,
+    });
+    yield call(delay, 4000);
+    yield put({
+      type: types.CLEAR_ALL_ERR_MSG_MOTIFS,
     });
   }
 }
@@ -82,13 +93,16 @@ function* updateMotif({ motif }) {
     label: motif.label,
     initiales: motif.initiales,
     active: motif.active === '1',
-    idConsigne: motif?.idConsigne?.map(({value}) => value)
+    idConsigne: motif?.idConsigne?.map(({ value }) => value)
   };
   try {
     const result = yield putUnauthRequest(
       `${process.env.REACT_APP_BASE_URL}/motif/${motif?._id}/`,
       payload,
     );
+    yield put({
+      type: types.CLEAR_ALL_ERR_MSG_MOTIFS,
+    });
     if (result.success) {
       yield put({
         type: types.UPDATING_MOTIF_REQUEST_SUCCESS,
@@ -100,11 +114,19 @@ function* updateMotif({ motif }) {
         type: types.UPDATING_MOTIF_REQUEST_FAILED,
         payload: result.message,
       });
+      yield call(delay, 4000);
+      yield put({
+        type: types.CLEAR_ALL_ERR_MSG_MOTIFS,
+      });
     }
   } catch (error) {
     yield put({
       type: types.UPDATING_MOTIF_REQUEST_FAILED,
-      payload: error.message,
+      payload: `${error.message} - veillez verifier votre connexion internet`,
+    });
+    yield call(delay, 4000);
+    yield put({
+      type: types.CLEAR_ALL_ERR_MSG_MOTIFS,
     });
   }
 }
@@ -121,15 +143,25 @@ function* deleteMotif({ id }) {
       yield put({ type: SHOW_MODAL_DEL_RESSOURCE, truth: false });
       yield put({ type: types.GET_ALL_MOTIFS });
     } else {
+      yield put({ type: SHOW_MODAL_DEL_RESSOURCE, truth: false });
       yield put({
         type: types.DELETE_MOTIF_REQUEST_FAILED,
         payload: result.message,
       });
+      yield call(delay, 4000);
+      yield put({
+        type: types.CLEAR_ALL_ERR_MSG_MOTIFS,
+      });
     }
   } catch (error) {
+    yield put({ type: SHOW_MODAL_DEL_RESSOURCE, truth: false });
     yield put({
       type: types.DELETE_MOTIF_REQUEST_FAILED,
-      payload: error.message,
+      payload: `${error.message} - veillez verifier votre connexion internet`,
+    });
+    yield call(delay, 4000);
+    yield put({
+      type: types.CLEAR_ALL_ERR_MSG_MOTIFS,
     });
   }
 }
