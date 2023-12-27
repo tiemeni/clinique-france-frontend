@@ -23,6 +23,9 @@ const UserReducers = (state = initialState, action = undefined) => {
         loginLoading: false,
         loginSuccess: false,
         loginErrorMessage: null,
+        errorPostingUser: null,
+        errorUpdatingUser: null,
+        errorDeletingUser: null
       };
     case types.LOGIN_REQUEST:
       return {

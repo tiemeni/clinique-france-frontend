@@ -1,4 +1,4 @@
-import { put, takeLatest } from 'redux-saga/effects';
+import { call, put, takeLatest } from 'redux-saga/effects';
 import * as types from './types';
 import {
   deleteUnauthRequest,
@@ -7,6 +7,7 @@ import {
   postUnauthRequest,
 } from '../../utils/api';
 import { SHOW_MODAL_DEL_RESSOURCE } from '../common/types';
+import { delay } from '../../utils/helpers';
 
 const { REACT_APP_BASE_URL } = process.env;
 
@@ -44,16 +45,29 @@ function* postSpecialities({ spec }) {
       `${process.env.REACT_APP_BASE_URL}/specialites/`,
       payload,
     );
+    yield put({
+      type: types.CLEAR_ALL_ERR_MSG_SPEC,
+    });
     if (result.success) {
       yield put({
         type: types.POST_SPEC_REQUEST_SUCCESS,
       });
       yield put({ type: types.GET_ALL_SPECIALITIES });
       window.history.back();
+    } else {
+      yield put({ type: types.POST_SPEC_REQUEST_FAILED, payload: result.message });
+      yield call(delay, 4000);
+      yield put({
+        type: types.CLEAR_ALL_ERR_MSG_SPEC,
+      });
     }
   } catch (error) {
     console.log(error.message);
-    yield put({ type: types.POST_SPEC_REQUEST_FAILED, payload: error.message });
+    yield put({ type: types.POST_SPEC_REQUEST_FAILED, payload: `${error.message} - veillez verifier votre connexion internet` });
+    yield call(delay, 4000);
+    yield put({
+      type: types.CLEAR_ALL_ERR_MSG_SPEC,
+    });
   }
 }
 
@@ -71,6 +85,9 @@ function* updateSpec({ spec }) {
       `${process.env.REACT_APP_BASE_URL}/specialites/${spec?._id}/`,
       payload,
     );
+    yield put({
+      type: types.CLEAR_ALL_ERR_MSG_SPEC,
+    });
     if (result.success) {
       yield put({
         type: types.UPDATE_SPECIALITY_REQUEST_SUCCESS,
@@ -82,11 +99,19 @@ function* updateSpec({ spec }) {
         type: types.UPDATE_SPECIALITY_REQUEST_FAILED,
         payload: result.message,
       });
+      yield call(delay, 4000);
+      yield put({
+        type: types.CLEAR_ALL_ERR_MSG_SPEC,
+      });
     }
   } catch (error) {
     yield put({
       type: types.UPDATE_SPECIALITY_REQUEST_FAILED,
-      payload: error.message,
+      payload: `${error.message} - veillez verifier votre connexion internet`
+    });
+    yield call(delay, 4000);
+    yield put({
+      type: types.CLEAR_ALL_ERR_MSG_SPEC,
     });
   }
 }
@@ -103,20 +128,30 @@ function* deleteSpec({ id }) {
       yield put({ type: SHOW_MODAL_DEL_RESSOURCE, truth: false });
       yield put({ type: types.GET_ALL_SPECIALITIES });
     } else {
+      yield put({ type: SHOW_MODAL_DEL_RESSOURCE, truth: false });
       yield put({
         type: types.DELETE_SPEC_REQUEST_FAILED,
         payload: result.message,
       });
+      yield call(delay, 4000);
+      yield put({
+        type: types.CLEAR_ALL_ERR_MSG_SPEC,
+      });
     }
   } catch (error) {
+    yield put({ type: SHOW_MODAL_DEL_RESSOURCE, truth: false });
     yield put({
       type: types.DELETE_SPEC_REQUEST_FAILED,
-      payload: error.message,
+      payload: `${error.message} - veillez verifier votre connexion internet`
+    });
+    yield call(delay, 4000);
+    yield put({
+      type: types.CLEAR_ALL_ERR_MSG_SPEC,
     });
   }
 }
 
-function* searchSpeciality({ wordKey }){
+function* searchSpeciality({ wordKey }) {
   const url1 = `${REACT_APP_BASE_URL}/specialites/search?webAlert=${wordKey.webAlert}&title=${wordKey?.title}`;
   try {
     const result = yield getUnauthRequest(url1);

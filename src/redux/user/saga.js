@@ -1,4 +1,4 @@
-import { put, takeLatest } from 'redux-saga/effects';
+import { call, put, takeLatest } from 'redux-saga/effects';
 import * as types from './types';
 import {
   deleteUnauthRequest,
@@ -7,6 +7,7 @@ import {
   postUnauthRequest,
 } from '../../utils/api';
 import { SHOW_MODAL_DEL_RESSOURCE } from '../common/types';
+import { delay } from '../../utils/helpers';
 
 const { REACT_APP_BASE_URL } = process.env;
 // const BASE_URL = process.env.REACT_APP_BASE_URL;
@@ -26,12 +27,12 @@ function* login({ payload }) {
       data,
     );
     if (result.success) {
-      
+
       yield put({
         type: types.LOGIN_REQUEST_SUCCESS,
         payload: result.data?.user,
       });
-      
+
       localStorage.setItem('acces_bo_token', result.data.access_token);
       localStorage.setItem('idc', payload?.idCentre);
       localStorage.setItem('username', result.data.user.name);
@@ -41,7 +42,7 @@ function* login({ payload }) {
       yield put({ type: types.LOGIN_REQUEST_FAILED, payload: result.message });
     }
   } catch (error) {
-    console.log(typeof(error.message), error.message)
+    console.log(typeof (error.message), error.message)
     yield put({ type: types.LOGIN_REQUEST_FAILED, payload: error.message });
   }
 }
@@ -79,6 +80,9 @@ function* postUser({ user }) {
       `${process.env.REACT_APP_BASE_URL}/users/register`,
       payload,
     );
+    yield put({
+      type: types.RESET_ALL_FIELD,
+    });
     if (result.success) {
       yield put({
         type: types.POST_USER_REQUEST_SUCCESS,
@@ -90,11 +94,19 @@ function* postUser({ user }) {
         type: types.POST_USER_REQUEST_FAILED,
         payload: result.message,
       });
+      yield call(delay, 4000);
+      yield put({
+        type: types.RESET_ALL_FIELD,
+      });
     }
   } catch (error) {
     yield put({
       type: types.POST_USER_REQUEST_FAILED,
-      payload: error.message,
+      payload: `${error.message} - veillez verifier votre connexion internet`,
+    });
+    yield call(delay, 4000);
+    yield put({
+      type: types.RESET_ALL_FIELD,
     });
   }
 }
@@ -117,6 +129,9 @@ function* updateUser({ user }) {
       `${process.env.REACT_APP_BASE_URL}/users/${user?._id}/`,
       payload,
     );
+    yield put({
+      type: types.RESET_ALL_FIELD,
+    });
     if (result.success) {
       yield put({
         type: types.UPDATE_USER_REQUEST_SUCCESS,
@@ -128,11 +143,19 @@ function* updateUser({ user }) {
         type: types.UPDATE_USER_REQUEST_FAILED,
         payload: result.message,
       });
+      yield call(delay, 4000);
+      yield put({
+        type: types.RESET_ALL_FIELD,
+      });
     }
   } catch (error) {
     yield put({
       type: types.UPDATE_USER_REQUEST_FAILED,
-      payload: error.message,
+      payload: `${error.message} - veillez verifier votre connexion internet`,
+    });
+    yield call(delay, 4000);
+    yield put({
+      type: types.RESET_ALL_FIELD,
     });
   }
 }
@@ -142,6 +165,9 @@ function* deleteUser({ id }) {
     const result = yield deleteUnauthRequest(
       `${process.env.REACT_APP_BASE_URL}/users/${id}`,
     );
+    yield put({
+      type: types.RESET_ALL_FIELD,
+    });
     if (result.success) {
       yield put({
         type: types.DELETE_USER_REQUEST_SUCCESS,
@@ -149,15 +175,25 @@ function* deleteUser({ id }) {
       yield put({ type: SHOW_MODAL_DEL_RESSOURCE, truth: false });
       yield put({ type: types.GET_ALL_USERS });
     } else {
+      yield put({ type: SHOW_MODAL_DEL_RESSOURCE, truth: false });
       yield put({
         type: types.DELETE_USER_REQUEST_FAILED,
         payload: result.message,
       });
+      yield call(delay, 4000);
+      yield put({
+        type: types.RESET_ALL_FIELD,
+      });
     }
   } catch (error) {
+    yield put({ type: SHOW_MODAL_DEL_RESSOURCE, truth: false });
     yield put({
       type: types.DELETE_USER_REQUEST_FAILED,
-      payload: error.message,
+      payload: `${error.message} - veillez verifier votre connexion internet`,
+    });
+    yield call(delay, 4000);
+    yield put({
+      type: types.RESET_ALL_FIELD,
     });
   }
 }

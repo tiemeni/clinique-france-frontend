@@ -86,6 +86,12 @@ function FormGenerator({
   const errorUpdatingPraticien = useSelector(
     (state) => state.Praticiens.errorUpdatingPraticien,
   );
+
+  const errorPostingUser = useSelector((state) => state.User.errorPostingUser);
+  const errorUpdatingUser = useSelector((state) => state.User.errorUpdatingUser);
+
+  const loadingSpecsError = useSelector((state) => state.Specialities.loadingSpecsError);
+  const updatingSpecsError = useSelector((state) => state.Specialities.updatingSpecsError);
   // ----------
   const [dataCp, setDataCp] = useState({});
   const civilities = useSelector((state) => state.Civilities.civilities);
@@ -798,10 +804,10 @@ function FormGenerator({
           return result;
         })}
         <p style={{color: "red", marginLeft: "200px", marginBottom: "10px"}}>
-        {(errorPostingPatient || errorPostingPraticien || errorUpdatingPatient || errorUpdatingPraticien) && (
+        {(errorPostingPatient || errorPostingPraticien || errorUpdatingPatient || errorUpdatingPraticien || errorPostingUser || errorUpdatingUser || loadingSpecsError || updatingSpecsError) && (
             <Alert status="error" mt={2}>
               <AlertIcon />
-              {errorPostingPatient || errorPostingPraticien || errorUpdatingPatient || errorUpdatingPraticien}
+              {errorPostingPatient || errorPostingPraticien || errorUpdatingPatient || errorUpdatingPraticien || errorPostingUser || errorUpdatingUser || loadingSpecsError || updatingSpecsError}
             </Alert>
           )}
         </p>

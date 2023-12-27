@@ -6,6 +6,13 @@ const initialState = {
 
 const SpecialityReducers = (state = initialState, action = undefined) => {
   switch (action.type) {
+    case types.CLEAR_ALL_ERR_MSG_SPEC:
+      return {
+        ...state,
+        loadingSpecsError: null,
+        updatingSpecsError: null,
+        deletingSpecsError: null
+      }
     case types.GET_ALL_SPECIALITIES:
       return {
         ...state,

@@ -71,6 +71,8 @@ function TableGenerator({
   const errordeletingPatient = useSelector(
     (state) => state.Patient.errordeletingPatient,
   );
+  const errorDeletingUser = useSelector((state) => state.User.errorDeletingUser);
+  const deletingSpecsError = useSelector((state) => state.Specialities.deletingSpecsError);
   const [data1, setData1] = useState(data);
   const [loading, setLoading] = useState(true);
 
@@ -202,10 +204,10 @@ function TableGenerator({
 
   return (
     <TableContainer w="100%">
-      {(errordeletingPatient || errordeletingPraticien) && (
+      {(errordeletingPatient || errordeletingPraticien || errorDeletingUser || deletingSpecsError) && (
         <Alert status="error" mt={2} mb={5}>
           <AlertIcon />
-          {errordeletingPatient || errordeletingPraticien}
+          {errordeletingPatient || errordeletingPraticien || errorDeletingUser || deletingSpecsError}
         </Alert>
       )}
       <Table size="sm" variant="striped" colorScheme="gray">
