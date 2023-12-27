@@ -1,4 +1,6 @@
 import {
+  Alert,
+  AlertIcon,
   Button,
   Divider,
   FormControl,
@@ -32,9 +34,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Formik, Field } from 'formik';
 import moment from 'moment';
 import { onEventClick } from '../../redux/common/actions';
-import {
-  onUpdateAppointment,
-} from '../../redux/appointments/actions';
+import { onUpdateAppointment } from '../../redux/appointments/actions';
 import LoadingText from '../elements/WaitingMessage';
 
 function RdvInfo() {
@@ -130,6 +130,7 @@ function FicheRdv() {
   const { isLoading, success, isFailed } = useSelector(
     (state) => state.Appointments,
   );
+  const updateRDVError = useSelector((state) => state.Appointments.updateRDVError);
   const allMotifs = useSelector((state) => state.Motifs.motifs);
   const patient = infoRdv?.patient ?? null;
   const dispatch = useDispatch();
@@ -355,6 +356,10 @@ function FicheRdv() {
                               </FormControl>
                             </VStack>
                             <VStack w="full" gap={5} mt={5}>
+                              {updateRDVError && <Alert status="error" mt={2} width="100%">
+                                <AlertIcon />
+                                {updateRDVError}
+                              </Alert>}
                               <HStack justifyContent="start" w="full">
                                 <Button
                                   type="submit"

@@ -22,6 +22,15 @@ const iniatialState = {
 
 const AppointmentReducer = (state = iniatialState, action) => {
   switch (action.type) {
+    case types.CLEAR_ALL_ERR_MSG_PR:
+      return {
+        ...state,
+        errorCreatingRDV: null,
+        updateRDVError: null,
+        duplicatingRDVError:null,
+        success:false,
+        isFailed: false
+      }
     case types.UPDATE_APPOINTMENT_REQUEST:
       return {
         ...state,
@@ -35,6 +44,7 @@ const AppointmentReducer = (state = iniatialState, action) => {
         isLoading: false,
         isFailed: true,
         success: false,
+        updateRDVError: action.error
       };
     case types.UPDATE_APPOINTMENT_SUCCESS:
       return {
@@ -83,6 +93,7 @@ const AppointmentReducer = (state = iniatialState, action) => {
         pasteProcessing: false,
         pasteFailed: true,
         pasteSuccess: false,
+        duplicatingRDVError: action.error
       };
     case types.DUPLICATE_APPOINTMENT_SUCCESS:
       return {
@@ -135,9 +146,11 @@ const AppointmentReducer = (state = iniatialState, action) => {
           creatingRDV: false,
         }
         case types.CREATE_RDV_REQUEST_FAILED:
+          console.log("error ------------> ", action.payload)
         return {
           ...state, 
-          creatingRDV: false
+          creatingRDV: false,
+          errorCreatingRDV: action.payload
         }
     default:
       return state;

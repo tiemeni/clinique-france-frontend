@@ -1,7 +1,7 @@
-import { put, takeLatest } from 'redux-saga/effects';
+import { call, put, takeLatest } from 'redux-saga/effects';
 import * as types from './types';
 import { AGENDA_DATE_CLICK } from '../common/types';
-import { ajouterDuree, incrementTime } from '../../utils/helpers';
+import { ajouterDuree, delay, incrementTime } from '../../utils/helpers';
 import {
   deleteUnauthRequest,
   putUnauthRequest,
@@ -40,18 +40,32 @@ function* updateAppointment({ payload }) {
     const query = extractQuery(payload);
     const url = `${BASE_URL}/appointments/update/${payload._id}/`;
     const result = yield putUnauthRequest(url, query);
-
+    yield put({
+      type: types.CLEAR_ALL_ERR_MSG_PR,
+    });
     if (!result.success) {
       yield put({
         type: types.UPDATE_APPOINTMENT_FAILED,
         error: "Une erreur est survenue lors de l'exécution de la requête",
       });
+      yield call(delay, 4000);
+      yield put({
+        type: types.CLEAR_ALL_ERR_MSG_PR,
+      });
       return;
     }
 
     yield put({ type: types.UPDATE_APPOINTMENT_SUCCESS });
+    yield put({
+      type: AGENDA_DATE_CLICK,
+      payload: { date: '', isOpen: false },
+    });
   } catch (error) {
-    yield put({ type: types.UPDATE_APPOINTMENT_FAILED, error });
+    yield put({ type: types.UPDATE_APPOINTMENT_FAILED, error: `${error.message} - veillez verifier votre connexion internet` });
+    yield call(delay, 4000);
+    yield put({
+      type: types.CLEAR_ALL_ERR_MSG_PR,
+    });
   }
 }
 
@@ -79,11 +93,17 @@ function* pasteAppointment({ payload }) {
   try {
     const url = `${BASE_URL}/appointments/duplicate/`;
     const result = yield postUnauthRequest(url, payload);
-
+    yield put({
+      type: types.CLEAR_ALL_ERR_MSG_PR,
+    });
     if (!result.success) {
       yield put({
         type: types.DUPLICATE_APPOINTMENT_FAILED,
         error: "Erreur lors de l'execution",
+      });
+      yield call(delay, 4000);
+      yield put({
+        type: types.CLEAR_ALL_ERR_MSG_PR,
       });
       return;
     }
@@ -98,8 +118,12 @@ function* pasteAppointment({ payload }) {
     });
   } catch (error) {
     yield put({
-      type: types.DUPLICATE_APPOINTMENT_REQUEST,
+      type: types.DUPLICATE_APPOINTMENT_FAILED,
       error: 'Une erreur est survenue lors du traitement de votre demande.',
+    });
+    yield call(delay, 4000);
+    yield put({
+      type: types.CLEAR_ALL_ERR_MSG_PR,
     });
   }
 }
@@ -139,6 +163,9 @@ function* postRDV({ data }) {
     const result = yield postUnauthRequest(url1, payload);
     // const idFiche;
     let rdv;
+    yield put({
+      type: types.CLEAR_ALL_ERR_MSG_PR,
+    });
     if (result.message) {
       const rdvData = {
         practitioner: data?.praticien,
@@ -175,11 +202,13 @@ function* postRDV({ data }) {
     } else {
       yield put({
         type: types.CREATE_RDV_REQUEST_FAILED,
-        payload: "Erreur lors de la creation du rendez-vous!",
+        payload: `Erreur lors de la creation du rendez-vous! - ${result?.message ?? ""}`,
       });
-      yield setTimeout(() => {
-        put({ type: "CLEAR_ERR_SUCC" });
-      }, 3000);
+      yield call(delay, 4000);
+      yield put({
+        type: types.CLEAR_ALL_ERR_MSG_PR,
+      });
+      yield put({ type: "CLEAR_ERR_SUCC" });
     }
     if (rdv?.success) {
       yield put({
@@ -193,17 +222,21 @@ function* postRDV({ data }) {
     } else {
       yield put({
         type: types.CREATE_RDV_REQUEST_FAILED,
-        payload: "Erreur lors de la creation du rendez-vous!",
+        payload: `Erreur lors de la creation du rendez-vous! - ${result?.message ?? ""}`,
       });
-      yield setTimeout(() => {
-        put({ type: "CLEAR_ERR_SUCC" });
-      }, 3000);
+      yield call(delay, 4000);
+      yield put({
+        type: types.CLEAR_ALL_ERR_MSG_PR,
+      });
+      yield put({ type: "CLEAR_ERR_SUCC" });
     }
   } catch (error) {
-    yield put({ type: types.CREATE_RDV_REQUEST_FAILED, payload: error.message });
-    yield setTimeout(() => {
-      put({ type: "CLEAR_ERR_SUCC" });
-    }, 3000);
+    yield put({ type: types.CREATE_RDV_REQUEST_FAILED, payload: `${error.message} - veillez verifier votre connexion internet` });
+    yield call(delay, 4000);
+    yield put({ type: "CLEAR_ERR_SUCC" });
+    yield put({
+      type: types.CLEAR_ALL_ERR_MSG_PR,
+    });
   }
 }
 

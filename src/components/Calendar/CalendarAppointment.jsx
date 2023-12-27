@@ -1,4 +1,6 @@
 import {
+  Alert,
+  AlertIcon,
   Button,
   Divider,
   FormControl,
@@ -13,6 +15,7 @@ import {
   ModalHeader,
   ModalOverlay,
   Select,
+  Stack,
   Text,
   VStack,
   useToast,
@@ -36,10 +39,24 @@ function CalendarAppointment() {
   const dispatch = useDispatch();
   const { praticiens } = useSelector((state) => state.Praticiens);
   const allMotifs = useSelector((state) => state.Motifs.motifs);
+  const errorCreatingRDV = useSelector(
+    (state) => state.Appointments.errorCreatingRDV,
+  );
+  const duplicatingRDVError = useSelector(
+    (state) => state.Appointments.duplicatingRDVError,
+  );
   const [motifsBySpec, setmotifsBySpec] = useState([]);
-  const { openModal, dateSelected, mode } = useSelector((state) => state.Common);
-  const { copyId, duration, pasteProcessing, pasteFailed, pasteSuccess, creatingRDV } =
-    useSelector((state) => state.Appointments);
+  const { openModal, dateSelected, mode } = useSelector(
+    (state) => state.Common,
+  );
+  const {
+    copyId,
+    duration,
+    pasteProcessing,
+    pasteFailed,
+    pasteSuccess,
+    creatingRDV,
+  } = useSelector((state) => state.Appointments);
   const date = moment(dateSelected);
   const toast = useToast();
   const initialValues = {
@@ -69,10 +86,16 @@ function CalendarAppointment() {
           endTime: incrementTime(date.format('HH:mm'), duration),
         }),
       );
-    else dispatch(createRdv({...values, date_long: dateSelected ? date : new Date().toISOString()}));
+    else
+      dispatch(
+        createRdv({
+          ...values,
+          date_long: dateSelected ? date : new Date().toISOString(),
+        }),
+      );
   };
   const onClose = () => {
-    dispatch(onDateSelected({ date: '', isOpen: false, mode: "" }));
+    dispatch(onDateSelected({ date: '', isOpen: false, mode: '' }));
     dispatch(copyAppointmentId({ id: null, duration: null }));
   };
 
@@ -115,11 +138,17 @@ function CalendarAppointment() {
         <ModalCloseButton color="white" />
         <ModalBody p={5}>
           {copyId ? (
-            <Text textAlign="center">
-              Souhaitez-vous copier ce rendez-vous au{' '}
-              {`${date.format('DD/MM/YYYY')} à ${date.format('HH:mm')}`} sur ce
-              calendrier
-            </Text>
+            <Stack>
+              <Text textAlign="center">
+                Souhaitez-vous copier ce rendez-vous au{' '}
+                {`${date.format('DD/MM/YYYY')} à ${date.format('HH:mm')}`} sur
+                ce calendrier
+              </Text>
+              {duplicatingRDVError && <Alert status="error" mt={2} width="100%">
+                <AlertIcon />
+                {duplicatingRDVError}
+              </Alert>}
+            </Stack>
           ) : (
             <Formik initialValues={initialValues} onSubmit={onSubmit}>
               {({ handleSubmit }) => (
@@ -129,7 +158,11 @@ function CalendarAppointment() {
                       <HStack w="full">
                         <FormControl
                           isRequired
-                          defaultValue={allMotifs.filter((m) => m.idSpeciality === praticiens[0]?.job?._id)[0]?._id}
+                          defaultValue={
+                            allMotifs.filter(
+                              (m) => m.idSpeciality === praticiens[0]?.job?._id,
+                            )[0]?._id
+                          }
                           onChange={(e) => {
                             const { job } = praticiens.find(
                               (p) => p._id === e.target.value,
@@ -234,37 +267,45 @@ function CalendarAppointment() {
                     </VStack>
                     <Divider />
                     <PatientInfo />
-                    {mode === "create" && <HStack justifyContent="start" w="full" gap={5} mb={10}>
-                      <Button
-                        type="submit"
-                        size="md"
-                        colorScheme="primary"
-                        rightIcon={<UilArrowCircleRight />}
-                        isLoading={pasteProcessing || creatingRDV}
-                        loadingText={LoadingText}
-                      >
-                        <Text fontSize="sm" fontWeight="normal">
-                          Valider
-                        </Text>
-                      </Button>
-                      <Button
-                        colorScheme="primary"
-                        variant="outline"
-                        color="primary.500"
-                        size="md"
-                        rightIcon={<UilPrint />}
-                        onClick={onClose}
-                      >
-                        <Text fontSize="sm" fontWeight="normal">
-                          Valider et Imprimer
-                        </Text>
-                      </Button>
-                      <Button size="md" onClick={onClose}>
-                        <Text fontSize="sm" fontWeight="normal">
-                          Annuler
-                        </Text>
-                      </Button>
-                    </HStack>}
+                    {errorCreatingRDV && (
+                      <Alert status="error" mt={2} width="50%">
+                        <AlertIcon />
+                        {errorCreatingRDV}
+                      </Alert>
+                    )}
+                    {mode === 'create' && (
+                      <HStack justifyContent="start" w="full" gap={5} mb={10}>
+                        <Button
+                          type="submit"
+                          size="md"
+                          colorScheme="primary"
+                          rightIcon={<UilArrowCircleRight />}
+                          isLoading={pasteProcessing || creatingRDV}
+                          loadingText={LoadingText}
+                        >
+                          <Text fontSize="sm" fontWeight="normal">
+                            Valider
+                          </Text>
+                        </Button>
+                        <Button
+                          colorScheme="primary"
+                          variant="outline"
+                          color="primary.500"
+                          size="md"
+                          rightIcon={<UilPrint />}
+                          onClick={onClose}
+                        >
+                          <Text fontSize="sm" fontWeight="normal">
+                            Valider et Imprimer
+                          </Text>
+                        </Button>
+                        <Button size="md" onClick={onClose}>
+                          <Text fontSize="sm" fontWeight="normal">
+                            Annuler
+                          </Text>
+                        </Button>
+                      </HStack>
+                    )}
                   </VStack>
                 </form>
               )}
@@ -272,42 +313,44 @@ function CalendarAppointment() {
           )}
         </ModalBody>
 
-        {(mode !== "create" || copyId) && <ModalFooter flexDirection="column" gap={5} pb={5}>
-          <Divider />
-           <HStack justifyContent="center" w="full" gap={5}>
-            <Button
-              size="md"
-              colorScheme="primary"
-              rightIcon={<UilArrowCircleRight />}
-              onClick={onSubmit}
-              isLoading={pasteProcessing}
-              loadingText={LoadingText}
-            >
-              <Text fontSize="sm" fontWeight="normal">
-                Valider
-              </Text>
-            </Button>
-            {!copyId && (
+        {(mode !== 'create' || copyId) && (
+          <ModalFooter flexDirection="column" gap={5} pb={5}>
+            <Divider />
+            <HStack justifyContent="center" w="full" gap={5}>
               <Button
-                colorScheme="primary"
-                variant="outline"
-                color="primary.500"
                 size="md"
-                rightIcon={<UilPrint />}
-                onClick={onClose}
+                colorScheme="primary"
+                rightIcon={<UilArrowCircleRight />}
+                onClick={onSubmit}
+                isLoading={pasteProcessing}
+                loadingText={LoadingText}
               >
                 <Text fontSize="sm" fontWeight="normal">
-                  Valider et Imprimer
+                  Valider
                 </Text>
               </Button>
-            )}
-            <Button size="md" onClick={onClose}>
-              <Text fontSize="sm" fontWeight="normal">
-                Annuler
-              </Text>
-            </Button>
-          </HStack>
-        </ModalFooter>}
+              {!copyId && (
+                <Button
+                  colorScheme="primary"
+                  variant="outline"
+                  color="primary.500"
+                  size="md"
+                  rightIcon={<UilPrint />}
+                  onClick={onClose}
+                >
+                  <Text fontSize="sm" fontWeight="normal">
+                    Valider et Imprimer
+                  </Text>
+                </Button>
+              )}
+              <Button size="md" onClick={onClose}>
+                <Text fontSize="sm" fontWeight="normal">
+                  Annuler
+                </Text>
+              </Button>
+            </HStack>
+          </ModalFooter>
+        )}
       </ModalContent>
     </Modal>
   );
