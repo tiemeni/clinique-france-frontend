@@ -46,9 +46,11 @@ function CalendarAppointment() {
     (state) => state.Appointments.duplicatingRDVError,
   );
   const [motifsBySpec, setmotifsBySpec] = useState([]);
+  const [selectiedMotif, setSelectedMotif] = useState();
   const { openModal, dateSelected, mode } = useSelector(
     (state) => state.Common,
   );
+
   const {
     copyId,
     duration,
@@ -71,6 +73,7 @@ function CalendarAppointment() {
     birthdate: '',
     phone: '',
     remarque: '',
+    praticien: praticiens[0]?._id?.toString(),
     date: date.format('yyyy-MM-DD'),
     heureDebut: date.format('HH:mm'),
     heureReel: date.format('HH:mm'),
@@ -89,7 +92,7 @@ function CalendarAppointment() {
     else
       dispatch(
         createRdv({
-          ...values,
+          ...values, duree: selectiedMotif,
           date_long: dateSelected ? date : new Date().toISOString(),
         }),
       );
@@ -144,10 +147,12 @@ function CalendarAppointment() {
                 {`${date.format('DD/MM/YYYY')} à ${date.format('HH:mm')}`} sur
                 ce calendrier
               </Text>
-              {duplicatingRDVError && <Alert status="error" mt={2} width="100%">
-                <AlertIcon />
-                {duplicatingRDVError}
-              </Alert>}
+              {duplicatingRDVError && (
+                <Alert status="error" mt={2} width="100%">
+                  <AlertIcon />
+                  {duplicatingRDVError}
+                </Alert>
+              )}
             </Stack>
           ) : (
             <Formik initialValues={initialValues} onSubmit={onSubmit}>
@@ -173,7 +178,8 @@ function CalendarAppointment() {
                             );
                           }}
                         >
-                          <FormLabel color="gray.500" fontSize="sm">
+                          <FormLabel
+                          color="gray.500" fontSize="sm">
                             Praticien
                           </FormLabel>
                           <Field
@@ -190,7 +196,22 @@ function CalendarAppointment() {
                               ))}
                           </Field>
                         </FormControl>
-                        <FormControl isRequired>
+                        <FormControl
+                          onChange={(event) => {
+                            setSelectedMotif(() => {
+                              console.log(
+                                'allMotifs.find(m => m._id === event.target.value)',
+                                allMotifs.find(
+                                  (m) => m._id === event.target.value,
+                                ).default_time,
+                              );
+                              return parseInt(allMotifs.find(
+                                (m) => m._id === event.target.value,
+                              ).default_time, 10);
+                            });
+                          }}
+                          isRequired
+                        >
                           <FormLabel color="gray.500" fontSize="sm">
                             Motif
                           </FormLabel>
@@ -202,8 +223,14 @@ function CalendarAppointment() {
                             fontSize="sm"
                             placeholder="Selectionnez un motif"
                           >
-                            {motifsBySpec?.length > 0 &&
+                            {motifsBySpec?.length > 0 ?
                               motifsBySpec.map(({ _id, nom }) => (
+                                <option key={_id} value={_id}>
+                                  {' '}
+                                  {nom}{' '}
+                                </option>
+                              )) : allMotifs.filter((m) => m.idSpeciality === praticiens[0]?.job?._id)
+                              .map(({_id, nom}) => (
                                 <option key={_id} value={_id}>
                                   {' '}
                                   {nom}{' '}
@@ -261,6 +288,11 @@ function CalendarAppointment() {
                             name="duree"
                             fontSize="sm"
                             type="number"
+                            onChange={(e) => setSelectedMotif(e.target.value)}
+                            value={parseInt(
+                              selectiedMotif,
+                              10,
+                            )}
                           />
                         </FormControl>
                       </HStack>

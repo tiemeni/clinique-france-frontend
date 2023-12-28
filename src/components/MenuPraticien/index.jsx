@@ -164,7 +164,7 @@ function MenuPraticien() {
           <IconButton
             style={{ margin: 10 }}
             size="xs"
-            onClick={() => dispatch(onDateSelected({ date: null, isOpen: true, mode: 'create' }))}
+            onClick={() => dispatch(onDateSelected({ date: new Date(), isOpen: true, mode: 'create' }))}
             variant="unstyled"
             icon={<UilPlus color="white" size={_iconSizesm} />}
           />

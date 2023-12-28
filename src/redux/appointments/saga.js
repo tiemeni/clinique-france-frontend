@@ -222,7 +222,7 @@ function* postRDV({ data }) {
     } else {
       yield put({
         type: types.CREATE_RDV_REQUEST_FAILED,
-        payload: `Erreur lors de la creation du rendez-vous! - ${result?.message ?? ""}`,
+        payload: `Erreur lors de la creation du rendez-vous! - ${rdv?.message ?? ""}`,
       });
       yield call(delay, 4000);
       yield put({

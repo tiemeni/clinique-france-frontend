@@ -197,9 +197,9 @@ function TableGenerator({
   if (loading) {
     return (
       <Stack width="100%" display="flex" flexDirection="column" mb="10px">
-        <Skeleton height="35px" width="100%" borderRadius={3} />
-        <Skeleton height="40px" width="100%" borderRadius={10} />
-        <Skeleton height="40px" width="100%" borderRadius={10} />
+        <Skeleton height="25px" width="100%" borderRadius={10} />
+        <Skeleton height="25px" width="100%" borderRadius={10} />
+        <Skeleton height="25px" width="100%" borderRadius={10} />
       </Stack>
     );
   }
