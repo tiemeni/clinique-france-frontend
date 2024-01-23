@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import { Spinner, VStack } from '@chakra-ui/react';
 import { useSelector } from 'react-redux';
 
@@ -31,4 +31,4 @@ function Loader() {
   );
 }
 
-export default Loader;
+export default memo(Loader);

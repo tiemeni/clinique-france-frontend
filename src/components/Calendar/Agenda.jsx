@@ -99,7 +99,6 @@ function Agenda() {
     });
   }, [socket]);
 
-  console.log('======================fullCalendar')
   return (
     <Box position="relative" w="full">
       <FullCalendar
@@ -129,6 +128,7 @@ function Agenda() {
         headerToolbar={headerToolbar}
         slotLabelFormat={slotLabelFormat}
         eventClassNames="calendar-event"
+        
         eventSources={[
           {
             url: `${process.env.REACT_APP_BASE_URL}/appointments/`,

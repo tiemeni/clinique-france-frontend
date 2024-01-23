@@ -8,7 +8,7 @@ function TooltipContent(props) {
   return (
     <VStack p={2} gap={1} alignItems="flex-start">
       <Text fontSize="sm" fontWeight="semibold">
-        {patient.name} {patient.surname}
+        {patient?.name} {patient?.surname}
       </Text>
       <HStack alignItems="start">
         <Text fontSize="sm" fontWeight="semibold">

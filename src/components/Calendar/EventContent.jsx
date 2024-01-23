@@ -227,9 +227,9 @@ function EventContent({ event }) {
               status === 'Absence non excusée' ? 'line-through' : 'none'
             }
           >
-            {patient.civ ?? ''}
-            <strong>{patient.name}</strong>
-            <span> {patient.surname}</span>
+            {patient?.civ ?? ''}
+            <strong>{patient?.name}</strong>
+            <span> {patient?.surname}</span>
           </Text>
         </MenuButton>
       </Tooltip>
@@ -241,8 +241,8 @@ function EventContent({ event }) {
             <>
               {item?.divider && <Divider />}
               <Item
-                icon={item.icon}
-                intitule={item.intitule}
+                icon={item?.icon}
+                intitule={item?.intitule}
                 color={item?.color}
                 textColor={item?.textColor}
                 func={item?.func}
