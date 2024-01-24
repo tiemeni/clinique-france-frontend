@@ -14,7 +14,6 @@ const unAuthRequest = async (contentType, method, url, data) => {
     method,
     headers: {
       'Content-Type': contentType,
-      'Origin' : 'https://clinique-france-frontend.vercel.app'
     },
     credentials:"include",
     body: JSON.stringify(data),
