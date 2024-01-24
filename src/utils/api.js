@@ -12,7 +12,7 @@ const multPart = `multipart/form-data`;
 const unAuthRequest = async (contentType, method, url, data) => {
   const response = await fetch(url, {
     method,
-    mode: "no-cors",
+    mode: "cors",
     headers: {
       'Content-Type': contentType,
     },
