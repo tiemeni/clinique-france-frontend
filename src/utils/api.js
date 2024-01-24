@@ -14,6 +14,7 @@ const unAuthRequest = async (contentType, method, url, data) => {
     method,
     headers: {
       'Content-Type': contentType,
+      "Access-Control-Allow-Origin" : true,
     },
     credentials:"include",
     body: JSON.stringify(data),
