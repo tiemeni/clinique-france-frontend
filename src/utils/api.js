@@ -12,7 +12,6 @@ const multPart = `multipart/form-data`;
 const unAuthRequest = async (contentType, method, url, data) => {
   const response = await fetch(url, {
     method,
-    mode: "cors",
     headers: {
       'Content-Type': contentType,
       'Origin' : 'https://clinique-france-frontend.vercel.app'
