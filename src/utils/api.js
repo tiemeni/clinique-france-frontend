@@ -15,7 +15,6 @@ const unAuthRequest = async (contentType, method, url, data) => {
     headers: {
       'Content-Type': contentType,
     },
-    credentials:"include",
     body: JSON.stringify(data),
   });
   if (response) return response.json();
