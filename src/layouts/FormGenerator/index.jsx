@@ -29,6 +29,19 @@ import { getAllPatients } from '../../redux/patient/actions';
 import { getAllConsignes } from '../../redux/consignes/actions';
 // import { searchMotif } from '../../redux/motifs/actions';
 
+const maxNowDate = () => {
+  const now = new Date;
+  const normalizeShort = (number) => {
+    
+    if (number < 10) {
+      return `0${number.toString()}`
+    }
+      return number.toString()
+  } 
+  const max = `${now.getFullYear()}-${normalizeShort(now.getMonth() +1)}-${normalizeShort(now.getDate())}`;
+  return max;
+}
+
 function FormGenerator({
   type,
   data,
@@ -576,6 +589,7 @@ function FormGenerator({
                     <Input
                       id={e.name}
                       type="date"
+                      max={e.name === 'birthdate' ? maxNowDate(): null}
                       placeholder={e.placeholder}
                       // value={formData[e.name]}
                       required={e.required}
