@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from 'react';
+import PhoneInput from 'react-phone-input-2';
+import 'react-phone-input-2/lib/style.css';
 import {
   Alert,
   AlertIcon,
@@ -666,7 +668,20 @@ function FormGenerator({
                     <FormLabel width="250px" textAlign="right">
                       {e.placeholder}
                     </FormLabel>
-                    <Input
+                    {e.name === 'telephone' ?
+                    <PhoneInput
+                        onChange={(...args) => {
+                          formik.handleChange(args[2])
+                        }}
+                        country='fr'
+                        inputStyle={{ width: '100%', fontFamily:'Poppins', fontSize:'15px' }}
+                        placeholder='numéro de téléphone'
+                        enableSearch
+                        inputProps={{
+                          name: e?.name
+                        }}
+                      /> : 
+                      <Input
                       id={e?.name}
                       type="number"
                       placeholder={e.placeholder}
@@ -687,6 +702,9 @@ function FormGenerator({
                       onChange={formik.handleChange}
                       value={formik.values[e.name]}
                     />
+                  
+                  }
+                    
                   </Stack>
                   {/* <FormErrorMessage marginLeft="200px">
                     {errors[e.name] && errors[e.name].message}
