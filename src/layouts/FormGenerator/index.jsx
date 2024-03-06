@@ -385,6 +385,8 @@ function FormGenerator({
                     </FormLabel>
                     <Input
                       id={e.name}
+                      minLength={e.name === 'name' || e.name === 'surname' ? 3 : null}
+                      maxLength={e.name === 'name' || e.name === 'surname' ? 25 : null }
                       type="text"
                       placeholder={e.placeholder}
                       // value={formData[e.name]}
