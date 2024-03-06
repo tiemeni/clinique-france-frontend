@@ -669,7 +669,8 @@ function FormGenerator({
                       {e.placeholder}
                     </FormLabel>
                     {e.name === 'telephone' ?
-                    <PhoneInput
+                      <PhoneInput
+                        countryCodeEditable={false}
                         onChange={(...args) => {
                           formik.handleChange(args[2])
                         }}
