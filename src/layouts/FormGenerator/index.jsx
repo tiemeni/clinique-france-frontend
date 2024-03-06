@@ -29,6 +29,9 @@ import { getAllPatients } from '../../redux/patient/actions';
 import { getAllConsignes } from '../../redux/consignes/actions';
 // import { searchMotif } from '../../redux/motifs/actions';
 
+const validateEmail = (email) => String(email).trim().toLowerCase().match(/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/);
+
+
 function FormGenerator({
   type,
   data,
@@ -116,6 +119,8 @@ function FormGenerator({
   const updatingConsigneError = useSelector(
     (state) => state.Consignes.updatingConsigneError,
   );
+
+  const [emailError, setEmailError] = useState('');
 
   const [dataCp, setDataCp] = useState({});
   const civilities = useSelector((state) => state.Civilities.civilities);
@@ -638,7 +643,16 @@ function FormGenerator({
                       // onChange={(event) =>
                       //   handleChange(event, e.name?.toString())
                       // }
-                      onChange={formik.handleChange}
+                      onChange={(event) => {
+                        if (validateEmail(event.target.value)) {
+                          setEmailError('')
+                        } else {
+                          setEmailError('Adresse email invalide')
+                        }
+                        formik.handleChange(event)
+
+
+                      }}
                       value={formik.values[e.name]}
                     />
                   </Stack>
@@ -838,7 +852,8 @@ function FormGenerator({
             errorPostingMotif ||
             errorupdatingMotif ||
             creatingConsigneError ||
-            updatingConsigneError) && (
+            updatingConsigneError ||
+            emailError) && (
             <Alert status="error" mt={2}>
               <AlertIcon />
               {errorPostingPatient ||
@@ -855,14 +870,15 @@ function FormGenerator({
                 errorPostingMotif ||
                 errorupdatingMotif ||
                 creatingConsigneError ||
-                updatingConsigneError}
+                updatingConsigneError ||
+                emailError}
             </Alert>
           )}
         </p>
         <Box w="100%" paddingLeft="200px" marginBottom="10px">
           {Object.keys(data.dataFields.callBacks)?.map((key, i) => (
             <Button
-              type={i === 0 ? 'submit' : null}
+              type={i === 0 && !emailError ? 'submit' : 'button'}
               isLoading={
                 i === 0 &&
                 (loadingPostLieu ||
