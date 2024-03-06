@@ -48,7 +48,7 @@ function PraticienPage() {
 
   return (
     <Box p={5} spacing={5}>
-      <RessourceSearchLayout data={praticien} cle={cle} type={type} handlePost={handlePost}/>
+      <RessourceSearchLayout data={praticien} cle={cle} type={type} handlePost={handlePost} searchLabel="recherche d'un praticien "/>
       <p style={{ marginTop: 15 }}>
         {praticiens?.length} praticiens correspondent a votre recherche
       </p>

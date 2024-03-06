@@ -24,7 +24,7 @@ function LieuPage() {
   };
   return (
     <Box p={5} spacing={5}>
-      <RessourceSearchLayout data={lieu} />
+      <RessourceSearchLayout data={lieu} searchLabel="recherche d'un lieu "/>
       <p style={{ marginTop: 15 }}>
         {lieux.length} lieux correspondent a votre recherche
       </p>

@@ -33,7 +33,7 @@ function ConsignePage() {
   };
   return (
     <Box p={5} spacing={5}>
-      <RessourceSearchLayout data={consigne} type={type} cle={cle} handlePost={handlePost}/>
+      <RessourceSearchLayout data={consigne} type={type} cle={cle} handlePost={handlePost} searchLabel="recherche d'une consigne "/>
       <p style={{ marginTop: 15 }}>
         {consignes.length} Consignes correspondent a votre recherche
       </p>

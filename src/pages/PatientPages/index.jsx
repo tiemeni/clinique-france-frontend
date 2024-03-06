@@ -31,7 +31,7 @@ function PatientPage() {
 
   return (
     <Box p={5} spacing={5}>
-      <RessourceSearchLayout data={praticien} cle={cle} type={type} handlePost={handlePost}/>
+      <RessourceSearchLayout data={praticien} cle={cle} type={type} handlePost={handlePost} searchLabel="recherche d'un patient "/>
       <p style={{ marginTop: 15 }}>
         {patients.length} patients correspondent a votre recherche
       </p>

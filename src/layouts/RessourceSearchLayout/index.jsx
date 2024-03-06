@@ -12,7 +12,7 @@ import {
 } from '@chakra-ui/react';
 import FormGenerator from '../FormGenerator';
 
-function RessourceSearchLayout({ data,type, cle,  handlePost, handleClearSearchForm }) {
+function RessourceSearchLayout({ data,type, cle,  handlePost, handleClearSearchForm, searchLabel }) {
 
   return (
     <Accordion allowToggle>
@@ -23,7 +23,7 @@ function RessourceSearchLayout({ data,type, cle,  handlePost, handleClearSearchF
             backgroundColor="#2c3e50"
           >
             <Box as="span" flex="1" textAlign="left" __css={{ color: 'white' }}>
-              Recherche d'un utilisateur
+              {searchLabel ||  `Recherche d'un utilisateur`}
             </Box>
             <AccordionIcon />
           </AccordionButton>
