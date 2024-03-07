@@ -6,10 +6,11 @@ import moment from 'moment';
 
 
 const getFirstPart = (str='') => {
-  if (str.length < 20) {
+  if (str.length < 15) {
     return str
     
   }
+
   return (str.substring(0, str.trim().indexOf(' ') + 1) + (str.lastIndexOf(' ') > str.indexOf(' ') && '...' ) )|| str
 };
 
