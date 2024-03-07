@@ -15,6 +15,7 @@ export const pratFormater = (data) => ({
   initiales: data.initiales,
   active: data.active ? "OUI" : "NON",
   timeSlot: data.timeSlot,
+  job: data.job.title || data.job.label,
   _id: data._id,
 });
 
