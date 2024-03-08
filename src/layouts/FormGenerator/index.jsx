@@ -681,6 +681,7 @@ function FormGenerator({
                         inputProps={{
                           name: e?.name,
                           maxlength: 16,
+                          minlength: 16,
                         }}
                       /> : 
                       <Input
