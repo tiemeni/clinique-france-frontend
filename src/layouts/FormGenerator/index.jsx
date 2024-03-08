@@ -674,12 +674,13 @@ function FormGenerator({
                         onChange={(...args) => {
                           formik.handleChange(args[2])
                         }}
-                        country='fr'
+                        country='cm'
+                        onlyCountries={['cm']}
                         inputStyle={{ width: '100%', fontFamily:'Poppins', fontSize:'15px' }}
                         placeholder='numéro de téléphone'
-                        enableSearch
                         inputProps={{
-                          name: e?.name
+                          name: e?.name,
+                          maxlength: 16,
                         }}
                       /> : 
                       <Input
