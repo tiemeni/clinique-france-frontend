@@ -39,6 +39,7 @@ function FormGenerator({
   handlePost = null,
   // handleClearSearchForm = undefined,?
 }) {
+
   const loadingPostLieu = useSelector(
     (state) => state.Lieux.postingLieuLoading,
   );
@@ -137,6 +138,8 @@ function FormGenerator({
     });
     return state;
   });
+
+  const [phoneError, setPhoneError] = useState('initial');
 
   useEffect(() => {
     if (Object.keys(editeData).length > 0) {
@@ -672,6 +675,13 @@ function FormGenerator({
                       <PhoneInput
                         countryCodeEditable={false}
                         onChange={(...args) => {
+
+                          if (args[2].target.value.length < 16) {
+                            setPhoneError('Le numéro de téléphone est trop court') 
+                          } else {
+                            setPhoneError('')
+                          }
+
                           formik.handleChange(args[2])
                         }}
                         country='cm'
@@ -682,6 +692,7 @@ function FormGenerator({
                           name: e?.name,
                           maxlength: 16,
                           minlength: 16,
+                          required:true,
                         }}
                       /> : 
                       <Input
@@ -848,7 +859,8 @@ function FormGenerator({
           return result;
         })}
         <p style={{ color: 'red', marginLeft: '200px', marginBottom: '10px' }}>
-          {(errorPostingPatient ||
+          {(phoneError !== 'initial' && phoneError !== '' ||
+            errorPostingPatient ||
             errorPostingPraticien ||
             errorUpdatingPatient ||
             errorUpdatingPraticien ||
@@ -862,7 +874,8 @@ function FormGenerator({
             updatingConsigneError) && (
             <Alert status="error" mt={2}>
               <AlertIcon />
-              {errorPostingPatient ||
+              { phoneError ||
+                errorPostingPatient ||
                 errorPostingPraticien ||
                 errorUpdatingPatient ||
                 errorUpdatingPraticien ||
@@ -883,7 +896,7 @@ function FormGenerator({
         <Box w="100%" paddingLeft="200px" marginBottom="10px">
           {Object.keys(data.dataFields.callBacks)?.map((key, i) => (
             <Button
-              type={i === 0 ? 'submit' : null}
+              type={i === 0 && phoneError !== 'initial' && phoneError === '' ? 'submit' : 'button'}
               isLoading={
                 i === 0 &&
                 (loadingPostLieu ||
