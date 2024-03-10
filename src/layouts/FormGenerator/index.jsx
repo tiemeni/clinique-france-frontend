@@ -676,7 +676,7 @@ function FormGenerator({
                         countryCodeEditable={false}
                         onChange={(...args) => {
 
-                          if (args[2].target.value.length < 16) {
+                          if (args[2]?.target?.value?.length < 16) {
                             setPhoneError('Le numéro de téléphone est trop court') 
                           } else {
                             setPhoneError('')
@@ -685,7 +685,7 @@ function FormGenerator({
                           formik.handleChange(args[2])
                         }}
                         country='cm'
-                        onlyCountries={['cm']}
+                        disableDropdown
                         inputStyle={{ width: '100%', fontFamily:'Poppins', fontSize:'15px' }}
                         placeholder='numéro de téléphone'
                         inputProps={{
