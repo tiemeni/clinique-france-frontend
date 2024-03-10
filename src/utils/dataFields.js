@@ -13,6 +13,7 @@ export const dataPraticien = {
     { label: 'Initiales', fname: 'initiales' },
     { label: 'Actif', fname: 'active' },
     { label: 'Temps par defaut', fname: 'timeSlot' },
+    {label: 'job', fname: 'job'}
   ],
   rows: [],
   actions: [
