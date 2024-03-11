@@ -374,13 +374,13 @@ export const motif = {
         type: 'text',
         id: 1,
       },
-      {
-        name: 'couleur',
-        placeholder: 'couleur',
-        required: false,
-        type: 'text',
-        id: 2,
-      },
+      // {
+      //   name: 'couleur',
+      //   placeholder: 'couleur',
+      //   required: false,
+      //   type: 'text',
+      //   id: 2,
+      // },
       // {
       //   name: 'reference',
       //   placeholder: 'Reference',
