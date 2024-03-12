@@ -43,10 +43,10 @@ function MotifsPage() {
       return   `aucun motif ne correspond à votre recherche`;
     }
     if (filteredMotifs.length < motifs.length) {
-      return  `${filteredMotifs?.length} motif${filteredMotifs?.length===1? '':'(s)'} sur ${motifs?.length} correspond${filteredMotifs?.length===1? '':'ent'} à votre recherche`;
+      return  `${filteredMotifs?.length} motif${filteredMotifs?.length===1? '':'s'} sur ${motifs?.length} correspond${filteredMotifs?.length===1? '':'ent'} à votre recherche`;
     } 
 
-    return `${filteredMotifs?.length} motif${filteredMotifs?.length===1? '':'(s)'} au total`;
+    return `${filteredMotifs?.length} motif${filteredMotifs?.length===1? '':'s'} au total`;
   
    
  }
