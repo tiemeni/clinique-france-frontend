@@ -22,6 +22,11 @@ export const dataPraticien = {
       editePath: '/content/praticien/upsert/',
     },
     {
+      label: 'modifier le mot de passe',
+      action: () => console.log('modifier'),
+      editePath: '/content/praticien/change-pwd/',
+    },
+    {
       label: 'supprimer',
       action: (fn) => fn(),
     },
@@ -46,6 +51,11 @@ export const dataUSer = {
       label: 'modifier',
       action: () => console.log('modifier'),
       editePath: '/content/user/upsert/',
+    },
+    {
+      label: 'modifier le mot de passe',
+      action: () => console.log('modifier le mot de passe') ,
+      editePath: '/content/user/change-pwd/',
     },
     {
       label: 'supprimer',
@@ -146,6 +156,7 @@ export const dataPatient = {
       label: 'supprimer',
       action: (fn) => fn(),
     },
+    
   ],
 };
 
