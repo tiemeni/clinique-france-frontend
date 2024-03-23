@@ -57,6 +57,7 @@ function TableGenerator({
     (state) => state.Praticiens.allPratloading,
   );
   const loadingMotifs = useSelector((state) => state.Motifs.loadingMotifs);
+  
   const praticiens = useSelector((state) => state.Praticiens.praticiens);
   const filteredUsers = useSelector((state) => state.User.filteredUsers);
   const users = useSelector((state) =>
@@ -65,6 +66,7 @@ function TableGenerator({
   const patients = useSelector((state) => state.Patient.patients);
   const lieux = useSelector((state) => state.Lieux.lieux);
   const motifs = useSelector((state) => state.Motifs.motifs);
+  const filteredMotifs = useSelector((state) => state.Motifs.filteredMotifs);
   const specialities = useSelector((state) => state.Specialities.specialities);
 
   const errordeletingPraticien = useSelector((state) => state.Praticiens.errordeletingPraticien);
@@ -113,7 +115,7 @@ function TableGenerator({
         if (loadingRessource) {
           result = [];
         } else {
-          result = motifs;
+          result = filteredMotifs ;
         }
         break;
       case 'speciality':
@@ -163,9 +165,11 @@ function TableGenerator({
         });
       } else if (entityType === 'motif') {
         formatedData = [];
-        motifs.forEach((e) => {
+          filteredMotifs?.forEach((e) => {
           formatedData.push(motifFormater(e));
         });
+        
+        
       } else if (entityType === 'speciality') {
         specialities.forEach((e) => {
           formatedData.push(e);
@@ -192,7 +196,7 @@ function TableGenerator({
     ) {
       setLoading(false);
     }
-  }, [praticiens, users, patients, lieux, motifs, specialities, consignes]);
+  }, [praticiens, users, patients, lieux, motifs,filteredMotifs, specialities, consignes]);
 
   if (loading) {
     return (
