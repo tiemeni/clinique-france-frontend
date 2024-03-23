@@ -63,6 +63,13 @@ function CreatePraticien() {
     }
   };
 
+  const onEdit = () => {
+    if (id) {
+      return true
+    }
+    return false
+  }
+
   return (
     <Grid templateColumns="repeat(7, 1fr)" gap={4} mt={10} mb={20}>
       <GridItem colStart={2} colEnd={6} rowStart={1}>
@@ -70,6 +77,8 @@ function CreatePraticien() {
           handlePost={handlePost}
           editeData={pratAPIformatter(pratToUpdate)}
           data={data}
+          entity='praticien'
+          onEdit={onEdit()}
         />
       </GridItem>
     </Grid>
