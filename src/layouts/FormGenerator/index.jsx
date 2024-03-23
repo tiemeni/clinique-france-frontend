@@ -29,6 +29,7 @@ import { getAllPraticiens } from '../../redux/praticiens/actions';
 import { formatDataForConsignePicKlist } from '../../utils/helpers';
 import { getAllPatients } from '../../redux/patient/actions';
 import { getAllConsignes } from '../../redux/consignes/actions';
+
 // import { searchMotif } from '../../redux/motifs/actions';
 
 function FormGenerator({
@@ -139,7 +140,10 @@ function FormGenerator({
     return state;
   });
 
-  const [phoneError, setPhoneError] = useState('initial');
+  const [phoneError, setPhoneError] = useState({ isGenerated: false, value: 'initial' });
+  
+  const canShowPhoneNumberFieldError = phoneError.isGenerated === true ? phoneError.value !== 'initial' && phoneError.value !== '' : false;
+  const canSubmitPhoneNumberField = phoneError.isGenerated === true ? phoneError.value === '' : true
 
   useEffect(() => {
     if (Object.keys(editeData).length > 0) {
@@ -677,9 +681,9 @@ function FormGenerator({
                         onChange={(...args) => {
 
                           if (args[2]?.target?.value?.length < 16) {
-                            setPhoneError('Le numéro de téléphone est trop court') 
+                            setPhoneError({isGenerated:true, value:'Le numéro de téléphone est trop court'}) 
                           } else {
-                            setPhoneError('')
+                            setPhoneError({isGenerated:true, value:''})
                           }
 
                           formik.handleChange(args[2])
@@ -859,7 +863,7 @@ function FormGenerator({
           return result;
         })}
         <p style={{ color: 'red', marginLeft: '200px', marginBottom: '10px' }}>
-          {(phoneError !== 'initial' && phoneError !== '' ||
+          {(canShowPhoneNumberFieldError||
             errorPostingPatient ||
             errorPostingPraticien ||
             errorUpdatingPatient ||
@@ -874,7 +878,7 @@ function FormGenerator({
             updatingConsigneError) && (
             <Alert status="error" mt={2}>
               <AlertIcon />
-              { phoneError ||
+              { phoneError.value ||
                 errorPostingPatient ||
                 errorPostingPraticien ||
                 errorUpdatingPatient ||
@@ -896,7 +900,7 @@ function FormGenerator({
         <Box w="100%" paddingLeft="200px" marginBottom="10px">
           {Object.keys(data.dataFields.callBacks)?.map((key, i) => (
             <Button
-              type={i === 0 && phoneError !== 'initial' && phoneError === '' ? 'submit' : 'button'}
+              type={i === 0 && canSubmitPhoneNumberField ? 'submit' : 'button'}
               isLoading={
                 i === 0 &&
                 (loadingPostLieu ||
