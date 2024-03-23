@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from 'react';
+import PhoneInput from 'react-phone-input-2';
+import 'react-phone-input-2/lib/style.css';
 import {
   Alert,
   AlertIcon,
@@ -40,6 +42,7 @@ function FormGenerator({
   handlePost = null,
   // handleClearSearchForm = undefined,?
 }) {
+
   const loadingPostLieu = useSelector(
     (state) => state.Lieux.postingLieuLoading,
   );
@@ -140,6 +143,8 @@ function FormGenerator({
     });
     return state;
   });
+
+  const [phoneError, setPhoneError] = useState('initial');
 
   useEffect(() => {
     if (Object.keys(editeData).length > 0) {
@@ -682,7 +687,31 @@ function FormGenerator({
                     <FormLabel width="250px" textAlign="right">
                       {e.placeholder}
                     </FormLabel>
-                    <Input
+                    {e.name === 'telephone' ?
+                      <PhoneInput
+                        countryCodeEditable={false}
+                        onChange={(...args) => {
+
+                          if (args[2]?.target?.value?.length < 16) {
+                            setPhoneError('Le numéro de téléphone est trop court') 
+                          } else {
+                            setPhoneError('')
+                          }
+
+                          formik.handleChange(args[2])
+                        }}
+                        country='cm'
+                        disableDropdown
+                        inputStyle={{ width: '100%', fontFamily:'Poppins', fontSize:'15px' }}
+                        placeholder='numéro de téléphone'
+                        inputProps={{
+                          name: e?.name,
+                          maxlength: 16,
+                          minlength: 16,
+                          required:true,
+                        }}
+                      /> : 
+                      <Input
                       id={e?.name}
                       type="number"
                       placeholder={e.placeholder}
@@ -703,6 +732,9 @@ function FormGenerator({
                       onChange={formik.handleChange}
                       value={formik.values[e.name]}
                     />
+                  
+                  }
+                    
                   </Stack>
                   {/* <FormErrorMessage marginLeft="200px">
                     {errors[e.name] && errors[e.name].message}
@@ -843,7 +875,8 @@ function FormGenerator({
           return result;
         })}
         <p style={{ color: 'red', marginLeft: '200px', marginBottom: '10px' }}>
-          {(errorPostingPatient ||
+          {(phoneError !== 'initial' && phoneError !== '' ||
+            errorPostingPatient ||
             errorPostingPraticien ||
             errorUpdatingPatient ||
             errorUpdatingPraticien ||
@@ -858,7 +891,8 @@ function FormGenerator({
             emailError) && (
             <Alert status="error" mt={2}>
               <AlertIcon />
-              {errorPostingPatient ||
+              { phoneError ||
+                errorPostingPatient ||
                 errorPostingPraticien ||
                 errorUpdatingPatient ||
                 errorUpdatingPraticien ||
@@ -880,7 +914,7 @@ function FormGenerator({
         <Box w="100%" paddingLeft="200px" marginBottom="10px">
           {Object.keys(data.dataFields.callBacks)?.map((key, i) => (
             <Button
-              type={i === 0 && !emailError ? 'submit' : 'button'}
+              type={i === 0 && phoneError !== 'initial' && phoneError === '' ? 'submit' : 'button'}
               isLoading={
                 i === 0 &&
                 (loadingPostLieu ||
