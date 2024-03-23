@@ -26,7 +26,7 @@ import { getAllMotifs } from '../../redux/motifs/actions';
 import { getAllUser } from '../../redux/user/actions';
 import { getAllSpecialities } from '../../redux/speciality/actions';
 import { getAllPraticiens } from '../../redux/praticiens/actions';
-import { formatDataForConsignePicKlist } from '../../utils/helpers';
+import { formatDataForConsignePicKlist, validateEmail } from '../../utils/helpers';
 import { getAllPatients } from '../../redux/patient/actions';
 import { getAllConsignes } from '../../redux/consignes/actions';
 // import { searchMotif } from '../../redux/motifs/actions';

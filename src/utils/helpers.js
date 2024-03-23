@@ -168,3 +168,5 @@ export const formatDataForConsignePicKlist = data => data?.map((c) =>({
     }))
 
 export const delay = time => new Promise(resolve => {setTimeout(resolve, time)});
+
+export const validateEmail = (email) => String(email).trim().toLowerCase().match(/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/);
