@@ -36,7 +36,7 @@ function MotifsPage() {
 
   return (
     <Box p={5} spacing={5}>
-      <RessourceSearchLayout data={motif} type={type} cle={cle} handlePost={handlePost} />
+      <RessourceSearchLayout data={motif} type={type} cle={cle} handlePost={handlePost} searchLabel="recherche d'un motif de rendez-vous " />
       <p style={{ marginTop: 15 }}>
         {motifs?.length} motifs correspondent a votre recherche
       </p>

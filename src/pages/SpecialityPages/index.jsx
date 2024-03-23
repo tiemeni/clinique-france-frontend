@@ -40,7 +40,7 @@ function SpecialityPage() {
 
   return (
     <Box p={5} spacing={5}>
-      <RessourceSearchLayout data={speciality} cle={cle} type={type} handlePost={handlePost}/>
+      <RessourceSearchLayout data={speciality} cle={cle} type={type} handlePost={handlePost} searchLabel="recherche d'une spécialité"/>
       <p style={{ marginTop: 15 }}>
         {specialities.length} specialités correspondent a votre recherche
       </p>
