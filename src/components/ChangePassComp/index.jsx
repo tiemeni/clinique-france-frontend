@@ -58,8 +58,8 @@ const errorUpdatingPraticien = useSelector((state)=> state.Praticiens.errorUpdat
   let entityText = ""
   const processLoading = updatingUser || UpdatingPraticien
   const processCompleted = updateUserCompleted || updatePraticienCompleted
-  const processError = !processLoading && (errorUpdatingUser || errorUpdatingPraticien) 
-  const processSuccess = processCompleted && !processLoading && processError === null
+  const processError = errorUpdatingUser || errorUpdatingPraticien
+  const processSuccess = processCompleted && !processLoading && processError == null
   const successMsg = 'Mot de passe modifié avec success'
   
   if (entityType === 'user') {

@@ -145,6 +145,9 @@ function* updateUser({ user }) {
       });
       yield call(delay, 4000);
       yield put({
+        type: types.UPDATE_USER_FINISHED,
+      });
+      yield put({
         type: types.RESET_ALL_FIELD,
       });
     }

@@ -193,6 +193,9 @@ function* updatePraticien({ praticien }) {
       });
       yield call(delay, 4000);
       yield put({
+        type: types.UPDATE_PRATICIEN_FINISHED,
+      });
+      yield put({
         type: types.CLEAR_ALL_ERR_MSG_PRAT,
       });
     }
