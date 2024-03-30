@@ -137,7 +137,7 @@ function* updateUser({ user }) {
         type: types.UPDATE_USER_REQUEST_SUCCESS,
       });
       yield put({ type: types.GET_ALL_USERS });
-      window.history.back();
+      // window.history.back();
     } else {
       yield put({
         type: types.UPDATE_USER_REQUEST_FAILED,

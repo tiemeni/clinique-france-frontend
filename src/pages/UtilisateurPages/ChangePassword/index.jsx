@@ -3,6 +3,7 @@ import {  useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import ChangePasswordComponent from '../../../components/ChangePassComp';
 import { getAllUser, updateUser } from '../../../redux/user/actions';
+import { UPDATE_USER_FINISHED } from '../../../redux/user/types';
 
 
 
@@ -51,9 +52,13 @@ function ChangePasswordUser() {
 
   return (
     <ChangePasswordComponent
+      entityType='user'
       entity={userToUpdate}
       handler={handleChangePass}
-      onCancel={()=> navigate(-1)}
+      onCancel={() => {
+        dispatch({type:UPDATE_USER_FINISHED})
+        navigate(-1)
+      }}
      
     />
   );

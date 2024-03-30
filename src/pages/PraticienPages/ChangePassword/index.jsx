@@ -3,6 +3,7 @@ import {  useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import ChangePasswordComponent from '../../../components/ChangePassComp';
 import { getAllPraticiens, updatePraticien } from '../../../redux/praticiens/actions';
+import { UPDATE_PRATICIEN_FINISHED } from '../../../redux/praticiens/types';
 
 
 
@@ -13,9 +14,9 @@ function ChangePasswordPraticien() {
   const [pratToUpdate, setPratToUpdate] = useState({});
   const praticiens = useSelector((state) => state.Praticiens.praticiens);
   const navigate = useNavigate()
-  const handleChangePass = (password) => {
+  const handleChangePass = async (password) => {
    
-    const user = { ...pratToUpdate,password}
+    const user = { ...pratToUpdate, password }
       dispatch(updatePraticien(user))
     
     
@@ -45,9 +46,13 @@ function ChangePasswordPraticien() {
 
   return (
     <ChangePasswordComponent
+      entityType='pratician'
       entity={pratToUpdate}
       handler={handleChangePass}
-      onCancel={()=> navigate(-1)}
+      onCancel={() => {
+        dispatch({type: UPDATE_PRATICIEN_FINISHED})
+        navigate(-1)
+      }}
      
     />
   );

@@ -52,6 +52,7 @@ function CreateUser() {
   const handlePost = (user) => {
     if (id) {
       dispatch(updateUser(user));
+      window.history.back();
     } else {
       dispatch(postUser(user));
     }
