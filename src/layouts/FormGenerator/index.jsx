@@ -943,6 +943,7 @@ function FormGenerator({
             <Alert status="error" mt={2}>
               <AlertIcon />
               {
+                emailError||
                 phoneError.value ||
                 phoneisEmpty.msg ||
                 errorPostingPatient ||
