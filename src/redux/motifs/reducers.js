@@ -28,6 +28,7 @@ const MotifReducers = (state = initialState, action = undefined) => {
       return {
         ...state,
         motifs: action.payload,
+        filteredMotifs:action.payload,
         loadingMotifs: false,
       };
     case types.GET_ALL_MOTIFS_FAILED:
@@ -105,6 +106,15 @@ const MotifReducers = (state = initialState, action = undefined) => {
         ...state,
         searchMotif: false,
       };  
+    case types.SEARCH_WB_MOTIF:
+      {
+        const searchValue = action.payload|| '';
+
+
+      return {
+        ...state,
+        filteredMotifs: state.motifs.filter((motif)=> motif.nom.toLowerCase().includes(searchValue)) || state.motifs
+      }}
     default:
       return state;
   }
