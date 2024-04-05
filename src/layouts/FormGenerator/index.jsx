@@ -139,11 +139,28 @@ function FormGenerator({
     });
     return state;
   });
+ 
+  const emptyPhoneNumberMsg = 'veuillez renseigner le numéro de téléphone'
+  const [phoneError, setPhoneError] = useState({ isGenerated: false, value: '' });
+  const [phoneisEmpty, setPhoneisEmpty] = useState({isEmpty:true, show: false, msg: emptyPhoneNumberMsg})
+  const canShowPhoneNumberFieldError = phoneError.isGenerated === true ? phoneError.value !== '' : false;
+  const canSubmitPhoneNumberField = () => {
+    if (phoneError.isGenerated) {
+ 
+      if (phoneisEmpty.isEmpty === true) {
+        return false
+      }
+      if (phoneError.value !== '') {
+      return false
+    }
+    }
+    
+    return true
+  }
 
-  const [phoneError, setPhoneError] = useState({ isGenerated: false, value: 'initial' });
-  
-  const canShowPhoneNumberFieldError = phoneError.isGenerated === true ? phoneError.value !== 'initial' && phoneError.value !== '' : false;
-  const canSubmitPhoneNumberField = phoneError.isGenerated === true ? phoneError.value === '' : true
+  console.log('phoneError: ', phoneError.value)
+  console.log('can show: ', canShowPhoneNumberFieldError)
+  console.log('can subnit ', canSubmitPhoneNumberField())
 
   useEffect(() => {
     if (Object.keys(editeData).length > 0) {
@@ -371,6 +388,7 @@ function FormGenerator({
         style={{ width: '100%', display: 'grid' }}
       >
         {dataCp?.dataFields?.data.map((e) => {
+          
           let result;
           switch (e.type) {
             case 'text':
@@ -676,9 +694,21 @@ function FormGenerator({
                       {e.placeholder}
                     </FormLabel>
                     {e.name === 'telephone' ?
-                      <PhoneInput
+                      
+                      (<PhoneInput
                         countryCodeEditable={false}
+                        onMount={() => {
+                         console.log('phone nmber field gen: ', phoneError.isGenerated)
+                            setPhoneError({
+                              ...phoneError,
+                              isGenerated: true,
+                              value:'',
+                            })
+                          setPhoneisEmpty({isEmpty:true, show: false, msg: emptyPhoneNumberMsg})
+                          
+                        }}
                         onChange={(...args) => {
+                          setPhoneisEmpty({isEmpty:false, show: false, msg: emptyPhoneNumberMsg})
 
                           if (args[2]?.target?.value?.length < 16) {
                             setPhoneError({isGenerated:true, value:'Le numéro de téléphone est trop court'}) 
@@ -698,7 +728,7 @@ function FormGenerator({
                           minlength: 16,
                           required:true,
                         }}
-                      /> : 
+                      />) : 
                       <Input
                       id={e?.name}
                       type="number"
@@ -863,7 +893,8 @@ function FormGenerator({
           return result;
         })}
         <p style={{ color: 'red', marginLeft: '200px', marginBottom: '10px' }}>
-          {(canShowPhoneNumberFieldError||
+          {(canShowPhoneNumberFieldError ||
+            phoneisEmpty.show ||
             errorPostingPatient ||
             errorPostingPraticien ||
             errorUpdatingPatient ||
@@ -878,7 +909,9 @@ function FormGenerator({
             updatingConsigneError) && (
             <Alert status="error" mt={2}>
               <AlertIcon />
-              { phoneError.value ||
+              {
+                phoneError.value ||
+                phoneisEmpty.msg ||
                 errorPostingPatient ||
                 errorPostingPraticien ||
                 errorUpdatingPatient ||
@@ -900,7 +933,7 @@ function FormGenerator({
         <Box w="100%" paddingLeft="200px" marginBottom="10px">
           {Object.keys(data.dataFields.callBacks)?.map((key, i) => (
             <Button
-              type={i === 0 && canSubmitPhoneNumberField ? 'submit' : 'button'}
+              type={i === 0 && canSubmitPhoneNumberField()=== true ? 'submit' : 'button'}
               isLoading={
                 i === 0 &&
                 (loadingPostLieu ||
@@ -924,13 +957,30 @@ function FormGenerator({
                   updatingSpecialities ||
                   searchConsigne)
               }
-              onClick={() =>
-                i === 1 && cle
-                  ? clearForm(key)
-                  : data.dataFields.callBacks[key].action(() =>
+              onClick={
+                ()=> {
+                  console.log('clic on ', data.dataFields.callBacks[key].label)
+                  console.log('index', i)
+                  console.log('cle', cle)
+                  console.log('clic on ', data.dataFields.callBacks[key].action)
+                  if (i === 0 && canSubmitPhoneNumberField() === true) {
+                    data.dataFields.callBacks[key].action(() =>
                       console.log('worked'),
                     )
-              }
+                  }
+                    if (i === 0 && canSubmitPhoneNumberField() === false) {
+                      setPhoneisEmpty({...phoneisEmpty, show:true})
+                    }
+                    if (i === 1 && cle) {
+                      clearForm(key) 
+                  }
+                  
+                    data.dataFields.callBacks[key].action(() =>
+                      console.log('worked'),
+                    )
+                  }
+                }
+              
               key={key}
               marginLeft={i !== 0 ? 5 : 0}
               backgroundColor={data.dataFields.callBacks[key].color ?? null}
