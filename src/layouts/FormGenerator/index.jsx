@@ -959,10 +959,7 @@ function FormGenerator({
               }
               onClick={
                 ()=> {
-                  console.log('clic on ', data.dataFields.callBacks[key].label)
-                  console.log('index', i)
-                  console.log('cle', cle)
-                  console.log('clic on ', data.dataFields.callBacks[key].action)
+                  
                   if (i === 0 && canSubmitPhoneNumberField() === true) {
                     data.dataFields.callBacks[key].action(() =>
                       console.log('worked'),
