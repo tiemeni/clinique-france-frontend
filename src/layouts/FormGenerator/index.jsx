@@ -662,7 +662,7 @@ function FormGenerator({
                       //   handleChange(event, e.name?.toString())
                       // }
                       onChange={(event) => {
-                        if (validateEmail(event.target.value)) {
+                        if (validateEmail(event.target.value) || event.target.value === '') {
                           setEmailError('')
                         } else {
                           setEmailError('Adresse email invalide')
@@ -925,7 +925,7 @@ function FormGenerator({
         <Box w="100%" paddingLeft="200px" marginBottom="10px">
           {Object.keys(data.dataFields.callBacks)?.map((key, i) => (
             <Button
-              type={i === 0 && phoneError !== 'initial' && phoneError === '' ? 'submit' : 'button'}
+              type={i === 0 &&  emailError === '' && phoneError !== 'initial' && phoneError === '' ? 'submit' : 'button'}
               isLoading={
                 i === 0 &&
                 (loadingPostLieu ||
