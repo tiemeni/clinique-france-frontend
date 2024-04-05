@@ -50,6 +50,8 @@ function FormGenerator({
   editeData = {},
   cle,
   handlePost = null,
+  entity = '',
+  onEdit = false
   // handleClearSearchForm = undefined,?
 }) {
 
@@ -375,6 +377,9 @@ function FormGenerator({
     display: 'inline-block',
   };
 
+  const pratEdit = entity === 'praticien' && onEdit === true;
+  const userEdit = entity === 'user' && onEdit === true;
+
   return (
     <VStack spacing={5}>
       <form
@@ -534,7 +539,7 @@ function FormGenerator({
               );
               break;
             case 'password':
-              result = (
+              result = (pratEdit || userEdit) ? null : (
                 <FormControl
                   // isInvalid={errors[e.name]}
                   marginBottom={5}

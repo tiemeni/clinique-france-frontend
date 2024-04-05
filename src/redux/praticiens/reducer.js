@@ -86,17 +86,25 @@ const PraticiensReducer = (state = initialState, action = undefined) => {
       return {
         ...state,
         UpdatingPraticien: true,
+        updatePraticienCompleted:false
       };
     case types.UPDATE_PRATICIEN_REQUEST_SUCCESS:
       return {
         ...state,
         UpdatingPraticien: false,
+        updatePraticienCompleted:true
       };
     case types.UPDATE_PRATICIEN_REQUEST_FAILED:
       return {
         ...state,
         UpdatingPraticien: false,
+        updatePraticienCompleted:true,
         errorUpdatingPraticien: action.payload,
+      };
+    case types.UPDATE_PRATICIEN_FINISHED:
+      return {
+        ...state,
+        updatePraticienCompleted: false,
       };
     case types.DELETE_PRATICIEN_REQUEST:
       return {

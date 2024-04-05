@@ -185,13 +185,16 @@ function* updatePraticien({ praticien }) {
         type: types.UPDATE_PRATICIEN_REQUEST_SUCCESS,
       });
       yield put({ type: types.GET_ALL_PRATICIENS_REQUEST });
-      window.history.back();
+    //  window.history.back();
     } else {
       yield put({
         type: types.UPDATE_PRATICIEN_REQUEST_FAILED,
         payload: result.message,
       });
       yield call(delay, 4000);
+      yield put({
+        type: types.UPDATE_PRATICIEN_FINISHED,
+      });
       yield put({
         type: types.CLEAR_ALL_ERR_MSG_PRAT,
       });

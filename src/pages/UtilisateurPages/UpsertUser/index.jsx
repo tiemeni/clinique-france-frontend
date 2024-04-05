@@ -52,10 +52,18 @@ function CreateUser() {
   const handlePost = (user) => {
     if (id) {
       dispatch(updateUser(user));
+      window.history.back();
     } else {
       dispatch(postUser(user));
     }
   };
+
+  const onEdit = () => {
+    if (id) {
+      return true
+    }
+    return false
+  }
 
   return (
     <Grid templateColumns="repeat(7, 1fr)" gap={4} mt={10} mb={20}>
@@ -64,6 +72,8 @@ function CreateUser() {
           handlePost={handlePost}
           editeData={userApiFormatter(userToUpdate)}
           data={data}
+          entity='user'
+          onEdit={onEdit()}
         />
       </GridItem>
     </Grid>
