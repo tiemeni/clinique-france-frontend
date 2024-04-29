@@ -1,5 +1,6 @@
 import React, { memo, useCallback } from 'react';
 import { UilAngleDoubleLeft, UilPlus } from '@iconscout/react-unicons';
+import { makeStyles } from '@mui/styles';
 import {
   Accordion,
   Box,
@@ -16,9 +17,26 @@ import { formatUserName } from '../../utils/helpers';
 import { saveCheckedPractitioners } from '../../redux/praticiens/actions';
 import { closePraticienPanel, onDateSelected } from '../../redux/common/actions';
 
+
 const _spacing = 3;
 const _iconSizesm = 25;
+
+export const useStyles = makeStyles({
+  animatedBox: {
+    animation: '$slideRight 0.4s ease-in-out',
+  },
+  '@keyframes slideRight': {
+    '0%': {
+      transform: 'translateX(-150px)',
+    },
+    '100%': {
+      transform: 'translateX(0)',
+    },
+  },
+});
+
 function MenuPraticien() {
+  const classes = useStyles();
   const dispatch = useDispatch();
   // const [searchedValue, setSearchedValue] = React.useState('');
   const { practitionersCheckedList, datas } = useSelector(
@@ -118,7 +136,7 @@ function MenuPraticien() {
   }, [datas]);
 
   return (
-    <VStack h="full" boxShadow="2xl" minW="18em">
+    <VStack className={classes.animatedBox} h="full" boxShadow="2xl" minW="18em">
       <HStack w="full" justifyContent="end" pb={_spacing}>
         <IconButton
           size="sm"
