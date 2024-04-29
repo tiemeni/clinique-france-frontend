@@ -58,6 +58,7 @@ function CreatePraticien() {
   const handlePost = (praticien) => {
     if (id) {
       dispatch(updatePraticien(praticien));
+      window.history.back();
     } else {
       dispatch(postPraticien(praticien));
     }

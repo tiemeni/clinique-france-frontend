@@ -4,10 +4,20 @@
 
 import moment from 'moment';
 
+
+const getFirstPart = (str='') => {
+  if (str.length < 15) {
+    return str
+    
+  }
+
+  return (str.substring(0, str.trim().indexOf(' ') + 1) + (str.lastIndexOf(' ') > str.indexOf(' ') && '...' ) )|| str
+};
+
 export const pratFormater = (data) => ({
   civility: 'M',
-  name: data.name,
-  surname: data.surname,
+  name: getFirstPart(data.name),
+  surname: getFirstPart(data.surname),
   birthdate: moment(data.birthdate).format('DD/MM/YYYY'),
   telephone: data.telephone,
   email: data.email,
@@ -21,8 +31,8 @@ export const pratFormater = (data) => ({
 
 export const userFormater = (data) => ({
   civility: data?.civility?.label ?? 'M',
-  name: data.name,
-  surname: data.surname,
+  name: getFirstPart(data.name),
+  surname: getFirstPart(data.surname),
   birthdate: moment(data.birthdate).format('DD/MM/YYYY'),
   telephone: data.telephone,
   email: data.email,
@@ -34,8 +44,8 @@ export const userFormater = (data) => ({
 
 export const patientFormater = (data) => ({
   civility: data?.civility?.label,
-  name: data.name,
-  surname: data.surname,
+  name: getFirstPart(data.name),
+  surname: getFirstPart(data.surname),
   birthdate: moment(data.birthdate).format('DD/MM/YYYY'),
   telephone: data.telephone,
   email: data.email,
