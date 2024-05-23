@@ -32,6 +32,7 @@ function* login({ payload }) {
         type: types.LOGIN_REQUEST_SUCCESS,
         payload: result.data?.user,
       });
+      console.log("résultat du login",result)
 
       localStorage.setItem('acces_bo_token', result.data.access_token);
       localStorage.setItem('idc', payload?.idCentre);
