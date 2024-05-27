@@ -1,7 +1,7 @@
 /* Largeur de la scrollbar */
 ::-webkit-scrollbar {
   width: 0.4em;
-  display: none;
+ /* display: none;*/
 }
 
 /* Couleur de fond de la scrollbar */
