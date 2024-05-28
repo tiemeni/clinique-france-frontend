@@ -3,6 +3,9 @@ import { Link } from 'react-router-dom';
 import {
   Alert,
   AlertIcon,
+  Box,
+  Button,
+  HStack,
   IconButton,
   Menu,
   MenuButton,
@@ -17,6 +20,12 @@ import {
   Th,
   Thead,
   Tr,
+  NumberInput,
+  NumberInputField,
+  NumberInputStepper,
+  NumberIncrementStepper,
+  NumberDecrementStepper,
+ 
 } from '@chakra-ui/react';
 import { UilEllipsisV } from '@iconscout/react-unicons';
 import { useDispatch, useSelector } from 'react-redux';
@@ -78,6 +87,46 @@ function TableGenerator({
   const deletingConsigneError = useSelector((state) => state.Consignes.deletingConsigneError);
   const errordeletingMotif = useSelector((state) => state.Motifs.errordeletingMotif);
   const [data1, setData1] = useState(data);
+
+  // Gestion de la pagination
+
+  const DEFAULT_ITEMS_NUMBERS = 5
+  const STEP = 5
+  const dataBodyRow = data1?.rows
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState(DEFAULT_ITEMS_NUMBERS);
+  const [tempItemsPerPage, setTempItemsPerPage] = useState(DEFAULT_ITEMS_NUMBERS);
+
+  const totalPages = Math.ceil(dataBodyRow.length / itemsPerPage);
+
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = dataBodyRow.slice(indexOfFirstItem, indexOfLastItem);
+
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
+  const handleChangeItemsPerPageChange = () => {
+    setItemsPerPage(tempItemsPerPage);
+    setCurrentPage(1); 
+  };
+
+  // créer le breadcrumb
+  const makeBreadcrumbs = () => {
+    let pages = [];
+    if (totalPages <= 5) {
+      pages = [...Array(totalPages).keys()].map(n => n + 1);
+    } else {
+      if (currentPage > 2) pages.push(1);
+      if (currentPage > 3) pages.push('...');
+      if (currentPage > 1) pages.push(currentPage - 1);
+      pages.push(currentPage);
+      if (currentPage < totalPages) pages.push(currentPage + 1);
+      if (currentPage < totalPages - 2) pages.push('...');
+      if (currentPage < totalPages - 1) pages.push(totalPages);
+    }
+    return pages;
+  };
+
   const [loading, setLoading] = useState(true);
 
   const truthinessToRenderTable = (truth, loadingRessource) => {
@@ -209,7 +258,8 @@ function TableGenerator({
   }
 
   return (
-    <TableContainer w="100%">
+    <Box w="100%" gap={10}>
+      <TableContainer w="100%" flex={1}>
       {(errordeletingPatient || errordeletingPraticien || errorDeletingUser || deletingSpecsError || errordeletingMotif || deletingConsigneError) && (
         <Alert status="error" mt={2} mb={5}>
           <AlertIcon />
@@ -227,7 +277,7 @@ function TableGenerator({
           </Tr>
         </Thead>
         <Tbody>
-          {data1?.rows?.map((r, e) => (
+          {currentItems?.map((r, e) => (
             <Tr key={r?._id || r + e}>
               <Td fontSize="sm">
                 <Menu>
@@ -295,7 +345,63 @@ function TableGenerator({
         body={bodyModalDelete}
         onClose={() => dispatch(showModalDeleteRessource(false))}
       />
-    </TableContainer>
+      </TableContainer>
+
+
+      <HStack justifyContent='space-between'>
+        
+         <HStack spacing={2} mt={4}>
+       
+        <Button onClick={() => paginate(currentPage - 1)} isDisabled={currentPage === 1}>
+          Précédent
+        </Button>
+        
+        {makeBreadcrumbs().map((page, index) => (
+          <Button
+            key={index}
+            onClick={() => typeof page === 'number' && paginate(page)}
+            isDisabled={page === currentPage || page === '...'}
+          >
+            {page}
+          </Button>
+        ))}
+        
+        <Button
+          onClick={() => paginate(currentPage + 1)}
+          isDisabled={currentPage === totalPages}
+        >
+          Suivant
+        </Button>
+      </HStack>
+      
+      <HStack ml={4}>
+         <NumberInput
+      onChange={(value)=>setTempItemsPerPage(Number(value))}
+      value={`${tempItemsPerPage} éléments par page `}
+          max={20}
+          min={5}
+            step={STEP}
+            paddingLeft={2}
+            paddingRight={10}
+    >
+      <NumberInputField />
+      <NumberInputStepper>
+        <NumberIncrementStepper />
+        <NumberDecrementStepper />
+      </NumberInputStepper>
+    </NumberInput>
+        <Button
+          onClick={handleChangeItemsPerPageChange}
+          disabled={currentPage === totalPages}
+        >
+          Appliquer
+        </Button>
+      </HStack>
+          
+        </HStack>
+     
+    </Box>
+   
   );
 }
 
