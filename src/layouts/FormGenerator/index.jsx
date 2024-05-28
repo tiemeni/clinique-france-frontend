@@ -56,6 +56,22 @@ function FormGenerator({
   // handleClearSearchForm = undefined,?
 }) {
 
+  // show loader on cancel button
+  const loadingUsers = useSelector((state) => state.User.loadingUsers);
+//  const gettingAllLieux = useSelector((state) => state.Lieux.gettingAllLieux);
+  const loadingPatients = useSelector((state) => state.Patient.loadingPatients);
+  const gettingAllConsigne = useSelector(
+    (state) => state.Consignes.gettingAllConsigne,
+  );
+   const gettingAllSpecs = useSelector(
+     (state) => state.Specialities.gettingAllSpecs,
+   );
+  const allPratloading = useSelector(
+    (state) => state.Praticiens.allPratloading,
+  );
+  const loadingMotifs = useSelector((state) => state.Motifs.loadingMotifs);
+
+
   const loadingPostLieu = useSelector(
     (state) => state.Lieux.postingLieuLoading,
   );
@@ -175,9 +191,7 @@ function FormGenerator({
     return true
   }
 
-  console.log('phoneError: ', phoneError.value)
-  console.log('can show: ', canShowPhoneNumberFieldError)
-  console.log('can subnit ', canSubmitPhoneNumberField())
+
 
   useEffect(() => {
     if (Object.keys(editeData).length > 0) {
@@ -968,10 +982,11 @@ function FormGenerator({
         <Box w="100%" paddingLeft="200px" marginBottom="10px">
           {Object.keys(data.dataFields.callBacks)?.map((key, i) => (
             <Button
-              type={i === 0 && canSubmitPhoneNumberField() &&  emailError === '' ? 'submit' : 'button'}
+              type={i === 0 && canSubmitPhoneNumberField() && emailError === '' ? 'submit' : 'button'}
               isLoading={
-                i === 0 &&
-                (loadingPostLieu ||
+                (i === 0 &&
+                ( 
+                  loadingPostLieu ||
                   postingSpecs ||
                   postingMotif ||
                   postingPatient ||
@@ -990,7 +1005,17 @@ function FormGenerator({
                   updatingLieuLoading ||
                   updatingMotif ||
                   updatingSpecialities ||
-                  searchConsigne)
+                  searchConsigne) )||
+                ((i === 1 && cle) &&
+                 ( loadingUsers ||
+                  gettingAllConsigne ||
+                  loadingMotifs ||
+                  loadingPatients ||
+                   gettingAllSpecs ||
+                  allPratloading )
+                
+                  
+                )
               }
               onClick={
                 ()=> {
