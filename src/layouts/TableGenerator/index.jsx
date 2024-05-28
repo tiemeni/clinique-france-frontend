@@ -402,7 +402,7 @@ function TableGenerator({
       </TableContainer>
 
 
-      {currentItems.length<MIN_ITEMS_NUMBER && <Box display='flex' justifyContent='space-between' flexDirection="row-reverse">
+      {currentItems.length > MIN_ITEMS_NUMBER - 1 && <Box display='flex' justifyContent='space-between' flexDirection="row-reverse">
         
          <HStack spacing={2} mt={4}>
        
