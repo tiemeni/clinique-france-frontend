@@ -261,7 +261,7 @@ function TableGenerator({
 
   return (
     <Box w="100%" gap={5} display='flex' flexDirection="column"  >
-     {dataBodyRow.length>MIN_ITEMS_NUMBER && <HStack justifyContent='space-between' direction='row-reverse'>
+     {dataBodyRow.length>MIN_ITEMS_NUMBER && <HStack justifyContent='space-between'>
         
         <HStack spacing={2} mt={4}>
       
@@ -402,7 +402,7 @@ function TableGenerator({
       </TableContainer>
 
 
-      {currentItems.length>MIN_ITEMS_NUMBER && <HStack justifyContent='space-between' direction='row-reverse'>
+      {currentItems.length<MIN_ITEMS_NUMBER && <Box display='flex' justifyContent='space-between' flexDirection="row-reverse">
         
          <HStack spacing={2} mt={4}>
        
@@ -452,7 +452,7 @@ function TableGenerator({
         </Button>
       </HStack>
           
-        </HStack>}
+        </Box>}
      
     </Box>
    
