@@ -91,6 +91,8 @@ function TableGenerator({
   // Gestion de la pagination
 
   const DEFAULT_ITEMS_NUMBERS = 5
+  const MIN_ITEMS_NUMBER = 5
+  const MAX_ITEMS_NUMBER = 20
   const STEP = 5
   const dataBodyRow = data1?.rows
   const [currentPage, setCurrentPage] = useState(1);
@@ -258,7 +260,7 @@ function TableGenerator({
   }
 
   return (
-    <Box w="100%" gap={10}>
+    <Box w="100%" gap={10} display='flex' flexDirection="column-reverse"  >
       <TableContainer w="100%" flex={1}>
       {(errordeletingPatient || errordeletingPraticien || errorDeletingUser || deletingSpecsError || errordeletingMotif || deletingConsigneError) && (
         <Alert status="error" mt={2} mb={5}>
@@ -348,7 +350,7 @@ function TableGenerator({
       </TableContainer>
 
 
-      <HStack justifyContent='space-between'>
+      {dataBodyRow.length>MIN_ITEMS_NUMBER && <HStack justifyContent='space-between'>
         
          <HStack spacing={2} mt={4}>
        
@@ -378,8 +380,8 @@ function TableGenerator({
          <NumberInput
       onChange={(value)=>setTempItemsPerPage(Number(value))}
       value={`${tempItemsPerPage} éléments par page `}
-          max={20}
-          min={5}
+          max={MAX_ITEMS_NUMBER}
+          min={MIN_ITEMS_NUMBER}
             step={STEP}
             paddingLeft={2}
             paddingRight={10}
@@ -398,7 +400,7 @@ function TableGenerator({
         </Button>
       </HStack>
           
-        </HStack>
+        </HStack>}
      
     </Box>
    
