@@ -261,7 +261,7 @@ function TableGenerator({
 
   return (
     <Box w="100%" gap={5} display='flex' flexDirection="column"  >
-     {currentItems>DEFAULT_ITEMS_NUMBERS && <HStack justifyContent='space-between'>
+     {currentItems.length > DEFAULT_ITEMS_NUMBERS && <HStack justifyContent='space-between'>
         
         <HStack spacing={2} mt={4}>
       
