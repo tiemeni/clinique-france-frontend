@@ -90,7 +90,7 @@ function TableGenerator({
 
   // Gestion de la pagination
 
-  const DEFAULT_ITEMS_NUMBERS = 5
+  const DEFAULT_ITEMS_NUMBERS = 10
   const MIN_ITEMS_NUMBER = 5
   const MAX_ITEMS_NUMBER = 20
   const STEP = 5
