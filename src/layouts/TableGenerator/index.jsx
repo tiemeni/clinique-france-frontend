@@ -260,59 +260,7 @@ function TableGenerator({
   }
 
   return (
-    <Box w="100%" gap={5} display='flex' flexDirection="column"  >
-     {currentItems.length > DEFAULT_ITEMS_NUMBERS && <HStack justifyContent='space-between'>
-        
-        <HStack spacing={2} mt={4}>
-      
-       <Button onClick={() => paginate(currentPage - 1)} isDisabled={currentPage === 1}>
-         Précédent
-       </Button>
-       
-       {makeBreadcrumbs().map((page, index) => (
-         <Button
-           key={index}
-           onClick={() => typeof page === 'number' && paginate(page)}
-           isDisabled={page === currentPage || page === '...'}
-         >
-           {page}
-         </Button>
-       ))}
-       
-       <Button
-         onClick={() => paginate(currentPage + 1)}
-         isDisabled={currentPage === totalPages}
-       >
-         Suivant
-       </Button>
-     </HStack>
-     
-     <HStack ml={4}>
-        <NumberInput
-     onChange={(value)=>setTempItemsPerPage(Number(value))}
-     value={`${tempItemsPerPage} éléments par page `}
-         max={MAX_ITEMS_NUMBER}
-         min={MIN_ITEMS_NUMBER}
-           step={STEP}
-           paddingLeft={2}
-           paddingRight={10}
-   >
-     <NumberInputField />
-     <NumberInputStepper>
-       <NumberIncrementStepper />
-       <NumberDecrementStepper />
-     </NumberInputStepper>
-   </NumberInput>
-       <Button
-         onClick={handleChangeItemsPerPageChange}
-         disabled={currentPage === totalPages}
-       >
-         Appliquer
-       </Button>
-     </HStack>
-         
-       </HStack>}
-      
+    <Box w="100%" gap={5} display='flex' flexDirection="column"  >      
       <TableContainer w="100%" flex={1}>
       {(errordeletingPatient || errordeletingPraticien || errorDeletingUser || deletingSpecsError || errordeletingMotif || deletingConsigneError) && (
         <Alert status="error" mt={2} mb={5}>
@@ -402,7 +350,7 @@ function TableGenerator({
       </TableContainer>
 
 
-      {currentItems.length > MIN_ITEMS_NUMBER - 1 && <Box display='flex' justifyContent='space-between' flexDirection="row-reverse">
+      {currentItems.length >= MIN_ITEMS_NUMBER  && <Box display='flex' justifyContent='space-between' flexDirection="row-reverse">
         
          <HStack spacing={2} mt={4}>
        
