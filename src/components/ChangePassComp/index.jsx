@@ -210,15 +210,18 @@ function ChangePasswordComponent({ entityType = "user", entity, handler, verific
 
             </Box>
             <Box width="100%" display='flex' flexDirection='row-reverse' gap={2}>
-              {!processSuccess && <Button
+
+            <Button
 
                 isLoading={processLoading}
+                onClick={processSuccess ? onCancel : ()=> console.log("nada")}
                 w="full"
-                colorScheme="blue"
-                type='submit'
+                colorScheme={processSuccess? "red": "blue"}
+                type={processSuccess? "button": "submit"}
               >
-                Modifier
-              </Button>}
+               {processSuccess? "Retour": "Modifier"}
+              </Button>
+              
              
             </Box>
 
