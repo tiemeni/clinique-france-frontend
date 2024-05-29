@@ -219,7 +219,7 @@ function ChangePasswordComponent({ entityType = "user", entity, handler, verific
                 colorScheme={processSuccess? "red": "blue"}
                 type={processSuccess? "button": "submit"}
               >
-               {!processSuccess? "Modifier": "Retour"}
+               {processSuccess? "Retour": "Modifier"}
               </Button>
               
              
