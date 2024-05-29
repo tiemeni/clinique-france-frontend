@@ -16,7 +16,8 @@ const initialState = {
   mode: 'delete',
   structure: {},
   showPratDrawer: true,
-  tokenValid: false
+  tokenValid: false,
+  isVerifyingToken:false,
 };
 
 const CommonReducer = (state = initialState, action = undefined) => {

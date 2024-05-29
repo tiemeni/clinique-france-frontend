@@ -64,6 +64,7 @@ function ChangePasswordComponent({ entityType = "user", entity, handler, verific
 
   console.log("password Change", entityType)
   console.log("entity", entity.name || entity.surname)
+  console.log(typeof onCancel)
   // if (entityType === 'user') {
   //   entityText = "Utilisateur"
   // }
@@ -216,15 +217,9 @@ function ChangePasswordComponent({ entityType = "user", entity, handler, verific
                 colorScheme="blue"
                 type='submit'
               >
-                Terminer
+                Modifier
               </Button>}
-              <Button
-                onClick={onCancel}
-                w="full"
-                colorScheme="red"
-              >
-                Retour
-              </Button>
+             
             </Box>
 
           </VStack>
