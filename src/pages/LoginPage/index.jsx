@@ -72,14 +72,12 @@ function LoginPage() {
     }
     
   }, [successLogin, loginErrorMessage]);
-  // if(isVerifyingToken){
-  //   return "checking token...."
-  // }
+  if(isVerifyingToken){
+    return <VerifyTokenPage/>
+  }
 
   return (
-    <>
-      {isVerifyingToken && <VerifyTokenPage/>}
-     <Grid templateColumns="repeat(8, 1fr)" gap={4}>
+    <Grid templateColumns="repeat(8, 1fr)" gap={4}>
       <GridItem
         colStart={innerWidth > 900 ? 3 : 1}
         colEnd={innerWidth > 900 ? 7 : 9}
@@ -152,8 +150,6 @@ function LoginPage() {
         </VStack>
       </GridItem>
     </Grid>
-    </>
-   
   );
 }
 
