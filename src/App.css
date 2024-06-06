@@ -108,3 +108,6 @@ iframe {
 }
 
 
+.verify-token-modal{
+  backdrop-filter: blur(2px);
+}

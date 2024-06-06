@@ -25,6 +25,7 @@
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
     "chakra-multiselect": "^0.4.6",
+    "color": "^4.2.3",
     "connected-react-router": "^6.9.3",
     "formik": "^2.4.5",
     "framer-motion": "^10.16.4",
