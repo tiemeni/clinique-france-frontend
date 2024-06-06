@@ -70,8 +70,7 @@ function ContentRouter() {
  
   
   return (
-    <>
-      {  isVerifyingToken && !isTokenValid && <VerifyTokenPage/>}
+        isTokenValid ? <>
       <Header />
       <Routes>
         <Route path="/" element={<MainPage />} />
@@ -84,8 +83,8 @@ function ContentRouter() {
         <Route path="/lieu/*" element={<LieuxRouter />} />
         <Route path="/structure/*" element={<StructureRouter />} />
       </Routes>
-    </> 
- 
+    </> :
+   isVerifyingToken && !isTokenValid && <VerifyTokenPage/>
   );
 
 
