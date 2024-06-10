@@ -90,7 +90,7 @@ function TableGenerator({
 
   // Gestion de la pagination
 
-  const DEFAULT_ITEMS_NUMBERS = 5
+  const DEFAULT_ITEMS_NUMBERS = 10
   const MIN_ITEMS_NUMBER = 5
   const MAX_ITEMS_NUMBER = 20
   const STEP = 5
@@ -260,7 +260,7 @@ function TableGenerator({
   }
 
   return (
-    <Box w="100%" gap={10} display='flex' flexDirection="column-reverse"  >
+    <Box w="100%" gap={5} display='flex' flexDirection="column"  >      
       <TableContainer w="100%" flex={1}>
       {(errordeletingPatient || errordeletingPraticien || errorDeletingUser || deletingSpecsError || errordeletingMotif || deletingConsigneError) && (
         <Alert status="error" mt={2} mb={5}>
@@ -350,7 +350,7 @@ function TableGenerator({
       </TableContainer>
 
 
-      {dataBodyRow.length>MIN_ITEMS_NUMBER && <HStack justifyContent='space-between'>
+      {dataBodyRow.length >= MIN_ITEMS_NUMBER  && <Box display='flex' justifyContent='space-between' flexDirection="row-reverse">
         
          <HStack spacing={2} mt={4}>
        
@@ -400,7 +400,7 @@ function TableGenerator({
         </Button>
       </HStack>
           
-        </HStack>}
+        </Box>}
      
     </Box>
    

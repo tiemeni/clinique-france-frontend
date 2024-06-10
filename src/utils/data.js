@@ -820,6 +820,13 @@ export const patientCreateOrEdite = {
         id: 6,
       },
       {
+        name: 'password',
+        placeholder: 'Mot de passe',
+        required: true,
+        type: 'password',
+        id: 30,
+      },
+      {
         name: 'initiales',
         placeholder: 'initiales',
         required: false,
