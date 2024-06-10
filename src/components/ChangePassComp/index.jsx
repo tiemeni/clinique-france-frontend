@@ -55,10 +55,14 @@ function ChangePasswordComponent({ entityType = "user", entity, handler, verific
   const errorUpdatingPraticien = useSelector((state) => state.Praticiens.errorUpdatingPraticien)
   const updateUserCompleted = useSelector((state) => state.User.updateUserCompleted);
   const updatePraticienCompleted = useSelector((state) => state.Praticiens.updatePraticienCompleted);
+
+  const updatingPatient = useSelector((state) => state.Patient.UpdatingPatient)
+  const errorUpdatingPatient = useSelector((state) => state.Patient.errorUpdatingPatient)
+  const updatePatientCompleted = useSelector((state) => state.Patient.updatePatientCompleted);
  // let entityText = ""
-  const processLoading = updatingUser || UpdatingPraticien
-  const processCompleted = updateUserCompleted || updatePraticienCompleted
-  const processError = errorUpdatingUser || errorUpdatingPraticien
+  const processLoading = updatingUser || UpdatingPraticien || updatingPatient
+  const processCompleted = updateUserCompleted || updatePraticienCompleted || updatePatientCompleted
+  const processError = errorUpdatingUser || errorUpdatingPraticien || errorUpdatingPatient
   const processSuccess = processCompleted && !processLoading && processError == null
   const successMsg = 'Mot de passe modifié avec success'
 

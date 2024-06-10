@@ -154,6 +154,11 @@ export const dataPatient = {
       editePath: '/content/patient/upsert/',
     },
     {
+      label: 'modifier le mot de passe',
+      action: () => console.log('modifier le mot de passe') ,
+      editePath: '/content/patient/change-pwd/',
+    },
+    {
       label: 'supprimer',
       action: (fn) => fn(),
     },
