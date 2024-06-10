@@ -54,18 +54,26 @@ const PatientReducers = (state = initialState, action = undefined) => {
       return {
         ...state,
         UpdatingPatient: true,
+        updatePatientCompleted:false,
       };
     case types.UPDATE_PATIENT_REQUEST_SUCCESS:
       return {
         ...state,
         UpdatingPatient: false,
+        updatePatientCompleted:true,
       };
     case types.UPDATE_PATIENT_REQUEST_FAILED:
       return {
         ...state,
         UpdatingPatient: false,
         errorUpdatingPatient: action.payload,
+          updatePatientCompleted:true,
       };
+      case types.UPDATE_PATIENT_FINISHED:
+        return {
+          ...state,
+          updatePatientCompleted:false,
+        }
     case types.DELETE_PATIENT_REQUEST:
       return {
         ...state,

@@ -39,6 +39,7 @@ function* postPatient({ patient }) {
     birthdate: patient.birthdate,
     telephone: patient.telephone,
     email: patient.email,
+    password:patient.password,
     initiales: patient.initiales,
     active: patient.active ? 1 : 2,
   };
@@ -89,6 +90,7 @@ function* updatePatient({ patient }) {
     surname: patient.surname,
     birthdate: patient.birthdate,
     telephone: patient.telephone,
+    password: patient.password,
     email: patient.email,
     initiales: patient.initiales,
     active: patient.active === '1',

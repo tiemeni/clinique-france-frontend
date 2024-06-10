@@ -128,6 +128,7 @@ function Agenda() {
         headerToolbar={headerToolbar}
         slotLabelFormat={slotLabelFormat}
         eventClassNames="calendar-event"
+        timeZone='Africa/Douala'
         
         eventSources={[
           {

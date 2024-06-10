@@ -120,8 +120,8 @@ const UserReducers = (state = initialState, action = undefined) => {
     case types.UPDATE_USER_FINISHED:
       return {
         ...state,
-        updateUserCompleted:false,
-      }
+        updateUserCompleted: false,
+      };
     case types.DELETE_USER_REQUEST:
       return {
         ...state,

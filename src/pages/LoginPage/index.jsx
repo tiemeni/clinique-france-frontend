@@ -22,12 +22,13 @@ import hide from '../../assets/images/hide.png';
 // import { retreiveIdc } from '../../utils/helpers';
 import { RESET_ALL_FIELD } from '../../redux/user/types';
 import { processLogin } from '../../redux/user/actions';
+import VerifyTokenPage from '../VerifyTokenPage';
 
 function LoginPage() {
   const dispatch = useDispatch();
   const [error, setError] = useState();
   const loginLoading = useSelector((state) => state.User.loginLoading);
-  const isVerifyingToken = useSelector((state) => state.Common.isVerifyingToken);
+   const isVerifyingToken = useSelector((state) => state.Common.isVerifyingToken);
   const successLogin = useSelector((state) => state.User.loginSuccess);
   const loginErrorMessage = useSelector(
     (state) => state.User.loginErrorMessage,
@@ -72,7 +73,7 @@ function LoginPage() {
     
   }, [successLogin, loginErrorMessage]);
   if(isVerifyingToken){
-    return "checking token...."
+    return <VerifyTokenPage/>
   }
 
   return (

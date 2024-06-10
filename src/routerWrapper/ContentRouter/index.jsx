@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { Route, Routes } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector} from 'react-redux';
 import MainPage from '../../pages/MainPage';
 import { useSocket } from '../../providers/socket';
 import Header from '../../components/Header';
@@ -16,19 +16,38 @@ import { getAllMotifs } from '../../redux/motifs/actions';
 import { closePraticienPanel, getStructureInfo, verifyToken } from '../../redux/common/actions';
 import { useDimensions } from '../../hooks/useDimensions';
 import ConsigneRouter from './ConsigneRouter';
+ import VerifyTokenPage from "../../pages/VerifyTokenPage"
+// import LoginPage from '../../pages/LoginPage'
 
 function ContentRouter() {
   const dispatch = useDispatch();
   const socket = useSocket();
   const { innerWidth } = useDimensions();
 
+  // const isTokenValid = useSelector((state) => state.User.isTokenValid);
+  const isVerifyingToken = useSelector((state) => state.Common.isVerifyingToken);
+  const isTokenValid = useSelector((state) => state.Common.tokenValid);
+ 
+ // const [tokenChecking, setTokenChecking] = useState(false);
+  // const [tokenValid, setTokenValid]=useState(false)
+
+
   useEffect(() => {
+    dispatch(verifyToken())
     dispatch(getAllLieux());
     dispatch(getAllMotifs());
     dispatch(getStructureInfo());
-    dispatch(verifyToken())
+    
     socket.connect();
   }, []);
+
+  // useEffect(()=> {
+  //   if (isVerifyingToken) {
+  //     setTokenChecking(true);
+  //   } else {
+  //     setTokenChecking(false)
+  //   }
+  // },[isVerifyingToken])
 
   useEffect(() =>{
     if(innerWidth < 1200){
@@ -47,8 +66,11 @@ function ContentRouter() {
     };
   }, [socket]);
 
+
+ 
+  
   return (
-    <>
+        isTokenValid ? <>
       <Header />
       <Routes>
         <Route path="/" element={<MainPage />} />
@@ -61,8 +83,12 @@ function ContentRouter() {
         <Route path="/lieu/*" element={<LieuxRouter />} />
         <Route path="/structure/*" element={<StructureRouter />} />
       </Routes>
-    </>
+    </> :
+   isVerifyingToken && !isTokenValid && <VerifyTokenPage/>
   );
+
+
+
 }
 
 export default ContentRouter;

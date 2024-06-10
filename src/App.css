@@ -106,3 +106,8 @@ iframe {
   width: 100%;
   height: 100vh;
 }
+
+
+.verify-token-modal{
+  backdrop-filter: blur(2px);
+}
